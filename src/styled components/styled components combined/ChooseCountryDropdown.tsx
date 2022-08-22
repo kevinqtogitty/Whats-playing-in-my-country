@@ -42,14 +42,16 @@ const ChooseCountry: React.FC<ChooseCountryProps> = (props) => {
   }, [countryKey])
 
   return (
-    <CountryDropdown onChange={changeCountry}>
-      <CountryOption selected={true} disabled={true}>
-        Choose your country
-      </CountryOption>
-      {countryOptions.map((country) => (
-        <CountryOption value={country.id}>{country.label}</CountryOption>
-      ))}
-    </CountryDropdown>
+    <>
+      <CountryDropdown onChange={changeCountry}>
+        <CountryOption selected={true} disabled={true}>
+          Choose your country
+        </CountryOption>
+        {countryOptions.map((country) => (
+          <CountryOption value={country.id}>{country.label}</CountryOption>
+        ))}
+      </CountryDropdown>
+    </>
   )
 }
 
