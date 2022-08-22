@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 
 //Individual Components
 import { CountryDropdown } from '../countryDropdown'
@@ -12,6 +12,7 @@ import { currentlyPlaying, upcomingMovies } from '../../services/films'
 
 //Types
 import { Films } from '../../types/film'
+import { CurrentCountryContext } from '../../context'
 
 interface ChooseCountryProps {
   //Setter functions get this type definition
@@ -20,11 +21,10 @@ interface ChooseCountryProps {
 }
 
 const ChooseCountry: React.FC<ChooseCountryProps> = (props) => {
+  const [countryKey, setCountryKey] = useState<string>('GB')
+  const { setCurrentCountry } = useContext(CurrentCountryContext)
   const { setFilms, setUpcomingFilms } = props
-  const [countryKey, setCountryKey] = useState<String>('GB')
-  const [currentCountry, setCurrentCountry] = useState<String>('United Kingdom')
 
-  //Onchange prop type is the ChangeEvent (pressing keyboard, choosing select option etc),
   //on a specific element, the HTMLSelectElement
   const changeCountry = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const switchCountryKey = event.target.value
@@ -32,10 +32,6 @@ const ChooseCountry: React.FC<ChooseCountryProps> = (props) => {
     setCurrentCountry(countryToSwitch!.label)
     setCountryKey(countryToSwitch!.id)
   }
-
-  useEffect(() => {
-    setCurrentCountry(currentCountry)
-  }, [currentCountry])
 
   useEffect(() => {
     currentlyPlaying(countryKey, setFilms)
