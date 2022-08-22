@@ -20,43 +20,18 @@ import { CountryOption } from './styled components/buttons'
 //Constants
 import { countryOptions } from './constants/constants'
 import { NavBar } from './styled components/navBar'
+import ChooseCountry from './styled components/styled components combined/ChooseCountryDropdown'
 
 const App: React.FC = () => {
-  const [films, setFilms] = useState<Films[]>()
-  const [upcomingFilms, setUpcomingFilms] = useState<Films[]>()
+  const [films, setFilms] = useState<Films[]>([])
+  const [upcomingFilms, setUpcomingFilms] = useState<Films[]>([])
   const [countryKey, setCountryKey] = useState<String>('GB')
   const [currentCountry, setCurrentCountry] = useState<String>('United Kingdom')
-
-  const changeCountry = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const switchCountryKey = event.target.value
-    const countryToSwitch = countryOptions.find((country) => country.id === switchCountryKey)
-    setCurrentCountry(countryToSwitch!.label)
-    setCountryKey(countryToSwitch!.id)
-  }
-
-  useEffect(() => {
-    setCurrentCountry(currentCountry)
-  }, [currentCountry])
-
-  useEffect(() => {
-    currentlyPlaying(countryKey, setFilms)
-  }, [countryKey])
-
-  useEffect(() => {
-    upcomingMovies(countryKey, setUpcomingFilms)
-  }, [countryKey])
 
   return (
     <Body>
       <NavBar>
-        <CountryDropdown onChange={changeCountry}>
-          <CountryOption selected={true} disabled={true}>
-            Choose your country
-          </CountryOption>
-          {countryOptions.map((country) => (
-            <CountryOption value={country.id}>{country.label}</CountryOption>
-          ))}
-        </CountryDropdown>
+        <ChooseCountry setFilms={setFilms} setUpcomingFilms={setUpcomingFilms} />
       </NavBar>
       Country
       <br />
