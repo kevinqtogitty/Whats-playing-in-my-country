@@ -1,4 +1,4 @@
 export interface Countries {
-  label: String
+  label: string
   id: string
 }
