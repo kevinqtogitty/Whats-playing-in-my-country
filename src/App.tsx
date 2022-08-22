@@ -25,8 +25,6 @@ const App: React.FC = () => {
         <NavBar>
           <ChooseCountry setFilms={setFilms} setUpcomingFilms={setUpcomingFilms} />
         </NavBar>
-        Country
-        <br />
         <WhatsPlayingIn films={films} />
         <UpcomingIn upcomingFilms={upcomingFilms} />
       </CurrentCountryContext.Provider>
