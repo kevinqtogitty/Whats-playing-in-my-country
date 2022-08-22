@@ -1,23 +1,29 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { posterBaseUrl } from '../../constants/constants'
 import { FilmsBanner } from '../filmSideScrollingBanner'
 import { FilmPosters } from '../filmPosters'
 import { Films } from '../../types/film'
+import { CurrentCountryContext } from '../../context'
+import { BannerHeader } from '../filmHeaders'
 
 interface Props {
   upcomingFilms: Films[]
 }
 
 const UpcomingIn: React.FC<Props> = ({ upcomingFilms }) => {
+  const { currentCountry } = useContext(CurrentCountryContext)
   return (
-    <FilmsBanner>
-      {upcomingFilms?.map((film) =>
-        film.poster_path !== null ? (
-          <FilmPosters src={`${posterBaseUrl}${film.poster_path}`} />
-        ) : null,
-      )}
-    </FilmsBanner>
+    <>
+      <BannerHeader>Upcoming films in {currentCountry}</BannerHeader>
+      <FilmsBanner>
+        {upcomingFilms?.map((film) =>
+          film.poster_path !== null ? (
+            <FilmPosters src={`${posterBaseUrl}${film.poster_path}`} />
+          ) : null,
+        )}
+      </FilmsBanner>
+    </>
   )
 }
 
