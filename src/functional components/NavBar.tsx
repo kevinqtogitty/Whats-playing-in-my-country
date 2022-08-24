@@ -8,7 +8,7 @@ const NavBar = () => {
           <Link to='/'>Home</Link>
         </LiNavList>
         <LiNavList>
-          <Link to='/login'>Login</Link>
+          <Link to='/signIn'>Sign In</Link>
         </LiNavList>
       </UlNavList>
     </Navigation>
