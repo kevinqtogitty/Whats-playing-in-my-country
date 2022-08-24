@@ -1,5 +1,6 @@
 import { LiNavList, Navigation, UlNavList } from '../styled components/navBar'
 import { Link } from 'react-router-dom'
+
 const NavBar = () => {
   return (
     <Navigation>
