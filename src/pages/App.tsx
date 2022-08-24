@@ -20,14 +20,16 @@ const App: React.FC = () => {
   const [films, setFilms] = useState<Films[]>([])
 
   return (
-    <Body>
-      <CurrentCountryContext.Provider value={{ currentCountry, setCurrentCountry }}>
-        <NavBar />
-        <ChooseCountry setFilms={setFilms} setUpcomingFilms={setUpcomingFilms} />
-        <WhatsPlayingIn films={films} />
-        <UpcomingIn upcomingFilms={upcomingFilms} />
-      </CurrentCountryContext.Provider>
-    </Body>
+    <>
+      <Body>
+        <CurrentCountryContext.Provider value={{ currentCountry, setCurrentCountry }}>
+          <NavBar />
+          <ChooseCountry setFilms={setFilms} setUpcomingFilms={setUpcomingFilms} />
+          <WhatsPlayingIn films={films} />
+          <UpcomingIn upcomingFilms={upcomingFilms} />
+        </CurrentCountryContext.Provider>
+      </Body>
+    </>
   )
 }
 
