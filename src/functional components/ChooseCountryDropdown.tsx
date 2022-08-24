@@ -12,7 +12,7 @@ import { currentlyPlaying, upcomingMovies } from '../services/films'
 
 //Types
 import { Films } from '../types/film'
-import { CurrentCountryContext } from '../context'
+import { CurrentCountryContext } from '../contexts/context'
 
 interface ChooseCountryProps {
   //Setter functions get this type definition
