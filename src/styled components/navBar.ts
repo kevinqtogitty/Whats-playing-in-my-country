@@ -4,6 +4,7 @@ export const Navigation = styled.nav`
   display: flex;
   justify-content: flex-start;
   border: 1rem, solid, black;
+  position: absolute;
 `
 
 export const UlNavList = styled.ul`
