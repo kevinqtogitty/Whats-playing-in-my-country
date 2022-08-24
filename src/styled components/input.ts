@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Input = styled.input`
   display: block;
-  min-width: 90%;
+  width: 100vw;
   margin: 1em;
   padding: 1em;
   width: 35em;
