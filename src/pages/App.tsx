@@ -11,7 +11,7 @@ import { Body } from '../styled components/body'
 
 //Constants
 import UpcomingIn from '../functional components/UpcomingIn'
-import { CurrentCountryContext } from '../context'
+import { CurrentCountryContext } from '../contexts/context'
 import NavBar from '../functional components/NavBar'
 
 const App: React.FC = () => {
@@ -21,14 +21,12 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Body>
-        <CurrentCountryContext.Provider value={{ currentCountry, setCurrentCountry }}>
-          <NavBar />
-          <ChooseCountry setFilms={setFilms} setUpcomingFilms={setUpcomingFilms} />
-          <WhatsPlayingIn films={films} />
-          <UpcomingIn upcomingFilms={upcomingFilms} />
-        </CurrentCountryContext.Provider>
-      </Body>
+      <CurrentCountryContext.Provider value={{ currentCountry, setCurrentCountry }}>
+        <NavBar />
+        <ChooseCountry setFilms={setFilms} setUpcomingFilms={setUpcomingFilms} />
+        <WhatsPlayingIn films={films} />
+        <UpcomingIn upcomingFilms={upcomingFilms} />
+      </CurrentCountryContext.Provider>
     </>
   )
 }
