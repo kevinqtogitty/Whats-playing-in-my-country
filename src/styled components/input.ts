@@ -8,10 +8,10 @@ export const Input = styled.input`
   width: 35em;
   border-radius: 8px;
   border-style: none;
-  border: 1px solid #e4e6e8;
+  border: 1px solid #d68418;
   transition: 0.1s ease;
 
   &:hover {
-    border-color: #88d6f2;
+    border-color: #e4e6e8;
   }
 `
