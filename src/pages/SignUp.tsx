@@ -1,62 +1,72 @@
-import { useContext } from 'react'
-import { Link } from 'react-router-dom'
-import { UserCredentials } from '../context'
+import React, { ChangeEvent, FormEvent, useContext, useState } from 'react'
+import { Link, Navigate } from 'react-router-dom'
+import { UserCredentials } from '../contexts/context'
 import NavBar from '../functional components/NavBar'
 import { Button } from '../styled components/buttons'
 import { Input } from '../styled components/input'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
+import { Body } from '../styled components/body'
+import { FormWrapper } from '../styled components/formWrapper'
 
 const SignUp: React.FC = () => {
-  const { email, setEmail } = useContext(UserCredentials)
-  const { password, setPassword } = useContext(UserCredentials)
-  const { firstName, setFirstName } = useContext(UserCredentials)
-  const { lastName, setLastName } = useContext(UserCredentials)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const navigate = useNavigate()
+
+  const auth = getAuth()
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    try {
+      await createUser(email, password)
+      navigate('/signIn')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const createUser = (email: string, password: string) => {
+    return createUserWithEmailAndPassword(auth, email, password)
+  }
+
+  const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value)
+  }
+
+  const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value)
+  }
 
   return (
     <>
       <NavBar />
-      <form action='submit'>
-        <Input
-          name='firstName'
-          value={firstName}
-          type='text'
-          placeholder='First Name'
-          onChange={(e) => setFirstName(e.target.value)}
-        />
-        <Input
-          name='lastName'
-          value={lastName}
-          type='text'
-          placeholder='Surname'
-          onChange={(e) => setLastName(e.target.value)}
-        />
-        <Input
-          name='email'
-          value={email}
-          type='text'
-          placeholder='Email'
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <Input
-          name='password'
-          value={password}
-          type='password'
-          placeholder='Password'
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Input
-          name='confirmPassword'
-          value={password}
-          type='password'
-          placeholder='Confirm Password'
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button type='submit'>Login</Button> <br />
-      </form>
-
-      <p>
-        Already have an account? <Link to='/signIn'>Sign In</Link>
-      </p>
-      <p>Forgot password?</p>
+      <Body>
+        <FormWrapper>
+          <form action='submit' onSubmit={handleSubmit}>
+            <Input
+              name='email'
+              value={email}
+              type='text'
+              placeholder='Email'
+              onChange={handleEmail}
+            />
+            <Input
+              name='password'
+              value={password}
+              type='password'
+              placeholder='Password'
+              onChange={handlePassword}
+            />
+            <Button type='submit'>Sign Up</Button> <br />
+          </form>
+          <p>
+            Already have an account? <Link to='/signIn'>Sign In</Link>
+          </p>
+          <p>Forgot password?</p>
+        </FormWrapper>
+      </Body>
     </>
   )
 }
