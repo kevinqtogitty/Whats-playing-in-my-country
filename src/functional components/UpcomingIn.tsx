@@ -4,7 +4,7 @@ import { posterBaseUrl } from '../constants/constants'
 import { FilmsBanner } from '../styled components/filmSideScrollingBanner'
 import { FilmPosters } from '../styled components/filmPosters'
 import { Films } from '../types/film'
-import { CurrentCountryContext } from '../context'
+import { CurrentCountryContext } from '../contexts/context'
 import { BannerHeader } from '../styled components/filmHeaders'
 
 interface Props {
