@@ -4,7 +4,7 @@ import { FilmPosters } from '../styled components/filmPosters'
 import { Films } from '../types/film'
 import React, { useContext } from 'react'
 import { BannerHeader } from '../styled components/filmHeaders'
-import { CurrentCountryContext } from '../context'
+import { CurrentCountryContext } from '../contexts/context'
 
 interface Props {
   films: Films[]
