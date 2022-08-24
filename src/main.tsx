@@ -5,6 +5,12 @@ import App from './pages/App'
 import Account from './pages/Account'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
+import { initializeApp } from 'firebase/app'
+import { config } from './firebase'
+import AuthRoute from './contexts/userAuth'
+import { UserCredentials } from './contexts/context'
+
+initializeApp(config.firebase)
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -13,7 +19,14 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Route path='/' element={<App />} />
         <Route path='signIn' element={<SignIn />} />
         <Route path='signUp' element={<SignUp />} />
-        <Route path='account' element={<Account />} />
+        <Route
+          path='account'
+          element={
+            <AuthRoute>
+              <Account />{' '}
+            </AuthRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
