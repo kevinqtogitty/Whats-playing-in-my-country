@@ -1,6 +1,6 @@
 import NavBar from '../functional components/NavBar'
 import { getAuth, signOut } from 'firebase/auth'
-import { Button } from '../styled components/buttons'
+import { Button } from '../functional components/styled components/buttons'
 
 const Account = () => {
   const auth = getAuth()
