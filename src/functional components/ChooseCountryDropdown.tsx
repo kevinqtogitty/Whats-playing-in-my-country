@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 
 //Individual Components
-import { CountryDropdown } from '../styled components/countryDropdown'
-import { CountryOption } from '../styled components/buttons'
+import { CountryDropdown } from './styled components/countryDropdown'
 
 //Constant Variables
 import { countryOptions } from '../constants/constants'
@@ -11,19 +10,13 @@ import { countryOptions } from '../constants/constants'
 import { currentlyPlaying, upcomingMovies } from '../services/films'
 
 //Types
-import { Films } from '../types/film'
 import { CurrentCountryContext } from '../contexts/context'
 
-interface ChooseCountryProps {
-  //Setter functions get this type definition
-  setFilms: React.Dispatch<React.SetStateAction<Films[]>>
-  setUpcomingFilms: React.Dispatch<React.SetStateAction<Films[]>>
-}
-
-const ChooseCountry: React.FC<ChooseCountryProps> = (props) => {
+const ChooseCountry: React.FC = () => {
   const [countryKey, setCountryKey] = useState<string>('GB')
   const { setCurrentCountry } = useContext(CurrentCountryContext)
-  const { setFilms, setUpcomingFilms } = props
+  const { setFilms } = useContext(CurrentCountryContext)
+  const { setUpcomingFilms } = useContext(CurrentCountryContext)
 
   //on a specific element, the HTMLSelectElement
   const changeCountry = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -44,11 +37,11 @@ const ChooseCountry: React.FC<ChooseCountryProps> = (props) => {
   return (
     <>
       <CountryDropdown onChange={changeCountry}>
-        <CountryOption selected={true} disabled={true}>
+        <option selected={true} disabled={true}>
           Choose your country
-        </CountryOption>
+        </option>
         {countryOptions.map((country) => (
-          <CountryOption value={country.id}>{country.label}</CountryOption>
+          <option value={country.id}>{country.label}</option>
         ))}
       </CountryDropdown>
     </>
