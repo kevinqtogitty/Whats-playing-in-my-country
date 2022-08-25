@@ -14,7 +14,6 @@ const AuthRoute: React.FC<AuthRouteProps> = (props) => {
 
   useEffect(() => {
     AuthCheck()
-    return () => AuthCheck()
   }, [auth])
 
   const AuthCheck = onAuthStateChanged(auth, (user) => {
