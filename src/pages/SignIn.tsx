@@ -1,18 +1,23 @@
+import { useState } from 'react'
 import {
   getAuth,
   signInWithPopup,
   GoogleAuthProvider,
   signInWithEmailAndPassword,
 } from 'firebase/auth'
-import { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { UserCredentials } from '../contexts/context'
+import { Button } from '../functional components/styled components/buttons'
+import { FormBody } from '../functional components/styled components/body'
+import { Input } from '../functional components/styled components/input'
 import NavBar from '../functional components/NavBar'
-import { Button } from '../styled components/buttons'
-import { Input } from '../styled components/input'
-import AuthRoute from '../contexts/userAuth'
-import { Body } from '../styled components/body'
-import { FlexWrapper, FormWrapper } from '../styled components/formWrapper'
+import styled from 'styled-components'
+
+export const FormWrapper = styled.div`
+  margin-top: 6rem;
+`
+export const FlexWrapper = styled.div`
+  display: flex;
+`
 
 const SignIn = () => {
   const auth = getAuth()
@@ -54,7 +59,7 @@ const SignIn = () => {
   return (
     <>
       <NavBar></NavBar>
-      <Body>
+      <FormBody>
         <FormWrapper>
           <form action='submit' id='signInForm' onSubmit={handleSubmit}>
             <Input
@@ -84,7 +89,7 @@ const SignIn = () => {
           </p>
           <p>Forgot password?</p>
         </FormWrapper>
-      </Body>
+      </FormBody>
     </>
   )
 }

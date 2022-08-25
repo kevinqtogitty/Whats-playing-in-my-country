@@ -1,13 +1,16 @@
-import React, { ChangeEvent, FormEvent, useContext, useState } from 'react'
-import { Link, Navigate } from 'react-router-dom'
-import { UserCredentials } from '../contexts/context'
+import React, { ChangeEvent, useState } from 'react'
+import { Link } from 'react-router-dom'
 import NavBar from '../functional components/NavBar'
-import { Button } from '../styled components/buttons'
-import { Input } from '../styled components/input'
+import { Button } from '../functional components/styled components/buttons'
+import { Input } from '../functional components/styled components/input'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
-import { Body } from '../styled components/body'
-import { FormWrapper } from '../styled components/formWrapper'
+import { FormBody } from '../functional components/styled components/body'
+import styled from 'styled-components'
+
+const FormWrapper = styled.div`
+  margin-top: 6rem;
+`
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState('')
@@ -42,7 +45,7 @@ const SignUp: React.FC = () => {
   return (
     <>
       <NavBar />
-      <Body>
+      <FormBody>
         <FormWrapper>
           <form action='submit' onSubmit={handleSubmit}>
             <Input
@@ -66,7 +69,7 @@ const SignUp: React.FC = () => {
           </p>
           <p>Forgot password?</p>
         </FormWrapper>
-      </Body>
+      </FormBody>
     </>
   )
 }
