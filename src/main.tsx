@@ -8,7 +8,6 @@ import SignUp from './pages/SignUp'
 import { initializeApp } from 'firebase/app'
 import { config } from './firebase'
 import AuthRoute from './contexts/userAuth'
-import { UserCredentials } from './contexts/context'
 
 initializeApp(config.firebase)
 
