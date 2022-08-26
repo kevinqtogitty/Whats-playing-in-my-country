@@ -1,12 +1,11 @@
 import React, { ChangeEvent, useState } from 'react'
 import { Link } from 'react-router-dom'
-import NavBar from '../functional components/NavBar'
-import { Button } from '../functional components/styled components/buttons'
-import { Input } from '../functional components/styled components/input'
+import { Input } from '../functional components/individual styled components/input'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
-import { FormBody } from '../functional components/styled components/body'
+import { FormBody } from '../functional components/individual styled components/body'
 import styled from 'styled-components'
+import { Button } from '../functional components/individual styled components/buttons'
 
 const FormWrapper = styled.div`
   margin-top: 6rem;
@@ -44,7 +43,6 @@ const SignUp: React.FC = () => {
 
   return (
     <>
-      <NavBar />
       <FormBody>
         <FormWrapper>
           <form action='submit' onSubmit={handleSubmit}>
