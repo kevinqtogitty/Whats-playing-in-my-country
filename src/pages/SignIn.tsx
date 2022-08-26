@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {
   getAuth,
   signInWithPopup,
@@ -6,16 +6,16 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth'
 import { Link, useNavigate } from 'react-router-dom'
-import { Button } from '../functional components/styled components/buttons'
-import { FormBody } from '../functional components/styled components/body'
-import { Input } from '../functional components/styled components/input'
-import NavBar from '../functional components/NavBar'
+import { FormBody } from '../functional components/individual styled components/body'
+import { Input } from '../functional components/individual styled components/input'
 import styled from 'styled-components'
+import { Button } from '../functional components/individual styled components/buttons'
+import { CurrentCountryContext } from '../contexts/context'
 
-export const FormWrapper = styled.div`
+const FormWrapper = styled.div`
   margin-top: 6rem;
 `
-export const FlexWrapper = styled.div`
+const FlexWrapper = styled.div`
   display: flex;
 `
 
@@ -27,6 +27,8 @@ const SignIn = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+
+  const { signedInOrNot, setSignedInOrNot } = useContext(CurrentCountryContext)
 
   const signInWithGoogle = async () => {
     setAuthing(true)
@@ -46,6 +48,7 @@ const SignIn = () => {
     e.preventDefault()
     try {
       await signInOldSchool(email, password)
+      setSignedInOrNot(!signedInOrNot)
       navigate('/account')
     } catch (error) {
       console.log(error)
@@ -58,7 +61,6 @@ const SignIn = () => {
 
   return (
     <>
-      <NavBar></NavBar>
       <FormBody>
         <FormWrapper>
           <form action='submit' id='signInForm' onSubmit={handleSubmit}>
