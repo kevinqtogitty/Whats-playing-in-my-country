@@ -1,43 +1,83 @@
-//Tools
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Routes, Route, BrowserRouter } from 'react-router-dom'
 
-//types
+import AuthRoute from '../contexts/userAuth'
+
+import NavBar from '../functional components/NavBar'
+import Account from './Account'
+import SignIn from './SignIn'
+import SignUp from './SignUp'
+import Home from './Home'
+import { CurrentCountryContext } from '../contexts/context'
 import { Films } from '../types/film'
 
-//Styled Components
-import WhatsPlayingIn from '../functional components/WhatsPlayingIn'
+const currentCountryFromLocalStorage: string = JSON.parse(
+  window.localStorage.getItem('current-country') || 'United Kingdom',
+)
 
-//Constants
-import UpcomingIn from '../functional components/UpcomingIn'
-import { CurrentCountryContext } from '../contexts/context'
-import NavBar from '../functional components/NavBar'
+const currentCountryKeyFromLocalStorage: string = JSON.parse(
+  window.localStorage.getItem('current-country-key') || 'GB',
+)
 
-import styled from 'styled-components'
+const signedInOrNotFromLocalStorage: boolean = JSON.parse(
+  window.localStorage.getItem('signed-in') || 'false',
+)
 
 const App: React.FC = () => {
-  const [currentCountry, setCurrentCountry] = useState<string>('United Kingdom')
+  const [currentCountry, setCurrentCountry] = useState<string>(currentCountryFromLocalStorage)
+  const [currentCountryKey, setCurrentCountryKey] = useState<string>(
+    currentCountryKeyFromLocalStorage,
+  )
+  const [signedInOrNot, setSignedInOrNot] = useState<boolean>(signedInOrNotFromLocalStorage)
   const [upcomingFilms, setUpcomingFilms] = useState<Films[]>([])
   const [films, setFilms] = useState<Films[]>([])
 
-  const Body = styled.body`
-    margin-left: 0px;
-  `
+  useEffect(() => {
+    window.localStorage.setItem('current-country', JSON.stringify(currentCountry))
+  }, [currentCountry])
+
+  useEffect(() => {
+    window.localStorage.setItem('current-country-key', JSON.stringify(currentCountryKey))
+  }, [currentCountryKey])
+
+  useEffect(() => {
+    window.localStorage.setItem('signed-in', JSON.stringify(signedInOrNot))
+  }, [signedInOrNot])
 
   return (
-    <CurrentCountryContext.Provider
-      value={{
-        currentCountry,
-        setCurrentCountry,
-        films,
-        setFilms,
-        upcomingFilms,
-        setUpcomingFilms,
-      }}
-    >
-      <NavBar />
-      <WhatsPlayingIn films={films} />
-      <UpcomingIn upcomingFilms={upcomingFilms} />
-    </CurrentCountryContext.Provider>
+    <>
+      <BrowserRouter>
+        <CurrentCountryContext.Provider
+          value={{
+            signedInOrNot,
+            setSignedInOrNot,
+            currentCountryKey,
+            setCurrentCountryKey,
+            currentCountry,
+            setCurrentCountry,
+            films,
+            setFilms,
+            upcomingFilms,
+            setUpcomingFilms,
+          }}
+        >
+          <NavBar />
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='signIn' element={<SignIn />} />
+            <Route path='signUp' element={<SignUp />} />
+            <Route
+              path='account'
+              element={
+                <AuthRoute>
+                  <Account />{' '}
+                </AuthRoute>
+              }
+            />
+          </Routes>
+        </CurrentCountryContext.Provider>
+      </BrowserRouter>
+    </>
   )
 }
 
