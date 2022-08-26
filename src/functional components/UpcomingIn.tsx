@@ -1,9 +1,8 @@
 import React, { useContext } from 'react'
 
-import { Films } from '../types/film'
 import { CurrentCountryContext } from '../contexts/context'
-import FilmCards from './FilmCards'
 import styled from 'styled-components'
+import UpcomingFilmCards from './UpcomingFIlmsCards'
 
 export const BannerHeader = styled.h2`
   color: antiquewhite;
@@ -28,19 +27,21 @@ const FilmCardWrapper = styled.div`
   margin-top: 3rem;
 `
 
-interface Props {
-  upcomingFilms: Films[]
-}
-
-const UpcomingIn: React.FC<Props> = ({ upcomingFilms }) => {
-  const { currentCountry } = useContext(CurrentCountryContext)
+const UpcomingIn: React.FC = () => {
+  const { currentCountry, upcomingFilms } = useContext(CurrentCountryContext)
   return (
     <>
       <FilmsBanner>
         <BannerHeader>Upcoming films in {currentCountry}</BannerHeader>
         <FilmCardWrapper>
           {upcomingFilms?.map((film) =>
-            film.poster_path !== null ? <FilmCards filmPosterPath={film.poster_path} /> : null,
+            film.poster_path !== null ? (
+              <UpcomingFilmCards
+                filmPosterPath={film.poster_path}
+                original_title={film.original_title}
+                release_date={film.release_date}
+              />
+            ) : null,
           )}
         </FilmCardWrapper>
       </FilmsBanner>
