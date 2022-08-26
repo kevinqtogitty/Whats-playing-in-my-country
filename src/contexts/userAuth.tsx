@@ -1,4 +1,4 @@
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -14,6 +14,7 @@ const AuthRoute: React.FC<AuthRouteProps> = (props) => {
 
   useEffect(() => {
     AuthCheck()
+    return () => AuthCheck()
   }, [auth])
 
   const AuthCheck = onAuthStateChanged(auth, (user) => {
