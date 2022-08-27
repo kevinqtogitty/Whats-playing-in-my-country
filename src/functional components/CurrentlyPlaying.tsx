@@ -6,12 +6,10 @@ import CurrentFilmCards from './CurrentFilmCards'
 
 export const BannerHeader = styled.h2`
   color: antiquewhite;
-  font-family: sans-serif;
-  background-color: #0d1321;
   padding-left: 1.2rem;
   font-size: 2rem;
   position: absolute;
-  margin-top: -0.3rem;
+  width: fit-content;
 `
 export const FilmsBanner = styled.div`
   background-color: #0d1321;
@@ -24,7 +22,10 @@ export const FilmsBanner = styled.div`
 const FilmCardWrapper = styled.div`
   display: flex;
   column-gap: 1rem;
-  margin-top: 3rem;
+  margin-top: 6rem;
+  @media (max-width: 500px) {
+    margin-top: 8rem;
+  }
 `
 
 const CurrrentlyPlaying: React.FC = () => {
@@ -37,10 +38,11 @@ const CurrrentlyPlaying: React.FC = () => {
           {films?.map((film) =>
             film.poster_path !== null ? (
               <CurrentFilmCards
-                filmPosterPath={film.poster_path}
+                poster_path={film.poster_path}
                 original_title={film.original_title}
                 release_date={film.release_date}
                 vote_average={film.vote_average}
+                overview={film.overview}
               />
             ) : null,
           )}
