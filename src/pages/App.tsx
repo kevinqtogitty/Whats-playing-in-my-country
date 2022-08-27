@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
+import '../index.css'
 
 import AuthRoute from '../contexts/userAuth'
 
@@ -10,38 +11,76 @@ import SignUp from './SignUp'
 import Home from './Home'
 import { CurrentCountryContext } from '../contexts/context'
 import { Films } from '../types/film'
+import { doc, getDoc, updateDoc } from 'firebase/firestore'
+import { firestoreDB } from '../main'
+import { updateWatchListInDB } from '../functions/watchlist'
 
-const currentCountryFromLocalStorage: string = JSON.parse(
-  window.localStorage.getItem('current-country') || 'United Kingdom',
-)
+const currentCountryFromSessionStorage: string =
+  sessionStorage.getItem('current-country') || 'United Kingdom'
 
-const currentCountryKeyFromLocalStorage: string = JSON.parse(
-  window.localStorage.getItem('current-country-key') || 'GB',
-)
+const currentCountryKeyFromSessionStorage: string =
+  sessionStorage.getItem('current-country-key') || 'GB'
 
-const signedInOrNotFromLocalStorage: boolean = JSON.parse(
-  window.localStorage.getItem('signed-in') || 'false',
+const signedInOrNotFromSessionStorage: string = JSON.parse(
+  sessionStorage.getItem('signed-in') || 'false',
 )
 
 const App: React.FC = () => {
-  const [currentCountry, setCurrentCountry] = useState<string>(currentCountryFromLocalStorage)
+  const [currentCountry, setCurrentCountry] = useState<string>(currentCountryFromSessionStorage)
   const [currentCountryKey, setCurrentCountryKey] = useState<string>(
-    currentCountryKeyFromLocalStorage,
+    currentCountryKeyFromSessionStorage,
   )
-  const [signedInOrNot, setSignedInOrNot] = useState<boolean>(signedInOrNotFromLocalStorage)
+  const [signedInOrNot, setSignedInOrNot] = useState<string>(signedInOrNotFromSessionStorage)
   const [upcomingFilms, setUpcomingFilms] = useState<Films[]>([])
   const [films, setFilms] = useState<Films[]>([])
+  const [userWatchList, setUserWatchList] = useState<Films[]>([])
 
+  const [currentUID, setCurrentUID] = useState<string>('')
+  const [currentUser, setCurrentUser] = useState<{ [key: string]: any }>({})
+
+  interface CurrentUser {
+    email: string
+    first_name: string
+    last_name: string
+    watchList: []
+    id: string
+  }
+
+  //Set the current user to the data retreive from the db
+  const retrieveDoc = async () => {
+    console.log('useeffect running')
+    const docRef = doc(firestoreDB, 'users', currentUID)
+    const userDoc = await getDoc(docRef)
+    const currentUserDoc: CurrentUser = {
+      ...userDoc.data(),
+      id: userDoc.id,
+      email: '',
+      first_name: '',
+      last_name: '',
+      watchList: [],
+    }
+    setCurrentUser(currentUserDoc)
+    setUserWatchList(currentUserDoc.watchList)
+  }
+
+  //If the user is logged in retrieve their data
   useEffect(() => {
-    window.localStorage.setItem('current-country', JSON.stringify(currentCountry))
+    if (currentUID !== '') {
+      retrieveDoc()
+    }
+  }, [currentUID])
+
+  //Grab data from local storage
+  useEffect(() => {
+    sessionStorage.setItem('current-country', currentCountry)
   }, [currentCountry])
 
   useEffect(() => {
-    window.localStorage.setItem('current-country-key', JSON.stringify(currentCountryKey))
+    sessionStorage.setItem('current-country-key', currentCountryKey)
   }, [currentCountryKey])
 
   useEffect(() => {
-    window.localStorage.setItem('signed-in', JSON.stringify(signedInOrNot))
+    sessionStorage.setItem('signed-in', JSON.stringify(signedInOrNot))
   }, [signedInOrNot])
 
   return (
@@ -59,6 +98,12 @@ const App: React.FC = () => {
             setFilms,
             upcomingFilms,
             setUpcomingFilms,
+            userWatchList,
+            setUserWatchList,
+            currentUID,
+            setCurrentUID,
+            currentUser,
+            setCurrentUser,
           }}
         >
           <NavBar />
