@@ -8,15 +8,17 @@ import { getAuth, signOut } from 'firebase/auth'
 
 const Navigation = styled.nav`
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   margin: 0px;
 `
 
 const UlNavList = styled.ul`
   display: flex;
+  width: 100%;
   column-gap: 1rem;
   text-decoration: none;
   align-items: center;
+  margin-left: -2.5rem;
 `
 
 const LiNavList = styled.li`
@@ -24,14 +26,21 @@ const LiNavList = styled.li`
   list-style: none;
   list-style-type: none;
   color: black;
+  font-size: 1rem;
+`
+
+const ButtonContainer = styled.div`
+  display: flex;
+  align-self: center;
 `
 
 const NavBar: React.FC = () => {
-  const { signedInOrNot, setSignedInOrNot } = useContext(CurrentCountryContext)
+  const { signedInOrNot, setSignedInOrNot, setCurrentUID } = useContext(CurrentCountryContext)
   const auth = getAuth()
 
   const handleSignOut = () => {
-    setSignedInOrNot(!signedInOrNot)
+    setSignedInOrNot('false')
+    setCurrentUID('')
     signOut(auth)
   }
 
@@ -41,7 +50,7 @@ const NavBar: React.FC = () => {
         <Link to='/' style={{ textDecoration: 'none' }}>
           <LiNavList>Home</LiNavList>
         </Link>
-        {signedInOrNot === false ? (
+        {signedInOrNot === 'false' ? (
           <Link to='/signIn' style={{ textDecoration: 'none' }}>
             <LiNavList>Sign In</LiNavList>
           </Link>
@@ -50,11 +59,15 @@ const NavBar: React.FC = () => {
             <Link to='/account' style={{ textDecoration: 'none' }}>
               <LiNavList>Account</LiNavList>
             </Link>
-            <LogoutButton onClick={handleSignOut}>Logout</LogoutButton>
           </>
         )}
         <ChooseCountry />
       </UlNavList>
+      <ButtonContainer>
+        {signedInOrNot === 'false' ? null : (
+          <LogoutButton onClick={handleSignOut}>Logout</LogoutButton>
+        )}
+      </ButtonContainer>
     </Navigation>
   )
 }
