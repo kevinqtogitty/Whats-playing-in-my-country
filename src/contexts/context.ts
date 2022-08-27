@@ -11,7 +11,16 @@ interface CurrentCountryStore {
   films: Films[]
   setFilms: React.Dispatch<React.SetStateAction<Films[]>>
 
-  signedInOrNot: boolean
-  setSignedInOrNot: React.Dispatch<React.SetStateAction<boolean>>
+  signedInOrNot: string
+  setSignedInOrNot: React.Dispatch<React.SetStateAction<string>>
+
+  userWatchList: Films[]
+  setUserWatchList: React.Dispatch<React.SetStateAction<Films[]>>
+
+  currentUID: string
+  setCurrentUID: React.Dispatch<React.SetStateAction<string>>
+
+  currentUser: object
+  setCurrentUser: React.Dispatch<React.SetStateAction<object>>
 }
 export const CurrentCountryContext = createContext<CurrentCountryStore>({} as CurrentCountryStore)
