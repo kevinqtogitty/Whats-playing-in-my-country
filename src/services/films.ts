@@ -1,7 +1,7 @@
 import { currentBaseUrl, upcomingMoviesBaseUrl } from '../constants/constants'
 
 import axios from 'axios'
-import { Films } from '../types/film'
+import { Films } from '../types/interfaces_types'
 
 export const currentlyPlaying = async (
   country: String,
