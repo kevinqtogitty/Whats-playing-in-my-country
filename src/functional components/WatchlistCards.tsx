@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { posterBaseUrl } from '../constants/constants'
 
 import removeSvg from '../assets/img/trash.svg'
 import { Icon } from './CurrentFilmCards'
+import { MainStore } from '../contexts/context'
+import { removeWatchListInDB } from '../firebase/watchlistServices'
 
 const Body = styled.body`
   margin: 0px;
@@ -11,27 +13,25 @@ const Body = styled.body`
 
 const WatchlistCard = styled.div`
   display: flex;
+  column-gap: 1rem;
   width: 35rem;
   height: 15rem;
   justify-content: space-between;
   padding-left: 5px;
-  @media (max-width: 390px) {
+  margin-top: 3rem;
+  @media (max-width: 380px) {
     width: auto;
   }
 `
 
 const Info = styled.div``
 
-const CardH3 = styled.h3`
+const CardH3 = styled.h4`
   margin-top: -1px;
   margin-bottom: 10px;
 `
 const FilmPosters = styled.img`
   border-radius: 3px;
-
-  &:hover {
-    opacity: 50%;
-  }
 `
 const Information = styled.div`
   font-size: 0.8em;
@@ -42,43 +42,53 @@ const Description = styled.div`
 `
 const TrashIcon = styled.img`
   width: 2rem;
-  margin-top: 2rem;
+  margin-top: -12rem;
+  cursor: pointer;
 `
 
 interface CardProps {
   title: string
   release_date: string
   rating: number
-  filmPosterPath: string
+  poster_path: string
   overview: string
+  id: number
 }
 
 const WatchlistCards: React.FC<CardProps> = ({
   title,
   release_date,
   rating,
-  filmPosterPath,
+  poster_path,
   overview,
+  id,
 }) => {
+  const { userWatchList, setUserWatchList, currentUID } = useContext(MainStore)
+  const handleRemoveWatchList = async () => {
+    const userWatchListMinusFilm =
+      userWatchList.length === 0 ? [] : userWatchList.filter((film) => film.id !== id)
+    try {
+      await removeWatchListInDB(userWatchListMinusFilm, currentUID)
+      setUserWatchList(userWatchListMinusFilm)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
-    // <Body>
     <>
       <WatchlistCard>
+        <FilmPosters src={`${posterBaseUrl}${poster_path}`} />
         <Info>
           <CardH3>{title} Luck</CardH3>
           <Information>{release_date}August 30th 2022</Information>
           <Information>{rating}7.8</Information>
-          <Description>
-            {overview} "Suddenly finding herself in the never-before-seen Land of Luck, the
-            unluckiest person in the world must unite with the magical creatures there to turn her
-            luck around."
-          </Description>
-          {/* <TrashIcon src={removeSvg} /> */}
+          <br />
+          <Description>{overview}</Description>
         </Info>
-        <FilmPosters src={'https://image.tmdb.org/t/p/w300/1HOYvwGFioUFL58UVvDRG6beEDm.jpg'} />
+        <TrashIcon src={removeSvg} onClick={handleRemoveWatchList} />
       </WatchlistCard>
     </>
-    // </Body>
   )
 }
 
