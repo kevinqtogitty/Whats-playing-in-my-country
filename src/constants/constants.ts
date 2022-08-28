@@ -1,4 +1,4 @@
-import { Countries } from '../types/countries'
+import { Countries } from '../types/interfaces_types'
 
 export const upcomingMoviesBaseUrl: String =
   'https://api.themoviedb.org/3/discover/movie?api_key=2b6cca6c77b9ad3c3ed56ae58ea9112d&primary_release_date.gte=2022-11-01&sort_by=release_date.asc&region='
