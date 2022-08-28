@@ -2,18 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import '../index.css'
 
-import AuthRoute from '../contexts/userAuth'
-
+import AuthRoute from '../firebase/userAuth'
 import NavBar from '../functional components/NavBar'
 import Account from './Account'
 import SignIn from './SignIn'
 import SignUp from './SignUp'
 import Home from './Home'
-import { CurrentCountryContext } from '../contexts/context'
-import { Films } from '../types/film'
-import { doc, getDoc, updateDoc } from 'firebase/firestore'
-import { firestoreDB } from '../main'
-import { updateWatchListInDB } from '../functions/watchlist'
+
+import { Films } from '../types/interfaces_types'
+import { retrieveUserDoc } from '../firebase/userServices'
+import { MainStore } from '../contexts/context'
 
 const currentCountryFromSessionStorage: string =
   sessionStorage.getItem('current-country') || 'United Kingdom'
@@ -30,37 +28,19 @@ const App: React.FC = () => {
   const [currentCountryKey, setCurrentCountryKey] = useState<string>(
     currentCountryKeyFromSessionStorage,
   )
-  const [signedInOrNot, setSignedInOrNot] = useState<string>(signedInOrNotFromSessionStorage)
-  const [upcomingFilms, setUpcomingFilms] = useState<Films[]>([])
   const [films, setFilms] = useState<Films[]>([])
-  const [userWatchList, setUserWatchList] = useState<Films[]>([])
+  const [upcomingFilms, setUpcomingFilms] = useState<Films[]>([])
 
+  const [signedInOrNot, setSignedInOrNot] = useState<string>(signedInOrNotFromSessionStorage)
+  const [userWatchList, setUserWatchList] = useState<Films[]>([])
   const [currentUID, setCurrentUID] = useState<string>('')
   const [currentUser, setCurrentUser] = useState<{ [key: string]: any }>({})
 
-  interface CurrentUser {
-    email: string
-    first_name: string
-    last_name: string
-    watchList: []
-    id: string
-  }
-
   //Set the current user to the data retreive from the db
   const retrieveDoc = async () => {
-    console.log('useeffect running')
-    const docRef = doc(firestoreDB, 'users', currentUID)
-    const userDoc = await getDoc(docRef)
-    const currentUserDoc: CurrentUser = {
-      ...userDoc.data(),
-      id: userDoc.id,
-      email: '',
-      first_name: '',
-      last_name: '',
-      watchList: [],
-    }
-    setCurrentUser(currentUserDoc)
-    setUserWatchList(currentUserDoc.watchList)
+    const currentUser = await retrieveUserDoc(currentUID)
+    setUserWatchList(currentUser.watchList!)
+    setCurrentUser(currentUser)
   }
 
   //If the user is logged in retrieve their data
@@ -86,7 +66,7 @@ const App: React.FC = () => {
   return (
     <>
       <BrowserRouter>
-        <CurrentCountryContext.Provider
+        <MainStore.Provider
           value={{
             signedInOrNot,
             setSignedInOrNot,
@@ -120,7 +100,7 @@ const App: React.FC = () => {
               }
             />
           </Routes>
-        </CurrentCountryContext.Provider>
+        </MainStore.Provider>
       </BrowserRouter>
     </>
   )
