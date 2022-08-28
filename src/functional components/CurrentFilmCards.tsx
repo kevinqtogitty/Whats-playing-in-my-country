@@ -1,13 +1,11 @@
 import styled from 'styled-components'
-import { currentBaseUrl, posterBaseUrl } from '../constants/constants'
+import { posterBaseUrl } from '../constants/constants'
 import mySvg from '../assets/img/videoplus.svg'
 import React, { useContext } from 'react'
-import { CurrentCountryContext } from '../contexts/context'
+import { MainStore } from '../contexts/context'
 import { useNavigate } from 'react-router-dom'
-import { Films } from '../types/film'
-import addToWatchList, { WatchlistProps } from '../functions/watchlist'
-import { firestoreDB } from '../main'
-import { doc, updateDoc } from 'firebase/firestore'
+import { addToWatchList, addWatchListInDB } from '../firebase/watchlistServices'
+import { Films, WatchlistProps } from '../types/interfaces_types'
 
 //Styled Components
 const FilmPosters = styled.img`
@@ -42,17 +40,19 @@ export const IconTextWrapper = styled.div`
 `
 
 const CurrentFilmCards: React.FC<WatchlistProps> = (props) => {
-  const { userWatchList, setUserWatchList, signedInOrNot, currentUID } =
-    useContext(CurrentCountryContext)
+  const { userWatchList, setUserWatchList, signedInOrNot, currentUID } = useContext(MainStore)
   const navigate = useNavigate()
 
   const handleAddToWatchlist = async () => {
-    if (signedInOrNot === 'false') navigate('/signIn')
-
+    if (signedInOrNot === 'false') {
+      navigate('/signIn')
+      return
+    }
     try {
       const newWatchListFilm = await addToWatchList(props)
-      let updatedUserWatchList: Films[] = []
+      await addWatchListInDB(currentUID, newWatchListFilm)
 
+      let updatedUserWatchList: Films[] = []
       userWatchList.length === 0
         ? (updatedUserWatchList = updatedUserWatchList.concat(newWatchListFilm))
         : (updatedUserWatchList = [...userWatchList, newWatchListFilm])
@@ -65,7 +65,7 @@ const CurrentFilmCards: React.FC<WatchlistProps> = (props) => {
   return (
     <>
       <CardWrapper>
-        <FilmPosters src={`${posterBaseUrl}/${props.poster_path}`} />
+        <FilmPosters src={`${posterBaseUrl}${props.poster_path}`} />
         <CardText>{props.original_title}</CardText>
         <IconTextWrapper>
           <CardText>Rating: {props.vote_average}</CardText>
