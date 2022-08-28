@@ -10,6 +10,9 @@ const Navigation = styled.nav`
   display: flex;
   justify-content: space-between;
   margin: 0px;
+  width: 100%;
+
+  /* border: 2px solid red; */
 `
 
 const UlNavList = styled.ul`
