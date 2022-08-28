@@ -10,11 +10,11 @@ import { countryOptions } from '../constants/constants'
 import { currentlyPlaying, upcomingMovies } from '../services/films'
 
 //Types
-import { CurrentCountryContext } from '../contexts/context'
+import { MainStore } from '../contexts/context'
 
 const ChooseCountry: React.FC = () => {
   const { currentCountryKey, setCurrentCountryKey, setCurrentCountry, setFilms, setUpcomingFilms } =
-    useContext(CurrentCountryContext)
+    useContext(MainStore)
 
   // Everytime the country changes change the currently playing
   useEffect(() => {
