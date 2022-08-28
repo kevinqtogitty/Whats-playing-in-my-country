@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 
-import { CurrentCountryContext } from '../contexts/context'
+import { MainStore } from '../contexts/context'
 import styled from 'styled-components'
 import UpcomingFilmCards from './UpcomingFIlmsCards'
 
@@ -29,7 +29,7 @@ const FilmCardWrapper = styled.div`
 `
 
 const UpcomingIn: React.FC = () => {
-  const { currentCountry, upcomingFilms } = useContext(CurrentCountryContext)
+  const { currentCountry, upcomingFilms } = useContext(MainStore)
   return (
     <>
       <FilmsBanner>
@@ -43,6 +43,7 @@ const UpcomingIn: React.FC = () => {
                 release_date={film.release_date}
                 vote_average={film.vote_average}
                 overview={film.overview}
+                id={film.id}
               />
             ) : null,
           )}
