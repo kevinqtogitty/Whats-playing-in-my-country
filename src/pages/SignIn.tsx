@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {
   getAuth,
   signInWithPopup,
@@ -10,9 +10,8 @@ import { FormBody } from '../functional components/individual styled components/
 import { Input } from '../functional components/individual styled components/input'
 import styled from 'styled-components'
 import { Button } from '../functional components/individual styled components/buttons'
-import { CurrentCountryContext } from '../contexts/context'
-import { doc, getDoc } from 'firebase/firestore'
-import { firestoreDB } from '../main'
+import { MainStore } from '../contexts/context'
+import { addUserDoc, checkIfGoogleUserIsReturning } from '../firebase/userServices'
 
 const FormWrapper = styled.div`
   margin-top: 6rem;
@@ -38,33 +37,38 @@ const SignIn = () => {
   const navigate = useNavigate()
   const [authing, setAuthing] = useState<boolean>(false)
 
-  const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [error, setError] = useState<boolean>(false)
+  const [email, setEmail] = useState<string>('')
 
-  const { signedInOrNot, setSignedInOrNot, currentUID, setCurrentUID } =
-    useContext(CurrentCountryContext)
+  const { setSignedInOrNot } = useContext(MainStore)
 
   const signInWithGoogle = async () => {
     setAuthing(true)
 
-    signInWithPopup(auth, new GoogleAuthProvider())
-      .then((response) => {
-        console.log(response.user.uid)
-        navigate('/account')
-      })
-      .catch((error) => {
-        console.log(error)
-        setAuthing(false)
-      })
+    try {
+      const googleUser = await signInWithPopup(auth, new GoogleAuthProvider())
+      const {
+        user: { displayName, email, uid },
+      } = googleUser
+      const newGoogleUser = await checkIfGoogleUserIsReturning(uid)
+      if (newGoogleUser === true) {
+        const firstName = displayName
+        addUserDoc({ uid, email, firstName })
+      }
+      setSignedInOrNot('true')
+      navigate('/account')
+    } catch (e) {
+      console.log(e)
+      setAuthing(false)
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const loggedInUser = await signInOldSchool(email, password)
+      await signInOldSchool(email, password)
       setSignedInOrNot('true')
-      setCurrentUID(loggedInUser.user.uid)
       navigate('/account')
     } catch (e) {
       setError(!error)
