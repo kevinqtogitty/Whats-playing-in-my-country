@@ -1,37 +1,61 @@
-import React, { useContext } from 'react'
+import React, { SetStateAction, useContext, useState } from 'react'
+import Modal from 'react-modal'
 import styled from 'styled-components'
 import { posterBaseUrl } from '../constants/constants'
 
 import removeSvg from '../assets/img/trash.svg'
-import { Icon } from './CurrentFilmCards'
 import { MainStore } from '../contexts/context'
 import { removeWatchListInDB } from '../firebase/watchlistServices'
+import { Button } from './individual styled components/buttons'
 
 const Body = styled.body`
   margin: 0px;
+  border: 2px solid green;
+  width: 100rem;
+  display: flex;
+  flex-direction: row;
+  height: 100rem;
 `
 
 const WatchlistCard = styled.div`
   display: flex;
   column-gap: 1rem;
-  width: 35rem;
-  height: 15rem;
+  width: 20rem;
+  height: 20rem;
   justify-content: space-between;
   padding-left: 5px;
-  margin-top: 3rem;
-  @media (max-width: 380px) {
+  /* border: 2px solid blue; */
+  /* @media (max-width: 380px) {
     width: auto;
-  }
+  } */
+`
+
+const ButtonWrapper = styled.div`
+  /* border: 2px solid red; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 18rem;
+  padding-top: 10px;
+`
+
+const PosterWrapper = styled.div`
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
 `
 
 const Info = styled.div``
 
 const CardH3 = styled.h4`
-  margin-top: -1px;
   margin-bottom: 10px;
+  padding-left: 7px;
 `
 const FilmPosters = styled.img`
   border-radius: 3px;
+  height: 15rem;
+  margin: 0px;
 `
 const Information = styled.div`
   font-size: 0.8em;
@@ -44,6 +68,8 @@ const TrashIcon = styled.img`
   width: 2rem;
   margin-top: -12rem;
   cursor: pointer;
+  /* border: 2px solid black; */
+  height: 3rem;
 `
 
 interface CardProps {
@@ -53,6 +79,8 @@ interface CardProps {
   poster_path: string
   overview: string
   id: number
+  // modalIsOpen: boolean
+  // setModalIsOpen: React.SetStateAction<SetStateAction<boolean>>
 }
 
 const WatchlistCards: React.FC<CardProps> = ({
@@ -63,7 +91,9 @@ const WatchlistCards: React.FC<CardProps> = ({
   overview,
   id,
 }) => {
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
   const { userWatchList, setUserWatchList, currentUID } = useContext(MainStore)
+
   const handleRemoveWatchList = async () => {
     const userWatchListMinusFilm =
       userWatchList.length === 0 ? [] : userWatchList.filter((film) => film.id !== id)
@@ -78,16 +108,59 @@ const WatchlistCards: React.FC<CardProps> = ({
   return (
     <>
       <WatchlistCard>
-        <FilmPosters src={`${posterBaseUrl}${poster_path}`} />
-        <Info>
-          <CardH3>{title} Luck</CardH3>
-          <Information>{release_date}August 30th 2022</Information>
-          <Information>{rating}7.8</Information>
+        <PosterWrapper>
+          <CardH3>{title}</CardH3>
+          <FilmPosters src={`${posterBaseUrl}${poster_path}`} />
+        </PosterWrapper>
+        {/* <Info>
+          <Information>{release_date}</Information>
+          <Information>{rating}</Information>
           <br />
-          <Description>{overview}</Description>
-        </Info>
-        <TrashIcon src={removeSvg} onClick={handleRemoveWatchList} />
+        </Info> */}
+        <ButtonWrapper>
+          <Button onClick={() => setModalIsOpen(!modalIsOpen)}>More info</Button>
+          <TrashIcon src={removeSvg} onClick={handleRemoveWatchList} />
+        </ButtonWrapper>
+
+        {/* <button onClick={() => setModalIsOpen(!modalIsOpen)}>More info</button> */}
       </WatchlistCard>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(!modalIsOpen)}
+        // style={{
+        //   overlay: {
+        //     position: 'fixed',
+        //     top: 0,
+        //     left: 0,
+        //     right: 0,
+        //     bottom: 0,
+        //     backgroundColor: 'rgba(255, 255, 255, .8)',
+        //   },
+        //   content: {
+        //     position: 'absolute',
+        //     top: '40px',
+        //     left: '40px',
+        //     right: '40px',
+        //     bottom: '40px',
+        //     border: '1px solid #ccc',
+        //     background: '#fff',
+        //     overflow: 'auto',
+        //     WebkitOverflowScrolling: 'touch',
+        //     borderRadius: '4px',
+        //     outline: 'none',
+        //     padding: '20px',
+        //   },
+        // }}
+      >
+        <h2>{title}</h2>
+        <FilmPosters src={`${posterBaseUrl}${poster_path}`} />
+        <Information>{release_date}</Information>
+        <Information>{rating}</Information>
+        <p>{overview}</p>
+        <Button onClick={() => setModalIsOpen(!modalIsOpen)}>Close</Button>
+
+        {/* <button onClick={() => setModalIsOpen(!modalIsOpen)}>Close</button> */}
+      </Modal>
     </>
   )
 }
