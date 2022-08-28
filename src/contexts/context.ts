@@ -1,7 +1,7 @@
 import React, { createContext } from 'react'
-import { Films } from '../types/film'
+import { Films } from '../types/interfaces_types'
 
-interface CurrentCountryStore {
+interface MainStore {
   currentCountryKey: string
   setCurrentCountryKey: React.Dispatch<React.SetStateAction<string>>
   currentCountry: string
@@ -23,4 +23,4 @@ interface CurrentCountryStore {
   currentUser: object
   setCurrentUser: React.Dispatch<React.SetStateAction<object>>
 }
-export const CurrentCountryContext = createContext<CurrentCountryStore>({} as CurrentCountryStore)
+export const MainStore = createContext<MainStore>({} as MainStore)
