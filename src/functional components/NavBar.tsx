@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import ChooseCountry from './ChooseCountryDropdown'
 import styled from 'styled-components'
 import { useContext } from 'react'
-import { CurrentCountryContext } from '../contexts/context'
+import { MainStore } from '../contexts/context'
 import { LogoutButton } from './individual styled components/buttons'
 import { getAuth, signOut } from 'firebase/auth'
 
@@ -35,7 +35,7 @@ const ButtonContainer = styled.div`
 `
 
 const NavBar: React.FC = () => {
-  const { signedInOrNot, setSignedInOrNot, setCurrentUID } = useContext(CurrentCountryContext)
+  const { signedInOrNot, setSignedInOrNot, setCurrentUID } = useContext(MainStore)
   const auth = getAuth()
 
   const handleSignOut = () => {
