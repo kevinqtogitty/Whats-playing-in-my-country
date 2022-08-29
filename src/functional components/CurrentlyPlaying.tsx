@@ -1,7 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { MainStore } from '../contexts/context'
 import styled from 'styled-components'
 import CurrentFilmCards from './CurrentFilmCards'
+import { Films } from '../types/interfaces_types'
 
 export const BannerHeader = styled.h2`
   color: antiquewhite;
@@ -28,13 +29,23 @@ const FilmCardWrapper = styled.div`
 `
 
 const CurrrentlyPlaying: React.FC = () => {
-  const { currentCountry, films } = useContext(MainStore)
+  const { currentCountry, films, userWatchList, showAddedMessage, showTheMessage } =
+    useContext(MainStore)
+
+  const filteredFilms = films.filter(
+    (film) => !userWatchList.some((userfilm) => film.id === userfilm.id),
+  )
+
   return (
     <>
       <FilmsBanner>
-        <BannerHeader>What's playing in {currentCountry}</BannerHeader>
+        {showTheMessage === true ? (
+          <BannerHeader>'{showAddedMessage}' has been added to your watchlist!</BannerHeader>
+        ) : (
+          <BannerHeader>What's playing in {currentCountry}</BannerHeader>
+        )}
         <FilmCardWrapper>
-          {films?.map((film) =>
+          {filteredFilms?.map((film) =>
             film.poster_path !== null ? (
               <CurrentFilmCards
                 poster_path={film.poster_path}
