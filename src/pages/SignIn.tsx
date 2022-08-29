@@ -16,9 +16,16 @@ import { addUserDoc, checkIfGoogleUserIsReturning } from '../firebase/userServic
 const FormWrapper = styled.div`
   margin-top: 6rem;
   width: auto;
+  margin-right: -0.5rem;
 `
 const FlexWrapper = styled.div`
   display: flex;
+  justify-content: space-between;
+`
+const FlexWrapperColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0 12px 0 12px;
 `
 export const ErrorMessage = styled.div`
   border: 1px solid;
@@ -112,10 +119,12 @@ const SignIn = () => {
               Sign In With Google
             </Button>
           </FlexWrapper>
-          <p>
-            Don't have an account? <Link to='/signUp'>Sign Up</Link>
-          </p>
-          <p>Forgot password?</p>
+          <FlexWrapperColumn>
+            <p>
+              Don't have an account? <Link to='/signUp'>Sign Up</Link>
+            </p>
+            <p>Forgot password?</p>
+          </FlexWrapperColumn>
         </FormWrapper>
       </FormBody>
     </>
