@@ -36,6 +36,9 @@ const App: React.FC = () => {
   const [currentUID, setCurrentUID] = useState<string>('')
   const [currentUser, setCurrentUser] = useState<{ [key: string]: any }>({})
 
+  const [showAddedMessage, setShowAddedMessage] = useState<string>('')
+  const [showTheMessage, setShowTheMessage] = useState<boolean>(false)
+
   //Set the current user to the data retreive from the db
   const retrieveDoc = async () => {
     const currentUser = await retrieveUserDoc(currentUID)
@@ -84,6 +87,10 @@ const App: React.FC = () => {
             setCurrentUID,
             currentUser,
             setCurrentUser,
+            showAddedMessage,
+            setShowAddedMessage,
+            showTheMessage,
+            setShowTheMessage,
           }}
         >
           <NavBar />
