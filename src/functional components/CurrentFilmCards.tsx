@@ -1,15 +1,18 @@
 import styled from 'styled-components'
 import { posterBaseUrl } from '../constants/constants'
 import mySvg from '../assets/img/videoplus.svg'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { MainStore } from '../contexts/context'
 import { useNavigate } from 'react-router-dom'
 import { addToWatchList, addWatchListInDB } from '../firebase/watchlistServices'
 import { Films, WatchlistProps } from '../types/interfaces_types'
 
 //Styled Components
+interface PosterProps {
+  isActive: boolean
+}
 const FilmPosters = styled.img`
-  border-radius: 3px;
+  border-radius: 5px;
   height: 20rem;
   width: auto;
   border: 2px solid grey;
@@ -40,7 +43,14 @@ export const IconTextWrapper = styled.div`
 `
 
 const CurrentFilmCards: React.FC<WatchlistProps> = (props) => {
-  const { userWatchList, setUserWatchList, signedInOrNot, currentUID } = useContext(MainStore)
+  const {
+    userWatchList,
+    setUserWatchList,
+    signedInOrNot,
+    currentUID,
+    setShowAddedMessage,
+    setShowTheMessage,
+  } = useContext(MainStore)
   const navigate = useNavigate()
 
   const handleAddToWatchlist = async () => {
@@ -57,9 +67,19 @@ const CurrentFilmCards: React.FC<WatchlistProps> = (props) => {
         ? (updatedUserWatchList = updatedUserWatchList.concat(newWatchListFilm))
         : (updatedUserWatchList = [...userWatchList, newWatchListFilm])
       setUserWatchList(updatedUserWatchList)
+
+      handleNotification()
     } catch (e) {
       console.log(e)
     }
+  }
+
+  const handleNotification = () => {
+    setShowAddedMessage(props.original_title)
+    setShowTheMessage(true)
+    setTimeout(() => {
+      setShowTheMessage(false)
+    }, 3000)
   }
 
   return (
@@ -69,7 +89,8 @@ const CurrentFilmCards: React.FC<WatchlistProps> = (props) => {
         <CardText>{props.original_title}</CardText>
         <IconTextWrapper>
           <CardText>Rating: {props.vote_average}</CardText>
-          <Icon src={mySvg} onClick={handleAddToWatchlist}></Icon>
+
+          <Icon src={mySvg} onClick={handleAddToWatchlist} />
         </IconTextWrapper>
       </CardWrapper>
     </>
