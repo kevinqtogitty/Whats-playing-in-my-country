@@ -29,13 +29,21 @@ const FilmCardWrapper = styled.div`
 `
 
 const UpcomingIn: React.FC = () => {
-  const { currentCountry, upcomingFilms } = useContext(MainStore)
+  const { currentCountry, upcomingFilms, userWatchList, showTheMessage, showAddedMessage } =
+    useContext(MainStore)
+  const filteredFilms = upcomingFilms.filter(
+    (film) => !userWatchList.some((userFilm) => film.id === userFilm.id),
+  )
   return (
     <>
       <FilmsBanner>
-        <BannerHeader>Upcoming films in {currentCountry}</BannerHeader>
+        {showTheMessage === true ? (
+          <BannerHeader>'{showAddedMessage}' has been added to your watchlist!</BannerHeader>
+        ) : (
+          <BannerHeader>Upcoming films in {currentCountry}</BannerHeader>
+        )}
         <FilmCardWrapper>
-          {upcomingFilms?.map((film) =>
+          {filteredFilms?.map((film) =>
             film.poster_path !== null ? (
               <UpcomingFilmCards
                 poster_path={film.poster_path}
