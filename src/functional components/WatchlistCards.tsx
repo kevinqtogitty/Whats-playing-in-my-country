@@ -83,34 +83,37 @@ interface CardProps {
   // setModalIsOpen: React.SetStateAction<SetStateAction<boolean>>
 }
 
-const WatchlistCards: React.FC<CardProps> = ({
-  title,
-  release_date,
-  rating,
-  poster_path,
-  overview,
-  id,
-}) => {
+const WatchlistCards: React.FC<CardProps> = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
-  const { userWatchList, setUserWatchList, currentUID } = useContext(MainStore)
+  const { userWatchList, setUserWatchList, currentUID, setShowAddedMessage, setShowTheMessage } =
+    useContext(MainStore)
 
   const handleRemoveWatchList = async () => {
     const userWatchListMinusFilm =
-      userWatchList.length === 0 ? [] : userWatchList.filter((film) => film.id !== id)
+      userWatchList.length === 0 ? [] : userWatchList.filter((film) => film.id !== props.id)
     try {
       await removeWatchListInDB(userWatchListMinusFilm, currentUID)
       setUserWatchList(userWatchListMinusFilm)
+      handleNotification()
     } catch (e) {
       console.log(e)
     }
+  }
+
+  const handleNotification = () => {
+    setShowAddedMessage(props.title)
+    setShowTheMessage(true)
+    setTimeout(() => {
+      setShowTheMessage(false)
+    }, 3000)
   }
 
   return (
     <>
       <WatchlistCard>
         <PosterWrapper>
-          <CardH3>{title}</CardH3>
-          <FilmPosters src={`${posterBaseUrl}${poster_path}`} />
+          <CardH3>{props.title}</CardH3>
+          <FilmPosters src={`${posterBaseUrl}${props.poster_path}`} />
         </PosterWrapper>
         {/* <Info>
           <Information>{release_date}</Information>
@@ -152,11 +155,11 @@ const WatchlistCards: React.FC<CardProps> = ({
         //   },
         // }}
       >
-        <h2>{title}</h2>
-        <FilmPosters src={`${posterBaseUrl}${poster_path}`} />
-        <Information>{release_date}</Information>
-        <Information>{rating}</Information>
-        <p>{overview}</p>
+        <h2>{props.title}</h2>
+        <FilmPosters src={`${posterBaseUrl}${props.poster_path}`} />
+        <Information>{props.release_date}</Information>
+        <Information>{props.rating}</Information>
+        <p>{props.overview}</p>
         <Button onClick={() => setModalIsOpen(!modalIsOpen)}>Close</Button>
 
         {/* <button onClick={() => setModalIsOpen(!modalIsOpen)}>Close</button> */}
