@@ -6,4 +6,6 @@ export const FormBody = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: -7px;
+  padding-left: -1rem;
 `
