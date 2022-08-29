@@ -1,3 +1,5 @@
+import React, { SetStateAction } from 'react'
+
 export interface Countries {
   label: string
   id: string
@@ -10,6 +12,7 @@ export interface Films {
   overview: string
   release_date: string
   vote_average: number
+  added?: boolean
 }
 
 export interface CurrentUser {
