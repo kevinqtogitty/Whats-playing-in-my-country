@@ -22,5 +22,11 @@ interface MainStore {
 
   currentUser: object
   setCurrentUser: React.Dispatch<React.SetStateAction<object>>
+
+  showAddedMessage: string
+  setShowAddedMessage: React.Dispatch<React.SetStateAction<string>>
+
+  showTheMessage: boolean
+  setShowTheMessage: React.Dispatch<React.SetStateAction<boolean>>
 }
 export const MainStore = createContext<MainStore>({} as MainStore)
