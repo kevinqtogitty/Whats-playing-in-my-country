@@ -11,6 +11,7 @@ const Navigation = styled.nav`
   justify-content: space-between;
   margin: 0px;
   width: 100%;
+  /* padding: 0 20px 0 1px; */
 
   /* border: 2px solid red; */
 `
