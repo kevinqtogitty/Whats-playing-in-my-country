@@ -19,13 +19,21 @@ const FilmPosters = styled.img`
     opacity: 50%;
   }
 `
+
 const CardText = styled.p`
   color: white;
   margin: 0;
 `
 
 const UpcomingFilmCards: React.FC<WatchlistProps> = (props) => {
-  const { signedInOrNot, userWatchList, setUserWatchList, currentUID } = useContext(MainStore)
+  const {
+    signedInOrNot,
+    userWatchList,
+    setUserWatchList,
+    currentUID,
+    setShowAddedMessage,
+    setShowTheMessage,
+  } = useContext(MainStore)
   const navigate = useNavigate()
 
   const handleAddToWatchlist = async () => {
@@ -43,9 +51,18 @@ const UpcomingFilmCards: React.FC<WatchlistProps> = (props) => {
         ? (updatedUserWatchList = updatedUserWatchList.concat(newWatchListFilm))
         : (updatedUserWatchList = [...userWatchList, newWatchListFilm])
       setUserWatchList(updatedUserWatchList)
+      handleNotification()
     } catch (e) {
       console.log(e)
     }
+  }
+
+  const handleNotification = () => {
+    setShowAddedMessage(props.original_title)
+    setShowTheMessage(true)
+    setTimeout(() => {
+      setShowTheMessage(false)
+    }, 3000)
   }
 
   return (
