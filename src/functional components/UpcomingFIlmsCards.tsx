@@ -1,13 +1,21 @@
 import styled from 'styled-components'
-import { posterBaseUrl } from '../constants/constants'
+import { posterBaseUrl, youTubeEmbed } from '../constants/constants'
 import watchListIcon from '../assets/img/videoplus.svg'
 import { IconTextWrapper } from './CurrentFilmCards'
 import { Icon } from './CurrentFilmCards'
 import { addToWatchList, addWatchListInDB } from '../firebase/watchlistServices'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { MainStore } from '../contexts/context'
 import { useNavigate } from 'react-router-dom'
-import { Films, WatchlistProps } from '../types/interfaces_types'
+import { Films, Trailer, WatchlistProps } from '../types/interfaces_types'
+import {
+  getAvailableOn,
+  getCastAndCrew,
+  getReviews,
+  getTrailer,
+  upcomingMovies,
+} from '../services/films'
+import CardModal from './Modal'
 
 //Styled Components
 const FilmPosters = styled.img`
@@ -26,6 +34,13 @@ const CardText = styled.p`
 `
 
 const UpcomingFilmCards: React.FC<WatchlistProps> = (props) => {
+  const [trailer, setTrailer] = useState<Trailer[]>([])
+  const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [availableOn, setAvailableOn] = useState<string[]>([])
+  const [rentOn, setRentOn] = useState<string[]>([])
+  const [reviews, setReviews] = useState<[]>([])
+  const [cast, setCast] = useState<any[]>([])
+  const [director, setDirector] = useState<[]>([])
   const {
     signedInOrNot,
     userWatchList,
@@ -33,9 +48,35 @@ const UpcomingFilmCards: React.FC<WatchlistProps> = (props) => {
     currentUID,
     setShowAddedMessage,
     setShowTheMessage,
+    currentCountryKey,
+    upcomingFilms,
   } = useContext(MainStore)
   const navigate = useNavigate()
 
+  const toggleModal = () => {
+    setModalIsOpen(!modalIsOpen)
+  }
+
+  //Get Trailers, streaming, and reviews
+  useEffect(() => {
+    getAvailableOn(props.id, setAvailableOn, setRentOn, currentCountryKey)
+  }, [currentCountryKey])
+
+  useEffect(() => {
+    getReviews(props.id, setReviews)
+  }, [upcomingFilms])
+
+  useEffect(() => {
+    getTrailer(props.id, setTrailer)
+  }, [upcomingFilms])
+
+  useEffect(() => {
+    getCastAndCrew(props.id, setCast, setDirector)
+  }, [upcomingFilms])
+
+  const youtubeTrailerUrls = trailer.map((trailer) => `${youTubeEmbed}${trailer.key}`)
+
+  //Deal with user adding films to watchlist
   const handleAddToWatchlist = async () => {
     if (signedInOrNot === 'false') {
       navigate('/signIn')
@@ -57,6 +98,7 @@ const UpcomingFilmCards: React.FC<WatchlistProps> = (props) => {
     }
   }
 
+  //Display added notification
   const handleNotification = () => {
     setShowAddedMessage(props.original_title)
     setShowTheMessage(true)
@@ -68,12 +110,23 @@ const UpcomingFilmCards: React.FC<WatchlistProps> = (props) => {
   return (
     <>
       <div>
-        <FilmPosters src={`${posterBaseUrl}${props.poster_path}`} />
+        <FilmPosters src={`${posterBaseUrl}${props.poster_path}`} onClick={toggleModal} />
         <CardText>{props.original_title}</CardText>
         <IconTextWrapper>
           <CardText>Coming {props.release_date}</CardText>
           <Icon src={watchListIcon} onClick={handleAddToWatchlist} />
         </IconTextWrapper>
+        <CardModal
+          modalIsOpen={modalIsOpen}
+          toggleModal={toggleModal}
+          youtubeTrailers={youtubeTrailerUrls}
+          props={props}
+          availableOn={availableOn}
+          rentOn={rentOn}
+          reviews={reviews}
+          cast={cast}
+          director={director}
+        ></CardModal>
       </div>
     </>
   )
