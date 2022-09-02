@@ -1,4 +1,5 @@
-import { signOut, getAuth, User, Auth } from 'firebase/auth'
+import React from 'react'
+import { getAuth, User, Auth } from 'firebase/auth'
 import { useContext, useState } from 'react'
 import { Notification } from './SignIn'
 import styled from 'styled-components'
@@ -6,22 +7,22 @@ import { MainStore } from '../contexts/context'
 import { deleteAccount, resetPassword, signOutUser } from '../firebase/userServices'
 import { LogoutButton } from '../functional components/individual styled components/buttons'
 
-const Settings = () => {
+const Settings: React.FC = () => {
   const { setSignedInOrNot, setCurrentUID } = useContext(MainStore)
   const [notification, setNotification] = useState('')
   const [showNotification, setShowNotification] = useState<boolean>(false)
   const auth: Auth = getAuth()
   const user: User | null = auth.currentUser
 
-  const handleSignOut = () => {
+  const handleSignOut = (): void => {
     signOutUser(auth, setSignedInOrNot, setCurrentUID)
   }
 
-  const handleDelete = () => {
+  const handleDelete = (): void => {
     deleteAccount(user!)
   }
 
-  const handlePassWordReset = async () => {
+  const handlePassWordReset = async (): Promise<void> => {
     await resetPassword(auth, user!.email!)
     const message = 'Password reset E-mail has been sent'
     handleNotification(message)
@@ -42,7 +43,7 @@ const Settings = () => {
   `
   return (
     <SettingsWrapper>
-      {showNotification === false ? null : <Notification>{notification}</Notification>}
+      {!showNotification ? null : <Notification>{notification}</Notification>}
       <h2>Wanna leave?</h2>
       <LogoutButton onClick={handleSignOut}>Logout</LogoutButton>
       <h2>Wanna leave forever?</h2>
