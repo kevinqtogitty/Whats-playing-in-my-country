@@ -9,7 +9,7 @@ import { Films, Trailer, WatchlistProps } from '../types/interfaces_types'
 import CardModal from './Modal'
 import { getAvailableOn, getCastAndCrew, getReviews, getTrailer } from '../services/films'
 
-//Styled Components
+// Styled Components
 const FilmPosters = styled.img`
   border-radius: 5px;
   height: 20rem;
@@ -62,7 +62,7 @@ const CurrentFilmCards: React.FC<WatchlistProps> = (props) => {
   } = useContext(MainStore)
   const navigate = useNavigate()
 
-  const toggleModal = () => {
+  const toggleModal = (): void => {
     setModalIsOpen(!modalIsOpen)
   }
 
@@ -84,7 +84,7 @@ const CurrentFilmCards: React.FC<WatchlistProps> = (props) => {
 
   const youtubeTrailerUrls = trailer.map((trailer) => `${youTubeEmbed}${trailer.key}`)
 
-  const handleAddToWatchlist = async () => {
+  const handleAddToWatchlist = async (): Promise<void> => {
     if (signedInOrNot === 'false') {
       navigate('/signIn')
       return
@@ -105,7 +105,7 @@ const CurrentFilmCards: React.FC<WatchlistProps> = (props) => {
     }
   }
 
-  const handleNotification = () => {
+  const handleNotification = (): void => {
     setShowAddedMessage(props.original_title)
     setShowTheMessage(true)
     setTimeout(() => {
