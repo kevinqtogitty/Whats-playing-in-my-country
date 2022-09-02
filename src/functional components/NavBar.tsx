@@ -1,9 +1,9 @@
+import React from 'react'
 import { Link } from 'react-router-dom'
 import ChooseCountry from './ChooseCountryDropdown'
 import styled from 'styled-components'
 import { useContext } from 'react'
 import { MainStore } from '../contexts/context'
-import { getAuth, signOut } from 'firebase/auth'
 import gearSvg from '../assets/img/settings.svg'
 
 const Navigation = styled.nav`
