@@ -1,9 +1,10 @@
-import React, { MouseEventHandler, SetStateAction, useContext, useRef } from 'react'
+import React, { MouseEventHandler, useContext } from 'react'
 import { posterBaseUrl } from '../constants/constants'
 import styled from 'styled-components'
 import Modal from 'react-modal'
 import { FilmPosters, Information } from './WatchlistCards'
 import { MainStore } from '../contexts/context'
+import { LogoutButton } from './individual styled components/buttons'
 
 interface Props {
   modalIsOpen: boolean
@@ -68,9 +69,6 @@ const TrailerWrapper = styled.div`
   height: 30rem;
   width: 45rem;
   overflow: scroll;
-  ::-webkit-scrollbar {
-    display: none;
-  }
 `
 
 const ReviewWrapper = styled.div`
@@ -103,7 +101,7 @@ const CardModal: React.FC<Props> = ({
   rentOn,
   reviews,
   director,
-  cast,
+  cast
 }) => {
   const { currentCountry } = useContext(MainStore)
   return (
@@ -115,7 +113,7 @@ const CardModal: React.FC<Props> = ({
             top: 0,
             left: 0,
             right: 0,
-            bottom: 0,
+            bottom: 0
             // backgroundColor: 'rgba(255, 255, 255, 0.75)',
           },
           content: {
@@ -133,15 +131,15 @@ const CardModal: React.FC<Props> = ({
             padding: '20px',
             color: '#000000',
             boxShadow:
-              'rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset',
-          },
+              'rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset'
+          }
         }}
         isOpen={modalIsOpen}
-        onRequestClose={() => toggleModal}
+        onRequestClose={toggleModal}
         ariaHideApp={false}
       >
         <CloseButtonWrapper>
-          <ModalCloseButton onClick={toggleModal}>Close</ModalCloseButton>
+          <LogoutButton onClick={toggleModal}>Close</LogoutButton>
         </CloseButtonWrapper>
         <FlexWrapper>
           <FlexWrapper3>
