@@ -106,7 +106,6 @@ const CardModal: React.FC<Props> = ({
   cast,
 }) => {
   const { currentCountry } = useContext(MainStore)
-  console.log()
   return (
     <>
       <Modal
@@ -155,32 +154,33 @@ const CardModal: React.FC<Props> = ({
               ) : (
                 <Information>Rating: {props.vote_average} / 10 </Information>
               )}
+              <br />
               <Information>
-                Director:{' '}
+                Director: <br />
                 {director.map((director: { name: any }) => (
                   <>{director.name} | </>
                 ))}{' '}
               </Information>
+              <br />
               <Information>
-                Cast:{' '}
+                Cast: <br />
                 {cast.slice(0, 10).map((member) => (
                   <>{member.name} | </>
                 ))}{' '}
                 ...and others
               </Information>
             </FlexWrapper2>
-
             <FlexWrapper2 className='info'>
               <h3>Where to watch online: {currentCountry}</h3>
               <Information>
-                Stream:{' '}
+                Stream: <br />
                 {availableOn.map((provider) => (
                   <>{provider} | </>
                 ))}
               </Information>
               <br />
               <Information>
-                Rent:{' '}
+                Rent: <br />
                 {rentOn.map((provider) => (
                   <>{provider} | </>
                 ))}
