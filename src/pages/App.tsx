@@ -15,13 +15,13 @@ import { MainStore } from '../contexts/context'
 import Settings from './Settings'
 
 const currentCountryFromSessionStorage: string =
-  sessionStorage.getItem('current-country') || 'United Kingdom'
+  sessionStorage.getItem('current-country') ?? 'United Kingdom'
 
 const currentCountryKeyFromSessionStorage: string =
-  sessionStorage.getItem('current-country-key') || 'GB'
+  sessionStorage.getItem('current-country-key') ?? 'GB'
 
 const signedInOrNotFromSessionStorage: string = JSON.parse(
-  sessionStorage.getItem('signed-in') || 'false',
+  sessionStorage.getItem('signed-in') ?? 'false',
 )
 
 const App: React.FC = () => {
@@ -40,21 +40,21 @@ const App: React.FC = () => {
   const [showAddedMessage, setShowAddedMessage] = useState<string>('')
   const [showTheMessage, setShowTheMessage] = useState<boolean>(false)
 
-  //Set the current user to the data retreive from the db
-  const retrieveDoc = async () => {
+  // Set the current user to the data retreive from the db
+  const retrieveDoc = async (): Promise<void> => {
     const currentUser = await retrieveUserDoc(currentUID)
     setUserWatchList(currentUser!.watchList!)
     setCurrentUser(currentUser!)
   }
 
-  //If the user is logged in retrieve their data
+  // If the user is logged in retrieve their data
   useEffect(() => {
     if (currentUID !== '') {
       retrieveDoc()
     }
   }, [currentUID])
 
-  //Grab data from local storage
+  // Grab data from local storage
   useEffect(() => {
     sessionStorage.setItem('current-country', currentCountry)
   }, [currentCountry])
