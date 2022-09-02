@@ -39,7 +39,7 @@ export const Notification = styled.div`
   display: block;
 `
 
-const SignIn = () => {
+const SignIn: React.FC = () => {
   const auth = getAuth()
   const navigate = useNavigate()
   const [authing, setAuthing] = useState<boolean>(false)
@@ -50,7 +50,7 @@ const SignIn = () => {
 
   const { setSignedInOrNot } = useContext(MainStore)
 
-  const signInWithGoogle = async () => {
+  const signInWithGoogle = async (): Promise<void> => {
     setAuthing(true)
 
     try {
@@ -59,7 +59,7 @@ const SignIn = () => {
         user: { displayName, email, uid },
       } = googleUser
       const newGoogleUser = await checkIfGoogleUserIsReturning(uid)
-      if (!newGoogleUser === true) {
+      if (!newGoogleUser) {
         const firstName = displayName
         addUserDoc({ uid, email, firstName })
       }
@@ -71,7 +71,7 @@ const SignIn = () => {
     }
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault()
     try {
       await signInOldSchool(email, password)
@@ -83,19 +83,18 @@ const SignIn = () => {
         setError(false)
       }, 5000)
       console.log(e)
-      return
     }
   }
 
-  const signInOldSchool = (email: string, password: string) => {
-    return signInWithEmailAndPassword(auth, email, password)
+  const signInOldSchool = async (email: string, password: string): Promise<void> => {
+    await signInWithEmailAndPassword(auth, email, password)
   }
 
   return (
     <>
       <FormBody>
         <FormWrapper>
-          {error === false ? null : <Notification>Error: Invalid email or password</Notification>}
+          {!error ? null : <Notification>Error: Invalid email or password</Notification>}
           <form action='submit' id='signInForm' onSubmit={handleSubmit}>
             <Input
               value={email}
@@ -115,7 +114,7 @@ const SignIn = () => {
               Sign In
             </Button>{' '}
             <br />
-            <Button onClick={() => signInWithGoogle()} disabled={authing}>
+            <Button onClick={async () => await signInWithGoogle()} disabled={authing}>
               Sign In With Google
             </Button>
           </FlexWrapper>
