@@ -1,10 +1,19 @@
+const api = {
+  key: import.meta.env.VITE_API_KEY,
+  auth_domain: import.meta.env.VITE_AUTH_DOMAIN,
+  project_id: import.meta.env.VITE_PROJECT_ID,
+  storage_bucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messaging_sender_id: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  app_id: import.meta.env.VITE_APP_ID,
+}
+
 export const config = {
   firebase: {
-    apiKey: 'AIzaSyCFX3OZqE09mTazvDsEJX9LkPeZyIMDjQY',
-    authDomain: 'whatsplayinginmycountry.firebaseapp.com',
-    projectId: 'whatsplayinginmycountry',
-    storageBucket: 'whatsplayinginmycountry.appspot.com',
-    messagingSenderId: '969679324976',
-    appId: '1:969679324976:web:ff9537bd69103117e72af5',
+    apiKey: api.key,
+    authDomain: api.auth_domain,
+    projectId: api.project_id,
+    storageBucket: api.storage_bucket,
+    messagingSenderId: api.messaging_sender_id,
+    appId: api.app_id,
   },
 }
