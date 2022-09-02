@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { youTubeEmbed } from '../constants/constants'
 import { MainStore } from '../contexts/context'
 import { removeWatchListInDB } from '../firebase/watchlistServices'
-import { getTrailer } from '../services/films'
+import { getAvailableOn, getCastAndCrew, getReviews, getTrailer } from '../services/films'
 import { Trailer } from '../types/interfaces_types'
 import CardModal from './Modal'
 // import { TrashIcon } from './WatchlistCards'
@@ -65,10 +65,27 @@ interface TableProps {
 const WatchListTableRows: React.FC<TableProps> = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
   const [trailer, setTrailer] = useState<Trailer[]>([])
-  const { userWatchList, currentUID, setUserWatchList } = useContext(MainStore)
+  const [availableOn, setAvailableOn] = useState<string[]>([])
+  const [rentOn, setRentOn] = useState<string[]>([])
+  const [reviews, setReviews] = useState<[]>([])
+  const [cast, setCast] = useState<string[]>([])
+  const [director, setDirector] = useState<[]>([])
+  const { userWatchList, currentUID, setUserWatchList, currentCountryKey } = useContext(MainStore)
 
   useEffect(() => {
     getTrailer(props.id, setTrailer)
+  }, [])
+
+  useEffect(() => {
+    getAvailableOn(props.id, setAvailableOn, setRentOn, currentCountryKey)
+  }, [currentCountryKey])
+
+  useEffect(() => {
+    getReviews(props.id, setReviews)
+  }, [])
+
+  useEffect(() => {
+    getCastAndCrew(props.id, setCast, setDirector)
   }, [])
 
   const youtubeTrailerUrls = trailer.map((trailer) => `${youTubeEmbed}${trailer.key}`)
@@ -110,6 +127,11 @@ const WatchListTableRows: React.FC<TableProps> = (props) => {
         toggleModal={toggleModal}
         youtubeTrailers={youtubeTrailerUrls}
         props={props}
+        availableOn={availableOn}
+        rentOn={rentOn}
+        reviews={reviews}
+        cast={cast}
+        director={director}
       />
     </>
   )
