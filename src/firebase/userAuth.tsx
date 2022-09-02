@@ -20,10 +20,10 @@ const AuthRoute: React.FC<AuthRouteProps> = (props) => {
   }, [auth])
 
   const AuthCheck = onAuthStateChanged(auth, (user) => {
-    if (user) {
+    if (user != null) {
       setLoading(false)
       setCurrentUID(user.uid)
-    } else if (!user) {
+    } else {
       console.log('Unauthorized')
       navigate('/signIn')
     }
