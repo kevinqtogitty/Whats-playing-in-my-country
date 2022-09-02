@@ -113,8 +113,8 @@ export const getCastAndCrew = async (filmID: number, setCast: any, setDirector: 
       ),
     )
     setDirector(
-      data.cast.filter(
-        (member: { known_for_department: string }) => member.known_for_department === 'Directing',
+      data.crew.filter((member: { job: string; name: string }) =>
+        member.job === 'Director' ? member.name : null,
       ),
     )
   } catch (error) {
