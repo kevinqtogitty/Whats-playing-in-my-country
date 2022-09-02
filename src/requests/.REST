@@ -32,4 +32,4 @@ GET https://api.themoviedb.org/3/movie/698948/watch/providers?api_key=2b6cca6c77
 GET https://api.themoviedb.org/3/movie/718930/reviews?api_key=2b6cca6c77b9ad3c3ed56ae58ea9112d&language=en-US&page=1
 
 ###
-GET https://api.themoviedb.org/3/movie/718930/credits?api_key=2b6cca6c77b9ad3c3ed56ae58ea9112d&language=en-US
+GET https://api.themoviedb.org/3/movie/698948/credits?api_key=2b6cca6c77b9ad3c3ed56ae58ea9112d&language=en-US
