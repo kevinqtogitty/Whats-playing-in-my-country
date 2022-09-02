@@ -1,8 +1,7 @@
 import React, { ChangeEvent, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Input } from '../functional components/individual styled components/input'
 import { getAuth } from 'firebase/auth'
-import { useNavigate } from 'react-router-dom'
 import { FormBody } from '../functional components/individual styled components/body'
 import styled from 'styled-components'
 import { Button } from '../functional components/individual styled components/buttons'
@@ -25,7 +24,7 @@ const SignUp: React.FC = () => {
 
   const auth = getAuth()
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault()
     if (confirmPassword !== password) {
       setError(true)
@@ -47,7 +46,7 @@ const SignUp: React.FC = () => {
     }
   }
 
-  const inputHandler = (e: ChangeEvent<HTMLInputElement>, key: string) => {
+  const inputHandler = (e: ChangeEvent<HTMLInputElement>, key: string): void => {
     switch (key) {
       case 'FN':
         setFirstName(e.target.value)
@@ -65,7 +64,6 @@ const SignUp: React.FC = () => {
         setConfirmPassword(e.target.value)
         break
       default:
-        return
     }
   }
 
@@ -73,7 +71,7 @@ const SignUp: React.FC = () => {
     <>
       <FormBody>
         <FormWrapper>
-          {error === false ? null : <Notification>Error: Passwords do not match</Notification>}
+          {!error ? null : <Notification>Error: Passwords do not match</Notification>}
           <form action='submit' id='signUpForm' onSubmit={handleSubmit}>
             <Input
               name='firstName'
