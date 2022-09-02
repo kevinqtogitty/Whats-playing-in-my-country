@@ -1,4 +1,5 @@
-import { ChangeEvent, useContext, useEffect, useState } from 'react'
+import React from 'react'
+import { ChangeEvent, useContext, useState } from 'react'
 import { MainStore } from '../contexts/context'
 import { Input } from '../functional components/individual styled components/input'
 import WatchlistCards from '../functional components/WatchlistCards'
@@ -69,35 +70,36 @@ const Header = styled.div`
   }
 `
 
-const Account = () => {
+const Account: React.FC = () => {
   const { userWatchList } = useContext(MainStore)
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [toggleWatchListView, setToggleWatchListView] = useState<boolean>(false)
 
-  const handleSearchRequest = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleSearchRequest = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearchQuery(e.target.value)
   }
 
-  const handleViewToggle = () => {
+  const handleViewToggle = (): void => {
     setToggleWatchListView(!toggleWatchListView)
   }
 
   return (
     <>
       <HeaderWrapper>
-        <h2>Whats on your watchlist!</h2>
+        <h2 style={{ marginLeft: '1rem' }}>Whats on your watchlist!</h2>
         <Input placeholder='Search...' type='text' onChange={(e) => handleSearchRequest(e)} />
       </HeaderWrapper>
       <ToggleBar>
         <Button onClick={handleViewToggle}>
-          Switch to {toggleWatchListView == false ? <>list</> : <>card</>} view
+          Switch to {!toggleWatchListView ? <>list</> : <>card</>} view
         </Button>
       </ToggleBar>
-      {toggleWatchListView === false ? (
+      {!toggleWatchListView ? (
         <FlexWrapper>
           {searchQuery === ''
-            ? userWatchList.map((film) => (
+            ? userWatchList.map((film, index) => (
                 <WatchlistCards
+                  key={index}
                   original_title={film.original_title}
                   release_date={film.release_date}
                   vote_average={film.vote_average}
@@ -129,8 +131,9 @@ const Account = () => {
                 <Header className='rating'>Rating</Header>
               </ColumnHeader>
               {searchQuery === ''
-                ? userWatchList.map((film) => (
+                ? userWatchList.map((film, index) => (
                     <WatchListTableRows
+                      key={index}
                       original_title={film.original_title}
                       rating={film.vote_average}
                       release_date={film.release_date}
@@ -139,9 +142,10 @@ const Account = () => {
                       id={film.id}
                     />
                   ))
-                : userWatchList.map((film) =>
+                : userWatchList.map((film, index) =>
                     film.original_title.toLowerCase().includes(searchQuery.toLowerCase()) ? (
                       <WatchListTableRows
+                        key={index}
                         original_title={film.original_title}
                         rating={film.vote_average}
                         release_date={film.release_date}
