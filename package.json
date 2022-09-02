@@ -10,6 +10,7 @@
     "lint": "eslint --ext .tsx ."
   },
   "dependencies": {
+    "@tanstack/react-table": "^8.5.11",
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "express": "^4.18.1",
