@@ -18,6 +18,9 @@ export const FilmsBanner = styled.div`
   padding: 1rem;
   margin-top: -1.7rem;
   margin: 0px;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `
 const FilmCardWrapper = styled.div`
   display: flex;
