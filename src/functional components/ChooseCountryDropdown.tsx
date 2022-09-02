@@ -1,15 +1,15 @@
 import React, { useEffect, useContext } from 'react'
 
-//Individual Components
+// Individual Components
 import { CountryDropdown } from './individual styled components/countryDropdown'
 
-//Constant Variables
+// Constant Variables
 import { countryOptions } from '../constants/constants'
 
-//Services
+// Services
 import { currentlyPlaying, upcomingMovies } from '../services/films'
 
-//Types
+// Types
 import { MainStore } from '../contexts/context'
 
 const ChooseCountry: React.FC = () => {
@@ -21,18 +21,18 @@ const ChooseCountry: React.FC = () => {
     currentlyPlaying(currentCountryKey, setFilms)
   }, [currentCountryKey])
 
-  // //Everytime the country changes change the upcoming movies
+  // Everytime the country changes change the upcoming movies
   useEffect(() => {
     upcomingMovies(currentCountryKey, setUpcomingFilms)
   }, [currentCountryKey])
 
-  // //Everytime the country key changes store the key in local storage
+  // Everytime the country key changes store the key in local storage
   useEffect(() => {
     sessionStorage.setItem('current-country-key', currentCountryKey)
   }, [currentCountryKey])
 
-  //on a specific element, the HTMLSelectElement
-  const changeCountry = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  // on a specific element, the HTMLSelectElement
+  const changeCountry = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     const switchCountryKey = event.target.value
     const countryToSwitch = countryOptions.find((country) => country.id === switchCountryKey)
     setCurrentCountry(countryToSwitch!.label)
@@ -45,8 +45,10 @@ const ChooseCountry: React.FC = () => {
         <option selected={true} disabled={true}>
           Country
         </option>
-        {countryOptions.map((country) => (
-          <option value={country.id}>{country.label}</option>
+        {countryOptions.map((country, index) => (
+          <option key={index} value={country.id}>
+            {country.label}
+          </option>
         ))}
       </CountryDropdown>
     </>
