@@ -12,6 +12,7 @@ import Home from './Home'
 import { Films } from '../types/interfaces_types'
 import { retrieveUserDoc } from '../firebase/userServices'
 import { MainStore } from '../contexts/context'
+import Settings from './Settings'
 
 const currentCountryFromSessionStorage: string =
   sessionStorage.getItem('current-country') || 'United Kingdom'
@@ -42,8 +43,8 @@ const App: React.FC = () => {
   //Set the current user to the data retreive from the db
   const retrieveDoc = async () => {
     const currentUser = await retrieveUserDoc(currentUID)
-    setUserWatchList(currentUser.watchList!)
-    setCurrentUser(currentUser)
+    setUserWatchList(currentUser!.watchList!)
+    setCurrentUser(currentUser!)
   }
 
   //If the user is logged in retrieve their data
@@ -103,6 +104,14 @@ const App: React.FC = () => {
               element={
                 <AuthRoute>
                   <Account />{' '}
+                </AuthRoute>
+              }
+            />
+            <Route
+              path='settings'
+              element={
+                <AuthRoute>
+                  <Settings />{' '}
                 </AuthRoute>
               }
             />
