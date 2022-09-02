@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { FormBody } from '../functional components/individual styled components/body'
 import styled from 'styled-components'
 import { Button } from '../functional components/individual styled components/buttons'
-import { ErrorMessage } from './SignIn'
+import { Notification } from './SignIn'
 import { addUserDoc, createUser } from '../firebase/userServices'
 
 const FormWrapper = styled.div`
@@ -73,7 +73,7 @@ const SignUp: React.FC = () => {
     <>
       <FormBody>
         <FormWrapper>
-          {error === false ? null : <ErrorMessage>Error: Passwords do not match</ErrorMessage>}
+          {error === false ? null : <Notification>Error: Passwords do not match</Notification>}
           <form action='submit' id='signUpForm' onSubmit={handleSubmit}>
             <Input
               name='firstName'
