@@ -71,7 +71,7 @@ const WatchlistCards: React.FC<CardProps> = (props) => {
   const [availableOn, setAvailableOn] = useState<string[]>([])
   const [rentOn, setRentOn] = useState<string[]>([])
   const [reviews, setReviews] = useState<[]>([])
-  const [cast, setCast] = useState<any[]>([])
+  const [cast, setCast] = useState<string[]>([])
   const [director, setDirector] = useState<[]>([])
 
   const { userWatchList, setUserWatchList, currentUID, currentCountryKey } = useContext(MainStore)
@@ -94,7 +94,7 @@ const WatchlistCards: React.FC<CardProps> = (props) => {
 
   const youtubeTrailerUrls = trailer.map((trailer) => `${youTubeEmbed}${trailer.key}`)
 
-  const handleRemoveWatchList = async () => {
+  const handleRemoveWatchList = async (): Promise<void> => {
     const userWatchListMinusFilm =
       userWatchList.length === 0 ? [] : userWatchList.filter((film) => film.id !== props.id)
     try {
@@ -105,7 +105,7 @@ const WatchlistCards: React.FC<CardProps> = (props) => {
     }
   }
 
-  const toggleModal = () => {
+  const toggleModal = (): void => {
     setModalIsOpen(!modalIsOpen)
   }
 
