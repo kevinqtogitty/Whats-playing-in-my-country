@@ -1,23 +1,17 @@
+import React from 'react'
 import styled from 'styled-components'
 import { posterBaseUrl, youTubeEmbed } from '../constants/constants'
 import watchListIcon from '../assets/img/videoplus.svg'
-import { IconTextWrapper } from './CurrentFilmCards'
-import { Icon } from './CurrentFilmCards'
+import { IconTextWrapper, Icon } from './CurrentFilmCards'
 import { addToWatchList, addWatchListInDB } from '../firebase/watchlistServices'
 import { useContext, useEffect, useState } from 'react'
 import { MainStore } from '../contexts/context'
 import { useNavigate } from 'react-router-dom'
 import { Films, Trailer, WatchlistProps } from '../types/interfaces_types'
-import {
-  getAvailableOn,
-  getCastAndCrew,
-  getReviews,
-  getTrailer,
-  upcomingMovies,
-} from '../services/films'
+import { getAvailableOn, getCastAndCrew, getReviews, getTrailer } from '../services/films'
 import CardModal from './Modal'
 
-//Styled Components
+// Styled Components
 const FilmPosters = styled.img`
   border-radius: 3px;
   height: 20rem;
@@ -53,11 +47,11 @@ const UpcomingFilmCards: React.FC<WatchlistProps> = (props) => {
   } = useContext(MainStore)
   const navigate = useNavigate()
 
-  const toggleModal = () => {
+  const toggleModal = (): void => {
     setModalIsOpen(!modalIsOpen)
   }
 
-  //Get Trailers, streaming, and reviews
+  // Get Trailers, streaming, and reviews
   useEffect(() => {
     getAvailableOn(props.id, setAvailableOn, setRentOn, currentCountryKey)
   }, [currentCountryKey])
@@ -76,7 +70,7 @@ const UpcomingFilmCards: React.FC<WatchlistProps> = (props) => {
 
   const youtubeTrailerUrls = trailer.map((trailer) => `${youTubeEmbed}${trailer.key}`)
 
-  //Deal with user adding films to watchlist
+  // Deal with user adding films to watchlist
   const handleAddToWatchlist = async () => {
     if (signedInOrNot === 'false') {
       navigate('/signIn')
@@ -98,7 +92,7 @@ const UpcomingFilmCards: React.FC<WatchlistProps> = (props) => {
     }
   }
 
-  //Display added notification
+  // Display added notification
   const handleNotification = () => {
     setShowAddedMessage(props.original_title)
     setShowTheMessage(true)
