@@ -27,7 +27,7 @@ const FlexWrapperColumn = styled.div`
   flex-direction: column;
   padding: 0 12px 0 12px;
 `
-export const ErrorMessage = styled.div`
+export const Notification = styled.div`
   border: 1px solid;
   border-radius: 5px;
   margin: 10px 0px;
@@ -59,7 +59,7 @@ const SignIn = () => {
         user: { displayName, email, uid },
       } = googleUser
       const newGoogleUser = await checkIfGoogleUserIsReturning(uid)
-      if (newGoogleUser === true) {
+      if (!newGoogleUser === true) {
         const firstName = displayName
         addUserDoc({ uid, email, firstName })
       }
@@ -95,7 +95,7 @@ const SignIn = () => {
     <>
       <FormBody>
         <FormWrapper>
-          {error === false ? null : <ErrorMessage>Error: Invalid email or password</ErrorMessage>}
+          {error === false ? null : <Notification>Error: Invalid email or password</Notification>}
           <form action='submit' id='signInForm' onSubmit={handleSubmit}>
             <Input
               value={email}
