@@ -1,30 +1,22 @@
-import React, { SetStateAction, useContext, useState } from 'react'
-import Modal from 'react-modal'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { posterBaseUrl } from '../constants/constants'
+import { posterBaseUrl, youTubeEmbed } from '../constants/constants'
 
 import removeSvg from '../assets/img/trash.svg'
 import { MainStore } from '../contexts/context'
 import { removeWatchListInDB } from '../firebase/watchlistServices'
 import { Button } from './individual styled components/buttons'
-
-const Body = styled.body`
-  margin: 0px;
-  border: 2px solid green;
-  width: 100rem;
-  display: flex;
-  flex-direction: row;
-  height: 100rem;
-`
+import { getAvailableOn, getCastAndCrew, getReviews, getTrailer } from '../services/films'
+import CardModal from './Modal'
+import { Trailer } from '../types/interfaces_types'
 
 const WatchlistCard = styled.div`
   display: flex;
-  column-gap: 1rem;
+  /* column-gap: 1rem; */
   width: 20rem;
   height: 20rem;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding-left: 5px;
-  /* border: 2px solid blue; */
   /* @media (max-width: 380px) {
     width: auto;
   } */
@@ -46,47 +38,65 @@ const PosterWrapper = styled.div`
   flex-direction: column;
 `
 
-const Info = styled.div``
-
 const CardH3 = styled.h4`
   margin-bottom: 10px;
-  padding-left: 7px;
 `
-const FilmPosters = styled.img`
+export const FilmPosters = styled.img`
   border-radius: 3px;
   height: 15rem;
   margin: 0px;
 `
-const Information = styled.div`
+export const Information = styled.div`
   font-size: 0.8em;
-`
-
-const Description = styled.div`
-  font-size: 0.9em;
 `
 const TrashIcon = styled.img`
   width: 2rem;
   margin-top: -12rem;
   cursor: pointer;
-  /* border: 2px solid black; */
   height: 3rem;
 `
 
 interface CardProps {
-  title: string
+  original_title: string
   release_date: string
-  rating: number
+  vote_average: number
   poster_path: string
   overview: string
   id: number
-  // modalIsOpen: boolean
-  // setModalIsOpen: React.SetStateAction<SetStateAction<boolean>>
+  reviews: []
 }
 
 const WatchlistCards: React.FC<CardProps> = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
-  const { userWatchList, setUserWatchList, currentUID, setShowAddedMessage, setShowTheMessage } =
-    useContext(MainStore)
+  const [trailer, setTrailer] = useState<Trailer[]>([])
+  const [availableOn, setAvailableOn] = useState<string[]>([])
+  const [rentOn, setRentOn] = useState<string[]>([])
+  const [reviews, setReviews] = useState<[]>([])
+  const [cast, setCast] = useState<any[]>([])
+  const [director, setDirector] = useState<[]>([])
+
+  const { userWatchList, setUserWatchList, currentUID, currentCountryKey } = useContext(MainStore)
+
+  useEffect(() => {
+    getTrailer(props.id, setTrailer)
+  }, [])
+
+  useEffect(() => {
+    getAvailableOn(props.id, setAvailableOn, setRentOn, currentCountryKey)
+  }, [currentCountryKey])
+
+  useEffect(() => {
+    getReviews(props.id, setReviews)
+  }, [])
+
+  useEffect(() => {
+    getCastAndCrew(props.id, setCast, setDirector)
+  }, [])
+
+  console.log(cast)
+  console.log(director)
+
+  const youtubeTrailerUrls = trailer.map((trailer) => `${youTubeEmbed}${trailer.key}`)
 
   const handleRemoveWatchList = async () => {
     const userWatchListMinusFilm =
@@ -94,76 +104,38 @@ const WatchlistCards: React.FC<CardProps> = (props) => {
     try {
       await removeWatchListInDB(userWatchListMinusFilm, currentUID)
       setUserWatchList(userWatchListMinusFilm)
-      handleNotification()
     } catch (e) {
       console.log(e)
     }
   }
 
-  const handleNotification = () => {
-    setShowAddedMessage(props.title)
-    setShowTheMessage(true)
-    setTimeout(() => {
-      setShowTheMessage(false)
-    }, 3000)
+  const toggleModal = () => {
+    setModalIsOpen(!modalIsOpen)
   }
 
   return (
     <>
       <WatchlistCard>
         <PosterWrapper>
-          <CardH3>{props.title}</CardH3>
+          <CardH3>{props.original_title}</CardH3>
           <FilmPosters src={`${posterBaseUrl}${props.poster_path}`} />
         </PosterWrapper>
-        {/* <Info>
-          <Information>{release_date}</Information>
-          <Information>{rating}</Information>
-          <br />
-        </Info> */}
         <ButtonWrapper>
-          <Button onClick={() => setModalIsOpen(!modalIsOpen)}>More info</Button>
+          <Button onClick={toggleModal}>More info</Button>
           <TrashIcon src={removeSvg} onClick={handleRemoveWatchList} />
         </ButtonWrapper>
-
-        {/* <button onClick={() => setModalIsOpen(!modalIsOpen)}>More info</button> */}
       </WatchlistCard>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={() => setModalIsOpen(!modalIsOpen)}
-        // style={{
-        //   overlay: {
-        //     position: 'fixed',
-        //     top: 0,
-        //     left: 0,
-        //     right: 0,
-        //     bottom: 0,
-        //     backgroundColor: 'rgba(255, 255, 255, .8)',
-        //   },
-        //   content: {
-        //     position: 'absolute',
-        //     top: '40px',
-        //     left: '40px',
-        //     right: '40px',
-        //     bottom: '40px',
-        //     border: '1px solid #ccc',
-        //     background: '#fff',
-        //     overflow: 'auto',
-        //     WebkitOverflowScrolling: 'touch',
-        //     borderRadius: '4px',
-        //     outline: 'none',
-        //     padding: '20px',
-        //   },
-        // }}
-      >
-        <h2>{props.title}</h2>
-        <FilmPosters src={`${posterBaseUrl}${props.poster_path}`} />
-        <Information>{props.release_date}</Information>
-        <Information>{props.rating}</Information>
-        <p>{props.overview}</p>
-        <Button onClick={() => setModalIsOpen(!modalIsOpen)}>Close</Button>
-
-        {/* <button onClick={() => setModalIsOpen(!modalIsOpen)}>Close</button> */}
-      </Modal>
+      <CardModal
+        modalIsOpen={modalIsOpen}
+        toggleModal={toggleModal}
+        youtubeTrailers={youtubeTrailerUrls}
+        props={props}
+        availableOn={availableOn}
+        rentOn={rentOn}
+        reviews={reviews}
+        cast={cast}
+        director={director}
+      />
     </>
   )
 }
