@@ -3,17 +3,15 @@ import ChooseCountry from './ChooseCountryDropdown'
 import styled from 'styled-components'
 import { useContext } from 'react'
 import { MainStore } from '../contexts/context'
-import { LogoutButton } from './individual styled components/buttons'
 import { getAuth, signOut } from 'firebase/auth'
+import gearSvg from '../assets/img/settings.svg'
 
 const Navigation = styled.nav`
   display: flex;
   justify-content: space-between;
   margin: 0px;
   width: 100%;
-  /* padding: 0 20px 0 1px; */
-
-  /* border: 2px solid red; */
+  background: linear-gradient(to bottom, #090506, #070709);
 `
 
 const UlNavList = styled.ul`
@@ -22,32 +20,30 @@ const UlNavList = styled.ul`
   column-gap: 1rem;
   text-decoration: none;
   align-items: center;
-  margin-left: -2.5rem;
+  margin-left: -1.5rem;
 `
 
 const LiNavList = styled.li`
   text-decoration: none;
   list-style: none;
   list-style-type: none;
-  color: black;
+  color: #f8f8f9;
   font-size: 1rem;
+`
+const Icon = styled.img`
+  filter: invert(100%);
+  width: 1.3rem;
+  margin-top: 6px;
 `
 
 const ButtonContainer = styled.div`
   display: flex;
   align-self: center;
+  margin-right: 1rem;
 `
 
 const NavBar: React.FC = () => {
-  const { signedInOrNot, setSignedInOrNot, setCurrentUID } = useContext(MainStore)
-  const auth = getAuth()
-
-  const handleSignOut = () => {
-    setSignedInOrNot('false')
-    setCurrentUID('')
-    signOut(auth)
-  }
-
+  const { signedInOrNot } = useContext(MainStore)
   return (
     <Navigation>
       <UlNavList>
@@ -67,11 +63,13 @@ const NavBar: React.FC = () => {
         )}
         <ChooseCountry />
       </UlNavList>
-      <ButtonContainer>
-        {signedInOrNot === 'false' ? null : (
-          <LogoutButton onClick={handleSignOut}>Logout</LogoutButton>
-        )}
-      </ButtonContainer>
+      {signedInOrNot === 'false' ? null : (
+        <ButtonContainer>
+          <Link to='/settings' style={{ textDecoration: 'none' }}>
+            <Icon src={gearSvg} />
+          </Link>
+        </ButtonContainer>
+      )}
     </Navigation>
   )
 }
