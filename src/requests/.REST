@@ -11,3 +11,25 @@ GET https://api.themoviedb.org/3/movie/upcoming?api_key=2b6cca6c77b9ad3c3ed56ae5
 
 ###
 GET https://api.themoviedb.org/3/discover/movie?api_key=2b6cca6c77b9ad3c3ed56ae58ea9112d&primary_release_date.gte=2022-11-01&primary_release_date.lte=2023-12-30&region=RU&sort_by=release_date.asc
+
+
+###
+GET https://api.themoviedb.org/3/movie/610150/videos?api_key=2b6cca6c77b9ad3c3ed56ae58ea9112d&language=en-US/
+
+###
+GET https://api.themoviedb.org/3/movie/787163/videos?api_key=2b6cca6c77b9ad3c3ed56ae58ea9112d&language=en-US/
+
+###
+GET https://api.themoviedb.org/3/movie/601635/videos?api_key=2b6cca6c77b9ad3c3ed56ae58ea9112d
+
+###
+GET https://api.themoviedb.org/3/movie/965150/videos?api_key=2b6cca6c77b9ad3c3ed56ae58ea9112d
+
+###
+GET https://api.themoviedb.org/3/movie/698948/watch/providers?api_key=2b6cca6c77b9ad3c3ed56ae58ea9112d
+
+###
+GET https://api.themoviedb.org/3/movie/718930/reviews?api_key=2b6cca6c77b9ad3c3ed56ae58ea9112d&language=en-US&page=1
+
+###
+GET https://api.themoviedb.org/3/movie/718930/credits?api_key=2b6cca6c77b9ad3c3ed56ae58ea9112d&language=en-US
