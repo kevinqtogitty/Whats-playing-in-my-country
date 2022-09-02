@@ -63,7 +63,6 @@ interface CardProps {
   poster_path: string
   overview: string
   id: number
-  reviews: []
 }
 
 const WatchlistCards: React.FC<CardProps> = (props) => {
@@ -92,9 +91,6 @@ const WatchlistCards: React.FC<CardProps> = (props) => {
   useEffect(() => {
     getCastAndCrew(props.id, setCast, setDirector)
   }, [])
-
-  console.log(cast)
-  console.log(director)
 
   const youtubeTrailerUrls = trailer.map((trailer) => `${youTubeEmbed}${trailer.key}`)
 
