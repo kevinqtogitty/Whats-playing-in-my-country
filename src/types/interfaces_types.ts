@@ -1,5 +1,3 @@
-import React, { SetStateAction } from 'react'
-
 export interface Countries {
   label: string
   id: string
@@ -31,4 +29,17 @@ export interface WatchlistProps {
   vote_average: number
   overview: string
   id: number
+}
+
+export interface Trailer {
+  id: string
+  iso_639_1: string
+  iso_3166_1: string
+  key: string
+  name: string
+  official: boolean
+  published_at: string
+  site: string
+  size: number
+  type: string
 }
