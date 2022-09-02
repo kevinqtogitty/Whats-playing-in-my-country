@@ -1,8 +1,7 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { MainStore } from '../contexts/context'
 import styled from 'styled-components'
 import CurrentFilmCards from './CurrentFilmCards'
-import { Films } from '../types/interfaces_types'
 
 export const BannerHeader = styled.h2`
   color: antiquewhite;
