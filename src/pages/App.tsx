@@ -3,16 +3,17 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import '../index.css'
 
 import AuthRoute from '../firebase/userAuth'
-import NavBar from '../functional components/NavBar'
+import { retrieveUserDoc } from '../firebase/userServices'
+
+import NavBar from '../components/NavBar'
 import Account from './Account'
 import SignIn from './SignIn'
 import SignUp from './SignUp'
 import Home from './Home'
+import Settings from './Settings'
 
 import { Films } from '../types/interfaces_types'
-import { retrieveUserDoc } from '../firebase/userServices'
 import { MainStore } from '../contexts/context'
-import Settings from './Settings'
 
 const currentCountryFromSessionStorage: string =
   sessionStorage.getItem('current-country') ?? 'United Kingdom'
@@ -21,22 +22,20 @@ const currentCountryKeyFromSessionStorage: string =
   sessionStorage.getItem('current-country-key') ?? 'GB'
 
 const signedInOrNotFromSessionStorage: string = JSON.parse(
-  sessionStorage.getItem('signed-in') ?? 'false',
+  sessionStorage.getItem('signed-in') ?? 'false'
 )
 
 const App: React.FC = () => {
   const [currentCountry, setCurrentCountry] = useState<string>(currentCountryFromSessionStorage)
   const [currentCountryKey, setCurrentCountryKey] = useState<string>(
-    currentCountryKeyFromSessionStorage,
+    currentCountryKeyFromSessionStorage
   )
   const [films, setFilms] = useState<Films[]>([])
   const [upcomingFilms, setUpcomingFilms] = useState<Films[]>([])
-
   const [signedInOrNot, setSignedInOrNot] = useState<string>(signedInOrNotFromSessionStorage)
   const [userWatchList, setUserWatchList] = useState<Films[]>([])
   const [currentUID, setCurrentUID] = useState<string>('')
   const [currentUser, setCurrentUser] = useState<{ [key: string]: any }>({})
-
   const [showAddedMessage, setShowAddedMessage] = useState<string>('')
   const [showTheMessage, setShowTheMessage] = useState<boolean>(false)
 
@@ -91,7 +90,7 @@ const App: React.FC = () => {
             showAddedMessage,
             setShowAddedMessage,
             showTheMessage,
-            setShowTheMessage,
+            setShowTheMessage
           }}
         >
           <NavBar />
