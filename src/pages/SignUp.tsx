@@ -1,12 +1,14 @@
 import React, { ChangeEvent, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Input } from '../functional components/individual styled components/input'
-import { getAuth } from 'firebase/auth'
-import { FormBody } from '../functional components/individual styled components/body'
 import styled from 'styled-components'
-import { Button } from '../functional components/individual styled components/buttons'
-import { Notification } from './SignIn'
+
+import { getAuth } from 'firebase/auth'
 import { addUserDoc, createUser } from '../firebase/userServices'
+
+import { Input } from '../components/re-usables/input'
+import { FormBody } from '../components/re-usables/body'
+import { Button } from '../components/re-usables/buttons'
+import { Notification } from './SignIn'
 
 const FormWrapper = styled.div`
   margin-top: 6rem;
@@ -21,7 +23,6 @@ const SignUp: React.FC = () => {
   const [error, setError] = useState<boolean>(false)
 
   const navigate = useNavigate()
-
   const auth = getAuth()
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
@@ -37,7 +38,7 @@ const SignUp: React.FC = () => {
     try {
       const newUser = await createUser(auth, email, password)
       const {
-        user: { uid },
+        user: { uid }
       } = newUser
       await addUserDoc({ uid, email, firstName, lastName })
       navigate('/signIn')
