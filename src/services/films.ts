@@ -1,59 +1,51 @@
 import { currentBaseUrl, upcomingMoviesBaseUrl } from '../constants/constants'
 
 import axios from 'axios'
-import { Films } from '../types/interfaces_types'
-import React from 'react'
+import React, { SetStateAction } from 'react'
 
 const tmdbKey = import.meta.env.VITE_TMDB_API_KEY
 
-export const currentlyPlaying = async (
-  country: String,
-  setFilms: React.Dispatch<React.SetStateAction<Films[]>>
-) => {
+export const currentlyPlaying = async (country: string): Promise<any> => {
   try {
     const { data } = await axios.get(`${currentBaseUrl}${country}`)
-    setFilms(data.results)
+    return data.results
   } catch (error) {
     console.log(error)
   }
 }
 
-export const upcomingMovies = async (
-  country: String,
-  setUpcomingMovies: React.Dispatch<React.SetStateAction<Films[]>>
-) => {
+export const upcomingMovies = async (country: string): Promise<any> => {
   try {
     const { data } = await axios.get(`${upcomingMoviesBaseUrl}${country}`)
-    setUpcomingMovies(data.results)
+    return data.results
   } catch (error) {
     console.log(error)
   }
 }
 
-export const getTrailer = async (filmID: number, setTrailer: any) => {
+export const getTrailer = async (filmID: number): Promise<any> => {
   try {
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/movie/${filmID}/videos?api_key=${tmdbKey}`
     )
-
-    setTrailer(data.results)
-    return
+    return data.results
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 
 export const getAvailableOn = async (
   filmID: number,
-  setAvailableOn: any,
-  setRentOn: any,
+  setAvailableOn: React.Dispatch<SetStateAction<any>>,
+  setRentOn: React.Dispatch<SetStateAction<any>>,
   currentCountryKey: string
-) => {
+): Promise<void> => {
   try {
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/movie/${filmID}/watch/providers?api_key=${tmdbKey}`
     )
-    if (!data.results[currentCountryKey]) {
+    if (data.results[currentCountryKey] === false) {
       setRentOn(['Not available anywhere'])
       setAvailableOn(['Not available anywhere'])
       return
@@ -88,22 +80,27 @@ export const getAvailableOn = async (
     return
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 
-export const getReviews = async (filmID: number, setReviews: any) => {
+export const getReviews = async (filmID: number): Promise<[]> => {
   try {
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/movie/${filmID}/reviews?api_key=${tmdbKey}&language=en-US&page=1`
     )
-    setReviews(data.results)
-    return
+    return data.results
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 
-export const getCastAndCrew = async (filmID: number, setCast: any, setDirector: any) => {
+export const getCastAndCrew = async (
+  filmID: number,
+  setCast: any,
+  setDirector: any
+): Promise<void> => {
   try {
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/movie/${filmID}/credits?api_key=${tmdbKey}&language=en-US`
@@ -114,11 +111,13 @@ export const getCastAndCrew = async (filmID: number, setCast: any, setDirector: 
       )
     )
     setDirector(
+      // eslint-disable-next-line @typescript-eslint/member-delimiter-style
       data.crew.filter((member: { job: string; name: string }) =>
         member.job === 'Director' ? member.name : null
       )
     )
   } catch (error) {
     console.log(error)
+    throw error
   }
 }

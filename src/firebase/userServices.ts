@@ -5,9 +5,9 @@ import {
   sendPasswordResetEmail,
   signOut,
   User,
+  UserCredential
 } from 'firebase/auth'
 import { doc, getDoc, getDocs, setDoc } from 'firebase/firestore'
-import React, { SetStateAction } from 'react'
 
 import { collectionReference, firestoreDB } from '../main'
 import { CurrentUser } from '../types/interfaces_types'
@@ -19,19 +19,20 @@ interface SignUpProps {
   lastName?: string
 }
 
-const createUser = (auth: Auth, email: string, password: string) => {
-  return createUserWithEmailAndPassword(auth, email, password)
+const createUser = async (auth: Auth, email: string, password: string): Promise<UserCredential> => {
+  const newUser: UserCredential = await createUserWithEmailAndPassword(auth, email, password)
+  return newUser
 }
 
-const addUserDoc = async ({ uid, email, firstName, lastName }: SignUpProps) => {
+const addUserDoc = async ({ uid, email, firstName, lastName }: SignUpProps): Promise<void> => {
   try {
-    console.log(uid, email, firstName)
     if (lastName === undefined) lastName = ''
     await setDoc(doc(firestoreDB, 'users', uid), {
+      // eslint-disable-next-line object-shorthand
       email: email,
       first_name: firstName,
       last_name: lastName,
-      watchList: [],
+      watchList: []
     })
     return
   } catch (error) {
@@ -39,48 +40,47 @@ const addUserDoc = async ({ uid, email, firstName, lastName }: SignUpProps) => {
   }
 }
 
-const retrieveUserDoc = async (currentUID: string) => {
+const retrieveUserDoc = async (currentUID: string): Promise<CurrentUser> => {
   try {
     const docRef = doc(firestoreDB, 'users', currentUID)
     const userDoc = await getDoc(docRef)
     const currentUserDoc: CurrentUser = {
       ...userDoc.data(),
-      id: userDoc.id,
+      id: userDoc.id
     }
     return currentUserDoc
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 
-export const checkIfGoogleUserIsReturning = async (uid: string) => {
+export const checkIfGoogleUserIsReturning = async (uid: string): Promise<boolean> => {
   try {
     const snapshot = await getDocs(collectionReference)
     let newGoogleUser: boolean = false
+
     snapshot.forEach((doc) => {
       doc.id === uid ? (newGoogleUser = false) : (newGoogleUser = true)
     })
     return newGoogleUser
   } catch (error) {
     console.log(error)
+    return false
   }
 }
 
-export const signOutUser = async (
-  auth: Auth,
-  setSignedInOrNot: React.Dispatch<React.SetStateAction<string>>,
-  setCurrentUID: React.Dispatch<React.SetStateAction<string>>,
-) => {
+export const signOutUser = async (auth: Auth): Promise<any> => {
   try {
     await signOut(auth)
-    setSignedInOrNot('false')
-    setCurrentUID('')
+    return
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 
-export const deleteAccount = async (user: User) => {
+export const deleteAccount = async (user: User): Promise<void> => {
   try {
     await deleteUser(user)
     return
@@ -89,7 +89,7 @@ export const deleteAccount = async (user: User) => {
   }
 }
 
-export const resetPassword = async (auth: Auth, email: string) => {
+export const resetPassword = async (auth: Auth, email: string): Promise<void> => {
   try {
     await sendPasswordResetEmail(auth, email)
   } catch (error) {

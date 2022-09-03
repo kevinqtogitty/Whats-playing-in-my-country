@@ -64,6 +64,8 @@ const SignIn: React.FC = () => {
       if (!newGoogleUser) {
         const firstName = displayName
         addUserDoc({ uid, email, firstName })
+          .then(() => {})
+          .catch(() => {})
       }
       setSignedInOrNot('true')
       navigate('/account')
@@ -97,7 +99,7 @@ const SignIn: React.FC = () => {
       <FormBody>
         <FormWrapper>
           {!error ? null : <Notification>Error: Invalid email or password</Notification>}
-          <form action='submit' id='signInForm' onSubmit={handleSubmit}>
+          <form action='submit' id='signInForm' onSubmit={() => handleSubmit}>
             <Input
               value={email}
               type='text'
@@ -116,13 +118,13 @@ const SignIn: React.FC = () => {
               Sign In
             </Button>{' '}
             <br />
-            <Button onClick={async () => await signInWithGoogle()} disabled={authing}>
+            <Button onClick={() => signInWithGoogle} disabled={authing}>
               Sign In With Google
             </Button>
           </FlexWrapper>
           <FlexWrapperColumn>
             <p>
-              Don't have an account? <Link to='/signUp'>Sign Up</Link>
+              Don&apos;t have an account? <Link to='/signUp'>Sign Up</Link>
             </p>
             <p>Forgot password?</p>
           </FlexWrapperColumn>

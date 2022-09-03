@@ -75,19 +75,27 @@ const WatchListTableRows: React.FC<TableProps> = (props) => {
   const { userWatchList, currentUID, setUserWatchList, currentCountryKey } = useContext(MainStore)
 
   useEffect(() => {
-    getTrailer(props.id, setTrailer)
+    getTrailer(props.id)
+      .then(setTrailer)
+      .catch(() => {})
   }, [])
 
   useEffect(() => {
     getAvailableOn(props.id, setAvailableOn, setRentOn, currentCountryKey)
+      .then()
+      .catch(() => {})
   }, [currentCountryKey])
 
   useEffect(() => {
-    getReviews(props.id, setReviews)
+    getReviews(props.id)
+      .then(setReviews)
+      .catch(() => {})
   }, [])
 
   useEffect(() => {
     getCastAndCrew(props.id, setCast, setDirector)
+      .then()
+      .catch(() => {})
   }, [])
 
   const youtubeTrailerUrls = trailer.map((trailer) => `${youTubeEmbed}${trailer.key}`)
@@ -121,7 +129,7 @@ const WatchListTableRows: React.FC<TableProps> = (props) => {
         </Cell>
         <Cell className='remove'>
           {' '}
-          <TrashIcon src={removeSvg} onClick={handleRemoveWatchList} />
+          <TrashIcon src={removeSvg} onClick={() => handleRemoveWatchList} />
         </Cell>
       </ListItem>
       <CardModal

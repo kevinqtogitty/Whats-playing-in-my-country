@@ -40,7 +40,9 @@ const UpcomingIn: React.FC = () => {
     <>
       <FilmsBanner>
         {showTheMessage ? (
-          <BannerHeader>'{showAddedMessage}' has been added to your watchlist!</BannerHeader>
+          <BannerHeader>
+            &apos;{showAddedMessage}&apos; has been added to your watchlist!
+          </BannerHeader>
         ) : (
           <BannerHeader>
             {' '}

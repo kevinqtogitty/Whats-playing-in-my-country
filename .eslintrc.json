@@ -11,5 +11,10 @@
     "project": "./tsconfig.json"
   },
   "plugins": ["react"],
-  "rules": {}
+  "rules": {
+    "multiline-ternary": "off",
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/indent": "off",
+    "react/prop-types": 0
+  }
 }

@@ -12,12 +12,16 @@ const ChooseCountry: React.FC = () => {
 
   // Everytime the country changes change the currently playing
   useEffect(() => {
-    currentlyPlaying(currentCountryKey, setFilms)
+    currentlyPlaying(currentCountryKey)
+      .then(setFilms)
+      .catch(() => {})
   }, [currentCountryKey])
 
   // Everytime the country changes change the upcoming movies
   useEffect(() => {
-    upcomingMovies(currentCountryKey, setUpcomingFilms)
+    upcomingMovies(currentCountryKey)
+      .then(setUpcomingFilms)
+      .catch(() => {})
   }, [currentCountryKey])
 
   // Everytime the country key changes store the key in local storage
@@ -29,8 +33,10 @@ const ChooseCountry: React.FC = () => {
   const changeCountry = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     const switchCountryKey = event.target.value
     const countryToSwitch = countryOptions.find((country) => country.id === switchCountryKey)
-    setCurrentCountry(countryToSwitch!.label)
-    setCurrentCountryKey(countryToSwitch!.id)
+    if (countryToSwitch != null) {
+      setCurrentCountry(countryToSwitch.label)
+      setCurrentCountryKey(countryToSwitch.id)
+    }
   }
 
   return (

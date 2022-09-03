@@ -82,14 +82,14 @@ const CurrrentlyPlaying: React.FC = () => {
   return (
     <>
       <FilmsBanner>
-        {showTheMessage === true ? (
+        {showTheMessage ? (
           <BannerHeader>
             {' '}
-            <h2>'{showAddedMessage}' has been added to your watchlist!</h2>{' '}
+            <h2>&apos;{showAddedMessage}&apos; has been added to your watchlist!</h2>{' '}
           </BannerHeader>
         ) : (
           <BannerHeader>
-            <h2>What's playing in {currentCountry} </h2>
+            <h2>What&apos;s playing in {currentCountry} </h2>
             <Button onClick={handleSort}>sort by rating</Button>
           </BannerHeader>
         )}

@@ -42,14 +42,18 @@ const App: React.FC = () => {
   // Set the current user to the data retreive from the db
   const retrieveDoc = async (): Promise<void> => {
     const currentUser = await retrieveUserDoc(currentUID)
-    setUserWatchList(currentUser!.watchList!)
-    setCurrentUser(currentUser!)
+    if (currentUser.watchList !== undefined) {
+      setUserWatchList(currentUser.watchList)
+      setCurrentUser(currentUser)
+    }
   }
 
   // If the user is logged in retrieve their data
   useEffect(() => {
     if (currentUID !== '') {
       retrieveDoc()
+        .then()
+        .catch(() => {})
     }
   }, [currentUID])
 

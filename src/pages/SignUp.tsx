@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { getAuth } from 'firebase/auth'
+import { getAuth, UserCredential } from 'firebase/auth'
 import { addUserDoc, createUser } from '../firebase/userServices'
 
 import { Input } from '../components/re-usables/input'
@@ -36,7 +36,7 @@ const SignUp: React.FC = () => {
     }
 
     try {
-      const newUser = await createUser(auth, email, password)
+      const newUser: UserCredential = await createUser(auth, email, password)
       const {
         user: { uid }
       } = newUser
@@ -73,7 +73,7 @@ const SignUp: React.FC = () => {
       <FormBody>
         <FormWrapper>
           {!error ? null : <Notification>Error: Passwords do not match</Notification>}
-          <form action='submit' id='signUpForm' onSubmit={handleSubmit}>
+          <form action='submit' id='signUpForm' onSubmit={() => handleSubmit}>
             <Input
               name='firstName'
               value={firstName}

@@ -55,18 +55,26 @@ const UpcomingFilmCards: React.FC<WatchlistProps> = (props) => {
   // Get Trailers, streaming, and reviews
   useEffect(() => {
     getAvailableOn(props.id, setAvailableOn, setRentOn, currentCountryKey)
+      .then()
+      .catch(() => {})
   }, [currentCountryKey])
 
   useEffect(() => {
-    getReviews(props.id, setReviews)
+    getReviews(props.id)
+      .then(setReviews)
+      .catch(() => {})
   }, [upcomingFilms])
 
   useEffect(() => {
-    getTrailer(props.id, setTrailer)
+    getTrailer(props.id)
+      .then(setTrailer)
+      .catch(() => {})
   }, [upcomingFilms])
 
   useEffect(() => {
     getCastAndCrew(props.id, setCast, setDirector)
+      .then()
+      .catch(() => {})
   }, [upcomingFilms])
 
   const youtubeTrailerUrls = trailer.map((trailer) => `${youTubeEmbed}${trailer.key}`)
@@ -109,7 +117,7 @@ const UpcomingFilmCards: React.FC<WatchlistProps> = (props) => {
         <CardText>{props.original_title}</CardText>
         <IconTextWrapper>
           <CardText>Coming {props.release_date}</CardText>
-          <Icon src={watchListIcon} onClick={handleAddToWatchlist} />
+          <Icon src={watchListIcon} onClick={() => handleAddToWatchlist} />
         </IconTextWrapper>
         <CardModal
           modalIsOpen={modalIsOpen}

@@ -18,17 +18,27 @@ const Settings: React.FC = () => {
   const user: User | null = auth.currentUser
 
   const handleSignOut = (): void => {
-    signOutUser(auth, setSignedInOrNot, setCurrentUID)
+    signOutUser(auth)
+      .then(setSignedInOrNot('false'), setCurrentUID(''))
+      .catch(() => {})
   }
 
   const handleDelete = (): void => {
-    deleteAccount(user!)
+    if (user !== null) {
+      deleteAccount(user)
+        .then()
+        .catch(() => {})
+    }
   }
 
   const handlePassWordReset = async (): Promise<void> => {
-    await resetPassword(auth, user!.email!)
-    const message = 'Password reset E-mail has been sent'
-    handleNotification(message)
+    if (user !== null) {
+      if (user.email !== null) {
+        await resetPassword(auth, user.email)
+        const message = 'Password reset E-mail has been sent'
+        handleNotification(message)
+      }
+    }
   }
 
   const handleNotification = (message: string): void => {
@@ -52,7 +62,7 @@ const Settings: React.FC = () => {
       <h2>Wanna leave forever?</h2>
       <LogoutButton onClick={handleDelete}>Delete Account</LogoutButton>
       <h2>Wanna reset your password?</h2>
-      <LogoutButton onClick={handlePassWordReset}>Reset Password</LogoutButton>
+      <LogoutButton onClick={() => handlePassWordReset}>Reset Password</LogoutButton>
     </SettingsWrapper>
   )
 }

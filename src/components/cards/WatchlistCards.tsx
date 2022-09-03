@@ -72,19 +72,27 @@ const WatchlistCards: React.FC<CardProps> = (props) => {
   const { userWatchList, setUserWatchList, currentUID, currentCountryKey } = useContext(MainStore)
 
   useEffect(() => {
-    getTrailer(props.id, setTrailer)
+    getTrailer(props.id)
+      .then(setTrailer)
+      .catch(() => {})
   }, [])
 
   useEffect(() => {
     getAvailableOn(props.id, setAvailableOn, setRentOn, currentCountryKey)
+      .then()
+      .catch(() => {})
   }, [currentCountryKey])
 
   useEffect(() => {
-    getReviews(props.id, setReviews)
+    getReviews(props.id)
+      .then(setReviews)
+      .catch(() => {})
   }, [])
 
   useEffect(() => {
     getCastAndCrew(props.id, setCast, setDirector)
+      .then()
+      .catch(() => {})
   }, [])
 
   const youtubeTrailerUrls = trailer.map((trailer) => `${youTubeEmbed}${trailer.key}`)
@@ -112,7 +120,7 @@ const WatchlistCards: React.FC<CardProps> = (props) => {
           <FilmPosters src={`${posterBaseUrl}${props.poster_path}`} />
           <ButtonWrapper>
             <Button onClick={toggleModal}>More info</Button>
-            <TrashIcon src={removeSvg} onClick={handleRemoveWatchList} />
+            <TrashIcon src={removeSvg} onClick={() => handleRemoveWatchList} />
           </ButtonWrapper>
         </PosterWrapper>
       </WatchlistCard>

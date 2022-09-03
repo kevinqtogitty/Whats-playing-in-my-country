@@ -70,18 +70,26 @@ const CurrentFilmCards: React.FC<WatchlistProps> = (props) => {
 
   useEffect(() => {
     getAvailableOn(props.id, setAvailableOn, setRentOn, currentCountryKey)
+      .then()
+      .catch(() => {})
   }, [currentCountryKey])
 
   useEffect(() => {
-    getReviews(props.id, setReviews)
+    getReviews(props.id)
+      .then(setReviews)
+      .catch(() => {})
   }, [films])
 
   useEffect(() => {
-    getTrailer(props.id, setTrailer)
+    getTrailer(props.id)
+      .then(setTrailer)
+      .catch(() => {})
   }, [films])
 
   useEffect(() => {
     getCastAndCrew(props.id, setCast, setDirector)
+      .then()
+      .catch(() => {})
   }, [films])
 
   const youtubeTrailerUrls = trailer.map((trailer) => `${youTubeEmbed}${trailer.key}`)
@@ -123,7 +131,7 @@ const CurrentFilmCards: React.FC<WatchlistProps> = (props) => {
         <IconTextWrapper>
           <CardText>Rating: {props.vote_average}</CardText>
 
-          <Icon src={mySvg} onClick={handleAddToWatchlist} />
+          <Icon src={mySvg} onClick={() => handleAddToWatchlist} />
         </IconTextWrapper>
       </CardWrapper>
       <CardModal

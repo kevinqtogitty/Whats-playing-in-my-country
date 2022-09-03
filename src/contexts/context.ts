@@ -12,13 +12,13 @@ interface MainStore {
   setFilms: React.Dispatch<React.SetStateAction<Films[]>>
 
   signedInOrNot: string
-  setSignedInOrNot: React.Dispatch<React.SetStateAction<string>>
+  setSignedInOrNot: any
 
   userWatchList: Films[]
   setUserWatchList: React.Dispatch<React.SetStateAction<Films[]>>
 
   currentUID: string
-  setCurrentUID: React.Dispatch<React.SetStateAction<string>>
+  setCurrentUID: any
 
   currentUser: object
   setCurrentUser: React.Dispatch<React.SetStateAction<object>>
@@ -29,4 +29,5 @@ interface MainStore {
   showTheMessage: boolean
   setShowTheMessage: React.Dispatch<React.SetStateAction<boolean>>
 }
+// eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-redeclare
 export const MainStore = createContext<MainStore>({} as MainStore)
