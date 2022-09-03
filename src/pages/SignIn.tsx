@@ -1,17 +1,19 @@
 import React, { useContext, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
 import {
   getAuth,
   signInWithPopup,
   GoogleAuthProvider,
-  signInWithEmailAndPassword,
+  signInWithEmailAndPassword
 } from 'firebase/auth'
-import { Link, useNavigate } from 'react-router-dom'
-import { FormBody } from '../functional components/individual styled components/body'
-import { Input } from '../functional components/individual styled components/input'
-import styled from 'styled-components'
-import { Button } from '../functional components/individual styled components/buttons'
-import { MainStore } from '../contexts/context'
 import { addUserDoc, checkIfGoogleUserIsReturning } from '../firebase/userServices'
+
+import { MainStore } from '../contexts/context'
+
+import { FormBody } from '../components/re-usables/body'
+import { Input } from '../components/re-usables/input'
+import { Button } from '../components/re-usables/buttons'
 
 const FormWrapper = styled.div`
   margin-top: 6rem;
@@ -40,15 +42,15 @@ export const Notification = styled.div`
 `
 
 const SignIn: React.FC = () => {
-  const auth = getAuth()
-  const navigate = useNavigate()
   const [authing, setAuthing] = useState<boolean>(false)
-
   const [password, setPassword] = useState<string>('')
   const [error, setError] = useState<boolean>(false)
   const [email, setEmail] = useState<string>('')
 
   const { setSignedInOrNot } = useContext(MainStore)
+
+  const auth = getAuth()
+  const navigate = useNavigate()
 
   const signInWithGoogle = async (): Promise<void> => {
     setAuthing(true)
@@ -56,7 +58,7 @@ const SignIn: React.FC = () => {
     try {
       const googleUser = await signInWithPopup(auth, new GoogleAuthProvider())
       const {
-        user: { displayName, email, uid },
+        user: { displayName, email, uid }
       } = googleUser
       const newGoogleUser = await checkIfGoogleUserIsReturning(uid)
       if (!newGoogleUser) {
