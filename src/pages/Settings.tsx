@@ -1,16 +1,19 @@
-import React from 'react'
-import { getAuth, User, Auth } from 'firebase/auth'
-import { useContext, useState } from 'react'
-import { Notification } from './SignIn'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
-import { MainStore } from '../contexts/context'
+import { getAuth, User, Auth } from 'firebase/auth'
 import { deleteAccount, resetPassword, signOutUser } from '../firebase/userServices'
-import { LogoutButton } from '../functional components/individual styled components/buttons'
+
+import { MainStore } from '../contexts/context'
+
+import { LogoutButton } from '../components/re-usables/buttons'
+import { Notification } from './SignIn'
 
 const Settings: React.FC = () => {
-  const { setSignedInOrNot, setCurrentUID } = useContext(MainStore)
   const [notification, setNotification] = useState('')
   const [showNotification, setShowNotification] = useState<boolean>(false)
+
+  const { setSignedInOrNot, setCurrentUID } = useContext(MainStore)
+
   const auth: Auth = getAuth()
   const user: User | null = auth.currentUser
 
@@ -28,7 +31,7 @@ const Settings: React.FC = () => {
     handleNotification(message)
   }
 
-  const handleNotification = (message: string) => {
+  const handleNotification = (message: string): void => {
     setNotification(message)
     setShowNotification(true)
     setTimeout(() => {
