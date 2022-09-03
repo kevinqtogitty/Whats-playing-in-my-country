@@ -1,23 +1,17 @@
-import React from 'react'
-import { ChangeEvent, useContext, useState } from 'react'
-import { MainStore } from '../contexts/context'
-import { Input } from '../functional components/individual styled components/input'
-import WatchlistCards from '../functional components/WatchlistCards'
+import React, { useEffect, ChangeEvent, useContext, useState } from 'react'
 import styled from 'styled-components'
-import { Button } from '../functional components/individual styled components/buttons'
-import WatchListTableRows from '../functional components/WatchListTable'
+import { MainStore } from '../contexts/context'
+import { Films } from '../types/interfaces_types'
+
+import WatchlistCards from '../components/cards/WatchlistCards'
+import { Input } from '../components/re-usables/input'
+import { Button } from '../components/re-usables/buttons'
+import WatchListTableRows from '../components/WatchListTable'
 
 const HeaderWrapper = styled.div`
   display: flex;
-  column-gap: 2rem;
   width: 100%;
-
-  @media (max-width: 730px) {
-    flex-direction: column;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-  }
+  justify-content: center;
 `
 
 const FlexWrapper = styled.div`
@@ -25,25 +19,38 @@ const FlexWrapper = styled.div`
   flex-wrap: wrap;
   width: 100%;
   padding: 0%;
-  /* column-gap: 5rem; */
   justify-content: space-around;
   @media (max-width: 500px) {
     width: auto;
   }
 `
-const ToggleBar = styled.div`
+
+const Toolbar = styled.div`
   display: flex;
-  justify-content: flex-end;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 0%;
+  justify-content: space-between;
+  @media (max-width: 700px) {
+    justify-content: center;
+  }
 `
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  @media (max-width: 700px) {
+    width: 100%;
+    justify-content: space-around;
+  }
+`
 const TableContainer = styled.div`
   max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 10px;
   padding-right: 10px;
-  /* display: flex;
-  flex-direction: column; */
 `
 const UnorderedList = styled.ul`
   border-radius: 3px;
@@ -71,9 +78,12 @@ const Header = styled.div`
 `
 
 const Account: React.FC = () => {
-  const { userWatchList } = useContext(MainStore)
+  const [ascOrder, setOrder] = useState(false)
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [toggleWatchListView, setToggleWatchListView] = useState<boolean>(false)
+  const [cardsToDisplay, setCardsToDisplay] = useState<Films[]>([])
+
+  const { userWatchList } = useContext(MainStore)
 
   const handleSearchRequest = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearchQuery(e.target.value)
@@ -83,21 +93,51 @@ const Account: React.FC = () => {
     setToggleWatchListView(!toggleWatchListView)
   }
 
+  useEffect(() => {
+    setCardsToDisplay([...userWatchList])
+  }, [userWatchList])
+
+  const handleSort = (): void => {
+    const filmsSorted = [...cardsToDisplay]
+
+    switch (ascOrder) {
+      case false:
+        console.log(ascOrder, '1st')
+        filmsSorted.sort((a, b) => b.vote_average - a.vote_average)
+        console.log(filmsSorted)
+        setOrder(true)
+        setCardsToDisplay(filmsSorted)
+        break
+      case true:
+        console.log(ascOrder, 'running')
+        filmsSorted.sort((a, b) => a.vote_average - b.vote_average)
+        setOrder(false)
+        setCardsToDisplay(filmsSorted)
+        break
+      default:
+        break
+    }
+  }
+
   return (
     <>
       <HeaderWrapper>
         <h2 style={{ marginLeft: '1rem' }}>Whats on your watchlist!</h2>
-        <Input placeholder='Search...' type='text' onChange={(e) => handleSearchRequest(e)} />
       </HeaderWrapper>
-      <ToggleBar>
-        <Button onClick={handleViewToggle}>
-          Switch to {!toggleWatchListView ? <>list</> : <>card</>} view
-        </Button>
-      </ToggleBar>
+      <Toolbar>
+        <Input placeholder='Search...' type='text' onChange={(e) => handleSearchRequest(e)} />{' '}
+        <ButtonWrapper>
+          <Button onClick={handleViewToggle}>
+            Switch to {!toggleWatchListView ? <>list</> : <>card</>} view
+          </Button>
+          <Button onClick={handleSort}>Sort by rating {!ascOrder ? <>↑</> : <>↓</>}</Button>
+        </ButtonWrapper>
+      </Toolbar>
+
       {!toggleWatchListView ? (
         <FlexWrapper>
           {searchQuery === ''
-            ? userWatchList.map((film, index) => (
+            ? cardsToDisplay.map((film, index) => (
                 <WatchlistCards
                   key={index}
                   original_title={film.original_title}
@@ -108,7 +148,7 @@ const Account: React.FC = () => {
                   id={film.id}
                 ></WatchlistCards>
               ))
-            : userWatchList.map((film) =>
+            : cardsToDisplay.map((film) =>
                 film.original_title.toLowerCase().includes(searchQuery.toLowerCase()) ? (
                   <WatchlistCards
                     original_title={film.original_title}
@@ -118,7 +158,7 @@ const Account: React.FC = () => {
                     poster_path={film.poster_path}
                     id={film.id}
                   ></WatchlistCards>
-                ) : null,
+                ) : null
               )}
         </FlexWrapper>
       ) : (
@@ -131,7 +171,7 @@ const Account: React.FC = () => {
                 <Header className='rating'>Rating</Header>
               </ColumnHeader>
               {searchQuery === ''
-                ? userWatchList.map((film, index) => (
+                ? cardsToDisplay.map((film, index) => (
                     <WatchListTableRows
                       key={index}
                       original_title={film.original_title}
@@ -140,9 +180,10 @@ const Account: React.FC = () => {
                       overview={film.overview}
                       poster_path={film.poster_path}
                       id={film.id}
+                      vote_average={film.vote_average}
                     />
                   ))
-                : userWatchList.map((film, index) =>
+                : cardsToDisplay.map((film, index) =>
                     film.original_title.toLowerCase().includes(searchQuery.toLowerCase()) ? (
                       <WatchListTableRows
                         key={index}
@@ -152,8 +193,9 @@ const Account: React.FC = () => {
                         overview={film.overview}
                         poster_path={film.poster_path}
                         id={film.id}
+                        vote_average={film.vote_average}
                       />
-                    ) : null,
+                    ) : null
                   )}
             </UnorderedList>
           </TableContainer>
