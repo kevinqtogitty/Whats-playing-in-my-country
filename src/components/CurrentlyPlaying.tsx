@@ -15,7 +15,7 @@ export const BannerHeader = styled.div`
   align-items: center;
 `
 export const FilmsBanner = styled.div`
-  background-color: #0d1321;
+  background-color: #000;
   width: auto;
   overflow: scroll;
   padding: 1rem;
@@ -82,17 +82,16 @@ const CurrrentlyPlaying: React.FC = () => {
   return (
     <>
       <FilmsBanner>
-        {showTheMessage ? (
-          <BannerHeader>
-            {' '}
-            <h2>&apos;{showAddedMessage}&apos; has been added to your watchlist!</h2>{' '}
-          </BannerHeader>
-        ) : (
-          <BannerHeader>
-            <h2>What&apos;s playing in {currentCountry} </h2>
-            <Button onClick={handleSort}>sort by rating</Button>
-          </BannerHeader>
-        )}
+        <BannerHeader>
+          {showTheMessage ? (
+            <h2>&apos;{showAddedMessage}&apos; has been added to your watchlist!</h2>
+          ) : (
+            <>
+              <h2>What&apos;s playing in {currentCountry} </h2>
+            </>
+          )}
+          <Button onClick={handleSort}>sort by rating</Button>
+        </BannerHeader>
         <FilmCardWrapper>
           {filteredFilms?.map((film, index) =>
             film.poster_path !== null ? (
