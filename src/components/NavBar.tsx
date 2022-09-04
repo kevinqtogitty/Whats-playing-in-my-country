@@ -1,12 +1,9 @@
-import { Auth, getAuth } from 'firebase/auth'
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { MainStore } from '../contexts/context'
-import { signOutUser } from '../firebase/userServices'
 import ChooseCountry from './ChooseCountryDropdown'
-import { LogoutButton } from './re-usables/buttons'
 import gearSvg from '../assets/img/settings.svg'
 import { Icon } from './cards/CurrentFilmCards'
 
@@ -47,17 +44,7 @@ const ButtonContainer = styled.div`
 `
 
 const NavBar: React.FC = () => {
-  const { signedInOrNot, setCurrentUID, setSignedInOrNot } = useContext(MainStore)
-
-  const auth: Auth = getAuth()
-  // const user: User | null = auth.currentUser
-
-  const handleSignOut = (): void => {
-    signOutUser(auth)
-      .then(() => setSignedInOrNot(false))
-      .then(() => setCurrentUID('hello'))
-      .catch(() => {})
-  }
+  const { signedInOrNot } = useContext(MainStore)
 
   return (
     <Navigation>
@@ -83,12 +70,6 @@ const NavBar: React.FC = () => {
           <Link to='/settings' style={{ textDecoration: 'none' }}>
             <Icon src={gearSvg} />
           </Link>
-        </ButtonContainer>
-      )}
-
-      {!signedInOrNot ? null : (
-        <ButtonContainer>
-          <LogoutButton onClick={handleSignOut}>Logout</LogoutButton>
         </ButtonContainer>
       )}
     </Navigation>
