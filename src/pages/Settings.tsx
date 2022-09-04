@@ -19,7 +19,10 @@ const Settings: React.FC = () => {
 
   const handleSignOut = (): void => {
     signOutUser(auth)
-      .then(setSignedInOrNot('false'), setCurrentUID(''))
+      .then(
+        () => setSignedInOrNot(false),
+        () => setCurrentUID('')
+      )
       .catch(() => {})
   }
 
