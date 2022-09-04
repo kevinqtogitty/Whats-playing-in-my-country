@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { getAuth, User, Auth } from 'firebase/auth'
@@ -47,6 +48,7 @@ const Settings: React.FC = () => {
   const handleNotification = (message: string): void => {
     setNotification(message)
     setShowNotification(true)
+    console.log('hello')
     setTimeout(() => {
       setShowNotification(false)
     }, 5000)
@@ -65,7 +67,7 @@ const Settings: React.FC = () => {
       <h2>Wanna leave forever?</h2>
       <LogoutButton onClick={handleDelete}>Delete Account</LogoutButton>
       <h2>Wanna reset your password?</h2>
-      <LogoutButton onClick={() => handlePassWordReset}>Reset Password</LogoutButton>
+      <LogoutButton onClick={handlePassWordReset}>Reset Password</LogoutButton>
     </SettingsWrapper>
   )
 }
