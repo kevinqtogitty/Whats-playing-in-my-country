@@ -11,14 +11,14 @@ interface MainStore {
   films: Films[]
   setFilms: React.Dispatch<React.SetStateAction<Films[]>>
 
-  signedInOrNot: string
-  setSignedInOrNot: any
+  signedInOrNot: boolean
+  setSignedInOrNot: React.Dispatch<React.SetStateAction<boolean>>
 
   userWatchList: Films[]
   setUserWatchList: React.Dispatch<React.SetStateAction<Films[]>>
 
   currentUID: string
-  setCurrentUID: any
+  setCurrentUID: React.Dispatch<React.SetStateAction<string>>
 
   currentUser: object
   setCurrentUser: React.Dispatch<React.SetStateAction<object>>
