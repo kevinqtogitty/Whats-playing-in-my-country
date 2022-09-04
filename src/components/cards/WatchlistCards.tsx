@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { MainStore } from '../../contexts/context'
@@ -97,7 +98,8 @@ const WatchlistCards: React.FC<CardProps> = (props) => {
 
   const youtubeTrailerUrls = trailer.map((trailer) => `${youTubeEmbed}${trailer.key}`)
 
-  const handleRemoveWatchList = async (): Promise<void> => {
+  const handleRemoveWatchList = async (): Promise<any> => {
+    console.log('running')
     const userWatchListMinusFilm =
       userWatchList.length === 0 ? [] : userWatchList.filter((film) => film.id !== props.id)
     try {
@@ -120,7 +122,7 @@ const WatchlistCards: React.FC<CardProps> = (props) => {
           <FilmPosters src={`${posterBaseUrl}${props.poster_path}`} />
           <ButtonWrapper>
             <Button onClick={toggleModal}>More info</Button>
-            <TrashIcon src={removeSvg} onClick={() => handleRemoveWatchList} />
+            <TrashIcon src={removeSvg} onClick={handleRemoveWatchList} />
           </ButtonWrapper>
         </PosterWrapper>
       </WatchlistCard>
