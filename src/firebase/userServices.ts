@@ -70,10 +70,9 @@ export const checkIfGoogleUserIsReturning = async (uid: string): Promise<boolean
   }
 }
 
-export const signOutUser = async (auth: Auth): Promise<any> => {
+export const signOutUser = async (auth: Auth): Promise<void> => {
   try {
     await signOut(auth)
-    return
   } catch (error) {
     console.log(error)
     throw error
