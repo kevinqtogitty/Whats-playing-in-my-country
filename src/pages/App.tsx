@@ -21,7 +21,7 @@ const currentCountryFromSessionStorage: string =
 const currentCountryKeyFromSessionStorage: string =
   sessionStorage.getItem('current-country-key') ?? 'GB'
 
-const signedInOrNotFromSessionStorage: string = JSON.parse(
+const signedInOrNotFromSessionStorage: boolean = JSON.parse(
   sessionStorage.getItem('signed-in') ?? 'false'
 )
 
@@ -32,7 +32,7 @@ const App: React.FC = () => {
   )
   const [films, setFilms] = useState<Films[]>([])
   const [upcomingFilms, setUpcomingFilms] = useState<Films[]>([])
-  const [signedInOrNot, setSignedInOrNot] = useState<string>(signedInOrNotFromSessionStorage)
+  const [signedInOrNot, setSignedInOrNot] = useState<boolean>(signedInOrNotFromSessionStorage)
   const [userWatchList, setUserWatchList] = useState<Films[]>([])
   const [currentUID, setCurrentUID] = useState<string>('')
   const [currentUser, setCurrentUser] = useState<{ [key: string]: any }>({})
@@ -106,7 +106,7 @@ const App: React.FC = () => {
               path='account'
               element={
                 <AuthRoute>
-                  <Account />{' '}
+                  <Account />
                 </AuthRoute>
               }
             />
@@ -114,7 +114,7 @@ const App: React.FC = () => {
               path='settings'
               element={
                 <AuthRoute>
-                  <Settings />{' '}
+                  <Settings />
                 </AuthRoute>
               }
             />
