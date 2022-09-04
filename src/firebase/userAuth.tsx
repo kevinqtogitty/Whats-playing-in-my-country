@@ -11,7 +11,6 @@ const AuthRoute: React.FC<AuthRouteProps> = (props) => {
   const { children } = props
   const auth = getAuth()
   const navigate = useNavigate()
-  // const [loading, setLoading] = useState(false)
   const { setCurrentUID } = useContext(MainStore)
 
   useEffect(() => {
@@ -20,18 +19,14 @@ const AuthRoute: React.FC<AuthRouteProps> = (props) => {
   }, [auth])
 
   const AuthCheck = onAuthStateChanged(auth, (user) => {
-    console.log('hello')
     if (user !== null) {
-      console.log('runnning')
       setCurrentUID(user.uid)
       // eslint-disable-next-line no-useless-return
       return
     } else {
-      console.log('Unauthorized')
       navigate('/signIn')
     }
   })
-  // if (loading) return <p>Loading...</p>
 
   return <>{children}</>
 }
