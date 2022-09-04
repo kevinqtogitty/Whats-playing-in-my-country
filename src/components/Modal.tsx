@@ -30,10 +30,27 @@ const FlexWrapper2 = styled.div`
   margin-top: 1rem;
   margin-bottom: 2rem;
   width: 28rem;
+  @media (max-width: 500px) {
+    margin-left: 0px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+  }
 
   &.info {
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
+    margin-left: 2rem;
+    /* border: 2px solid red; */
+    padding: 1rem;
     width: 85%;
+    @media (max-width: 500px) {
+      margin-left: 0px;
+      padding: 0;
+      width: 100%;
+    }
   }
 `
 
@@ -57,31 +74,45 @@ const CloseButtonWrapper = styled.div`
 `
 
 const TrailerWrapper = styled.div`
-  height: 30rem;
-  width: 45rem;
+  height: 40rem;
+  width: 100%;
   overflow: scroll;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  @media (max-width: 500px) {
+    height: 10rem;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
 `
 
 const ReviewWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
   height: 30rem;
-  width: 40rem;
+  width: 100%;
+  flex-wrap: nowrap;
   overflow: scroll;
   ::-webkit-scrollbar {
     display: none;
   }
 `
 const ReviewCard = styled.section`
-  position: relative;
-
-  height: auto;
-  overflow: hidden;
+  min-width: 25rem;
+  /* height: 20rem; */
+  overflow: scroll;
   margin: 2rem;
-  padding: 2rem;
+  padding: 1rem;
+  font-size: 1em;
   font-family: Raleway, sans-serif;
   color: #f8f8f9;
   background: #090506;
   background: linear-gradient(to bottom, #090506, #070709);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.9);
+  @media (max-width: 500px) {
+    min-width: 15rem;
+    font-size: 0.8em;
+  }
 `
 const CardModal: React.FC<Props> = ({
   modalIsOpen,
@@ -185,29 +216,29 @@ const CardModal: React.FC<Props> = ({
               {youtubeTrailers.map((trailer, index) => (
                 <iframe
                   key={index}
+                  src={trailer}
+                  allowFullScreen={true}
                   width='100%'
                   height='100%'
-                  src={trailer}
-                  frameBorder='0'
-                  allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-                  allowFullScreen
-                ></iframe>
+                />
               ))}
             </TrailerWrapper>
-            <ReviewWrapper>
-              <h2 style={{ marginTop: 0, marginLeft: '2rem' }}>TMDB User Reviews</h2>
-              {reviews.map((review, index) => (
-                <ReviewCard key={index}>
-                  Author: {review.author}
-                  <div>Rating: {review.author_details.rating} / 10</div>
-                  <br />
-                  <div>{review.content}</div>
-                  <br />
-                </ReviewCard>
-              ))}
-            </ReviewWrapper>
-          </FlexWrapper3>
-        </FlexWrapper>
+          </FlexWrapper3>{' '}
+        </FlexWrapper>{' '}
+        <div>
+          <h2 style={{ marginTop: '1rem', textAlign: 'center' }}>TMDB User Reviews</h2>
+          <ReviewWrapper>
+            {reviews.map((review, index) => (
+              <ReviewCard key={index}>
+                Author: {review.author}
+                <div>Rating: {review.author_details.rating} / 10</div>
+                <br />
+                <div>{review.content}</div>
+                <br />
+              </ReviewCard>
+            ))}
+          </ReviewWrapper>
+        </div>
       </Modal>
     </>
   )
