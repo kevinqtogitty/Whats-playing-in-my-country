@@ -23,9 +23,12 @@ const Cell = styled.span`
   justify-content: center;
   align-items: center;
   padding: 10px 0;
+  height: 3rem;
 
   &.title {
     width: 18rem;
+    padding-left: 5px;
+    text-align: center;
   }
 
   &.releaseDate {
@@ -43,6 +46,7 @@ const Cell = styled.span`
   &.remove {
     width: 8rem;
     justify-content: flex-end;
+    padding-right: 5px;
   }
 `
 
@@ -117,6 +121,7 @@ const WatchListTableRows: React.FC<TableProps> = (props) => {
 
   return (
     <>
+      <br />
       <ListItem className='table-row'>
         <Cell className='title' onClick={toggleModal}>
           {props.original_title}
