@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -67,7 +68,7 @@ const SignIn: React.FC = () => {
           .then(() => {})
           .catch(() => {})
       }
-      setSignedInOrNot('true')
+      setSignedInOrNot(true)
       navigate('/account')
     } catch (e) {
       console.log(e)
@@ -79,7 +80,7 @@ const SignIn: React.FC = () => {
     e.preventDefault()
     try {
       await signInOldSchool(email, password)
-      setSignedInOrNot('true')
+      setSignedInOrNot(true)
       navigate('/account')
     } catch (e) {
       setError(!error)
@@ -99,7 +100,7 @@ const SignIn: React.FC = () => {
       <FormBody>
         <FormWrapper>
           {!error ? null : <Notification>Error: Invalid email or password</Notification>}
-          <form action='submit' id='signInForm' onSubmit={() => handleSubmit}>
+          <form action='submit' id='signInForm' onSubmit={handleSubmit}>
             <Input
               value={email}
               type='text'
@@ -118,7 +119,7 @@ const SignIn: React.FC = () => {
               Sign In
             </Button>{' '}
             <br />
-            <Button onClick={() => signInWithGoogle} disabled={authing}>
+            <Button onClick={signInWithGoogle} disabled={authing}>
               Sign In With Google
             </Button>
           </FlexWrapper>
