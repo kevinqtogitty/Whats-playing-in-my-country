@@ -1,5 +1,5 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MainStore } from '../contexts/context'
 
@@ -11,7 +11,7 @@ const AuthRoute: React.FC<AuthRouteProps> = (props) => {
   const { children } = props
   const auth = getAuth()
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
+  // const [loading, setLoading] = useState(false)
   const { setCurrentUID } = useContext(MainStore)
 
   useEffect(() => {
@@ -20,15 +20,18 @@ const AuthRoute: React.FC<AuthRouteProps> = (props) => {
   }, [auth])
 
   const AuthCheck = onAuthStateChanged(auth, (user) => {
-    if (user != null) {
-      setLoading(false)
+    console.log('hello')
+    if (user !== null) {
+      console.log('runnning')
       setCurrentUID(user.uid)
+      // eslint-disable-next-line no-useless-return
+      return
     } else {
       console.log('Unauthorized')
       navigate('/signIn')
     }
   })
-  if (loading) return <p>Loading...</p>
+  // if (loading) return <p>Loading...</p>
 
   return <>{children}</>
 }
