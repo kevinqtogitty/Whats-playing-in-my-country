@@ -7,7 +7,7 @@ import { Films } from '../types/interfaces_types'
 
 import { posterBaseUrl } from '../constants/constants'
 import { FilmPosters, Information } from './cards/WatchlistCards'
-import { LogoutButton } from './re-usables/buttons'
+import { CloseButton } from './re-usables/buttons'
 
 interface Props {
   modalIsOpen: boolean
@@ -53,6 +53,7 @@ const FlexWrapper3 = styled.div`
 const CloseButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 10px;
 `
 
 const TrailerWrapper = styled.div`
@@ -91,8 +92,7 @@ const CardModal: React.FC<Props> = ({
   rentOn,
   reviews,
   director,
-  cast,
-  key
+  cast
 }) => {
   const { currentCountry } = useContext(MainStore)
   return (
@@ -130,7 +130,7 @@ const CardModal: React.FC<Props> = ({
         ariaHideApp={false}
       >
         <CloseButtonWrapper>
-          <LogoutButton onClick={toggleModal}>Close</LogoutButton>
+          <CloseButton onClick={toggleModal}>Close</CloseButton>
         </CloseButtonWrapper>
         <FlexWrapper>
           <FlexWrapper3>
