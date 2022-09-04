@@ -81,7 +81,7 @@ const UpcomingFilmCards: React.FC<WatchlistProps> = (props) => {
 
   // Deal with user adding films to watchlist
   const handleAddToWatchlist = async (): Promise<void> => {
-    if (signedInOrNot === 'false') {
+    if (!signedInOrNot) {
       navigate('/signIn')
       return
     }

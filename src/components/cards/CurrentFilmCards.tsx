@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -10,7 +11,7 @@ import { getAvailableOn, getCastAndCrew, getReviews, getTrailer } from '../../se
 import { posterBaseUrl, youTubeEmbed } from '../../constants/constants'
 import { Films, Trailer, WatchlistProps } from '../../types/interfaces_types'
 
-import mySvg from '../../assets/img/trash.svg'
+import mySvg from '../../assets/img/videoplus.svg'
 
 const FilmPosters = styled.img`
   border-radius: 5px;
@@ -95,7 +96,7 @@ const CurrentFilmCards: React.FC<WatchlistProps> = (props) => {
   const youtubeTrailerUrls = trailer.map((trailer) => `${youTubeEmbed}${trailer.key}`)
 
   const handleAddToWatchlist = async (): Promise<void> => {
-    if (signedInOrNot === 'false') {
+    if (!signedInOrNot) {
       navigate('/signIn')
       return
     }
@@ -131,7 +132,7 @@ const CurrentFilmCards: React.FC<WatchlistProps> = (props) => {
         <IconTextWrapper>
           <CardText>Rating: {props.vote_average}</CardText>
 
-          <Icon src={mySvg} onClick={() => handleAddToWatchlist} />
+          <Icon src={mySvg} onClick={handleAddToWatchlist} />
         </IconTextWrapper>
       </CardWrapper>
       <CardModal
