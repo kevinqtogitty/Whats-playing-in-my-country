@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable no-unsafe-negation */
 import { currentBaseUrl, upcomingMoviesBaseUrl } from '../constants/constants'
 
 import axios from 'axios'
@@ -45,38 +47,69 @@ export const getAvailableOn = async (
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/movie/${filmID}/watch/providers?api_key=${tmdbKey}`
     )
-    if (data.results[currentCountryKey] === false) {
+    // console.log(data.results[currentCountryKey].flatrate)
+    const returnedDataObject = data.results[currentCountryKey]
+    // console.log(returnedDataObject)
+    if (data.results[currentCountryKey] === undefined) {
       setRentOn(['Not available anywhere'])
       setAvailableOn(['Not available anywhere'])
+
       return
-    } else if (data.results[currentCountryKey].flatrate === false) {
-      const placesToRent = data.results[currentCountryKey].rent.map(
+    } else if ('flatrate' in returnedDataObject && !('rent' in returnedDataObject)) {
+      const placesToStream = returnedDataObject.flatrate.map(
         (provider: { provider_name: any }) => provider.provider_name
       )
-      setRentOn(placesToRent)
-      setAvailableOn(['Not available to stream anywhere'])
-      return
-    } else if (data.results[currentCountryKey].rent === undefined) {
-      const placesToStream = data.results[currentCountryKey].flatrate.map(
-        (provider: { provider_name: any }) => provider.provider_name
-      )
-      setRentOn(['Not available to rent anywhere'])
+
       setAvailableOn(placesToStream)
+      setRentOn(['Not available anywhere'])
       return
-    } else if (
-      data.results[currentCountryKey].rent !== undefined &&
-      data.results[currentCountryKey].flatrate !== undefined
-    ) {
-      const placesToRent: string[] = data.results[currentCountryKey].rent.map(
+    } else if (!('flatrate' in returnedDataObject) && 'rent' in returnedDataObject) {
+      const placesToRent = returnedDataObject.rent.map(
         (provider: { provider_name: any }) => provider.provider_name
       )
-      const placesToStream: string[] = data.results[currentCountryKey].flatrate.map(
+
+      setRentOn(placesToRent)
+      setAvailableOn(['Not available anywhere'])
+      return
+    } else if ('flatrate' in returnedDataObject && 'rent' in returnedDataObject) {
+      const placesToRent = returnedDataObject.rent.map(
         (provider: { provider_name: any }) => provider.provider_name
       )
+      const placesToStream = returnedDataObject.flatrate.map(
+        (provider: { provider_name: any }) => provider.provider_name
+      )
+
       setRentOn(placesToRent)
       setAvailableOn(placesToStream)
       return
     }
+    // const placesToRent = data.results[currentCountryKey].rent.map(
+    //   (provider: { provider_name: any }) => provider.provider_name
+    // )
+    //   setRentOn(placesToRent)
+    //   setAvailableOn(['Not available to stream anywhere'])
+    //   return
+    // } else if (data.results[currentCountryKey].rent === null) {
+    //   const placesToStream = data.results[currentCountryKey].flatrate.map(
+    //     (provider: { provider_name: any }) => provider.provider_name
+    //   )
+    //   setRentOn(['Not available to rent anywhere'])
+    //   setAvailableOn(placesToStream)
+    //   return
+    // } else if (
+    //   data.results[currentCountryKey].rent !== null &&
+    //   data.results[currentCountryKey].flatrate !== null
+    // ) {
+    //   const placesToRent: string[] = data.results[currentCountryKey].rent.map(
+    //     (provider: { provider_name: any }) => provider.provider_name
+    //   )
+    //   const placesToStream: string[] = data.results[currentCountryKey].flatrate.map(
+    //     (provider: { provider_name: any }) => provider.provider_name
+    //   )
+    //   setRentOn(placesToRent)
+    //   setAvailableOn(placesToStream)
+    //   return
+    // }
     return
   } catch (error) {
     console.log(error)
