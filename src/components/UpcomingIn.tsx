@@ -11,7 +11,7 @@ export const BannerHeader = styled.div`
   width: fit-content;
 `
 export const FilmsBanner = styled.div`
-  background-color: #0d1321;
+  background-color: #000;
   width: auto;
   overflow: scroll;
   padding: 1rem;
@@ -41,7 +41,7 @@ const UpcomingIn: React.FC = () => {
       <FilmsBanner>
         {showTheMessage ? (
           <BannerHeader>
-            &apos;{showAddedMessage}&apos; has been added to your watchlist!
+            <h2>&apos;{showAddedMessage}&apos; has been added to your watchlist!</h2>
           </BannerHeader>
         ) : (
           <BannerHeader>
