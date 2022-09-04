@@ -31,11 +31,6 @@ const LiNavList = styled.li`
   color: #f8f8f9;
   font-size: 1rem;
 `
-// const Icon = styled.img`
-//   filter: invert(100%);
-//   width: 1.3rem;
-//   margin-top: 6px;
-// `
 
 const ButtonContainer = styled.div`
   display: flex;
