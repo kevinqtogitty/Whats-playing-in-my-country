@@ -25,3 +25,18 @@ export const LogoutButton = styled.button`
     color: white;
   }
 `
+
+export const CloseButton = styled.button`
+  margin-bottom: 1rem;
+  padding: 10px;
+  border: 1px solid #e4e6e8;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.1s ease-in;
+
+  &:hover {
+    border: 1px solid crimson;
+    background-color: crimson;
+    color: white;
+  }
+`
