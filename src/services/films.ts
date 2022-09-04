@@ -49,12 +49,12 @@ export const getAvailableOn = async (
       setRentOn(['Not available anywhere'])
       setAvailableOn(['Not available anywhere'])
       return
-    } else if (data.results[currentCountryKey].flatrate === undefined) {
+    } else if (data.results[currentCountryKey].flatrate === false) {
       const placesToRent = data.results[currentCountryKey].rent.map(
         (provider: { provider_name: any }) => provider.provider_name
       )
       setRentOn(placesToRent)
-      setAvailableOn(['Not available to rent anywhere'])
+      setAvailableOn(['Not available to stream anywhere'])
       return
     } else if (data.results[currentCountryKey].rent === undefined) {
       const placesToStream = data.results[currentCountryKey].flatrate.map(
