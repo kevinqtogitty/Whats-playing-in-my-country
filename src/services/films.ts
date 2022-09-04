@@ -47,10 +47,8 @@ export const getAvailableOn = async (
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/movie/${filmID}/watch/providers?api_key=${tmdbKey}`
     )
-    // console.log(data.results[currentCountryKey].flatrate)
     const returnedDataObject = data.results[currentCountryKey]
-    // console.log(returnedDataObject)
-    if (data.results[currentCountryKey] === undefined) {
+    if (returnedDataObject === undefined) {
       setRentOn(['Not available anywhere'])
       setAvailableOn(['Not available anywhere'])
 
@@ -83,33 +81,6 @@ export const getAvailableOn = async (
       setAvailableOn(placesToStream)
       return
     }
-    // const placesToRent = data.results[currentCountryKey].rent.map(
-    //   (provider: { provider_name: any }) => provider.provider_name
-    // )
-    //   setRentOn(placesToRent)
-    //   setAvailableOn(['Not available to stream anywhere'])
-    //   return
-    // } else if (data.results[currentCountryKey].rent === null) {
-    //   const placesToStream = data.results[currentCountryKey].flatrate.map(
-    //     (provider: { provider_name: any }) => provider.provider_name
-    //   )
-    //   setRentOn(['Not available to rent anywhere'])
-    //   setAvailableOn(placesToStream)
-    //   return
-    // } else if (
-    //   data.results[currentCountryKey].rent !== null &&
-    //   data.results[currentCountryKey].flatrate !== null
-    // ) {
-    //   const placesToRent: string[] = data.results[currentCountryKey].rent.map(
-    //     (provider: { provider_name: any }) => provider.provider_name
-    //   )
-    //   const placesToStream: string[] = data.results[currentCountryKey].flatrate.map(
-    //     (provider: { provider_name: any }) => provider.provider_name
-    //   )
-    //   setRentOn(placesToRent)
-    //   setAvailableOn(placesToStream)
-    //   return
-    // }
     return
   } catch (error) {
     console.log(error)
