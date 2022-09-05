@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react'
 
 import { MainStore } from '../contexts/context'
-import { currentlyPlaying, upcomingMovies } from '../services/films'
+import { getCurrentlyPlaying, getUpcomingMovies } from '../services/films'
 
 import { CountryDropdown } from './re-usables/countryDropdown'
 import { countryOptions } from '../constants/constants'
@@ -12,14 +12,14 @@ const ChooseCountry: React.FC = () => {
 
   // Everytime the country changes change the currently playing
   useEffect(() => {
-    currentlyPlaying(currentCountryKey)
+    getCurrentlyPlaying(currentCountryKey)
       .then(setFilms)
       .catch(() => {})
   }, [currentCountryKey])
 
   // Everytime the country changes change the upcoming movies
   useEffect(() => {
-    upcomingMovies(currentCountryKey)
+    getUpcomingMovies(currentCountryKey)
       .then(setUpcomingFilms)
       .catch(() => {})
   }, [currentCountryKey])
