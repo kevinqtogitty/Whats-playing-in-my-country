@@ -3,7 +3,7 @@ const tmdbKey = import.meta.env.VITE_TMDB_API_KEY
 
 export const movieBaseUrl: string = 'https://api.themoviedb.org/3/movie/'
 
-export const upcomingMoviesBaseUrl: string = `https://api.themoviedb.org/3/discover/movie?api_key=${tmdbKey}&primary_release_date.gte=2022-11-01&sort_by=release_date.asc&region=`
+export const getUpcomingMoviesBaseUrl: string = `https://api.themoviedb.org/3/discover/movie?api_key=${tmdbKey}&primary_release_date.gte=2022-11-01&sort_by=release_date.asc&region=`
 
 export const currentBaseUrl: string = `${movieBaseUrl}now_playing?api_key=${tmdbKey}&language=en-US&page=1&region=`
 
