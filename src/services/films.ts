@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable no-unsafe-negation */
-import { currentBaseUrl, upcomingMoviesBaseUrl } from '../constants/constants'
+import { currentBaseUrl, getUpcomingMoviesBaseUrl } from '../constants/constants'
 
 import axios from 'axios'
 import React, { SetStateAction } from 'react'
 
 const tmdbKey = import.meta.env.VITE_TMDB_API_KEY
 
-export const currentlyPlaying = async (country: string): Promise<any> => {
+export const getCurrentlyPlaying = async (country: string): Promise<any> => {
   try {
     const { data } = await axios.get(`${currentBaseUrl}${country}`)
     return data.results
@@ -16,9 +16,9 @@ export const currentlyPlaying = async (country: string): Promise<any> => {
   }
 }
 
-export const upcomingMovies = async (country: string): Promise<any> => {
+export const getUpcomingMovies = async (country: string): Promise<any> => {
   try {
-    const { data } = await axios.get(`${upcomingMoviesBaseUrl}${country}`)
+    const { data } = await axios.get(`${getUpcomingMoviesBaseUrl}${country}`)
     return data.results
   } catch (error) {
     console.log(error)
