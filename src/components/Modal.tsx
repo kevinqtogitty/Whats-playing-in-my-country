@@ -41,9 +41,7 @@ const FlexWrapper2 = styled.div`
   }
 
   &.info {
-    /* margin-top: 2rem; */
     margin-left: 2rem;
-    /* border: 2px solid red; */
     padding: 1rem;
     width: 85%;
     @media (max-width: 500px) {
@@ -99,7 +97,6 @@ const ReviewWrapper = styled.div`
 `
 const ReviewCard = styled.section`
   min-width: 25rem;
-  /* height: 20rem; */
   overflow: scroll;
   margin: 2rem;
   padding: 1rem;
