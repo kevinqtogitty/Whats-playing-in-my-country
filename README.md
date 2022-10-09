@@ -7,8 +7,8 @@ An SPA to solve the dreaded paralysis by analysis of streaming services
 - [About](#about)
 - [Tools](#tools)
 - [Features](#features)
-- [What did I Learn?](#lessons)
-- [Future Plans](#future)
+- [What did I Learn?](#What did I Learn?)
+- [Future Plans](#future plans)
 
 
 ## About
