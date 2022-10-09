@@ -7,8 +7,8 @@ An SPA to solve the dreaded paralysis by analysis of streaming services
 - [About](#about)
 - [Tools](#tools)
 - [Features](#features)
-- [What did I Learn?](#WhatdidILearn?)
-- [Future Plans](#futureplans)
+- [What did I Learn?](#lessons)
+- [Future Plans](#future)
 
 
 ## About
@@ -47,7 +47,7 @@ It also includes movies only released in theatres.
     - Trailers/BTS
     - TMDB User reviews
 
-## What did I learn?
+## Lessons
 
 1. Understanding Auth routes
 2. How to store users & their data in NoSQL DB
@@ -55,7 +55,7 @@ It also includes movies only released in theatres.
 4. Familiarity with Googles Firebase services
 5. Using Context API to share user login state/country data for making requests
 
-## Future Plans
+## Future
 
 1. Migrating from a single Context Store to Redux Toolkit for better state management
 2. Allowing the user to save movies from their watchlist to a favorites list
