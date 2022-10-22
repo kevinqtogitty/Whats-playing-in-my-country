@@ -1,44 +1,18 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
 
 import { MainStore } from '../contexts/context'
 import ChooseCountry from './ChooseCountryDropdown'
 import gearSvg from '../assets/img/settings.svg'
-import { Icon } from './cards/CurrentFilmCards'
+import {
+  Navigation,
+  UlNavList,
+  LiNavList,
+  ButtonContainer
+} from '../stylesheets/styled_components/navBarStyles'
+import { Icon } from '../stylesheets/styled_components/currentFilmCardStyles'
 
-const Navigation = styled.nav`
-  display: flex;
-  justify-content: space-between;
-  margin: 0px;
-  width: 100%;
-  background: linear-gradient(to bottom, #090506, #070709);
-`
-
-const UlNavList = styled.ul`
-  display: flex;
-  width: 100%;
-  column-gap: 1rem;
-  text-decoration: none;
-  align-items: center;
-  margin-left: -1.5rem;
-`
-
-const LiNavList = styled.li`
-  text-decoration: none;
-  list-style: none;
-  list-style-type: none;
-  color: #f8f8f9;
-  font-size: 1rem;
-`
-
-const ButtonContainer = styled.div`
-  display: flex;
-  align-self: center;
-  margin-right: 1rem;
-`
-
-const NavBar: React.FC = () => {
+const NavBar: React.FC = (): JSX.Element => {
   const { signedInOrNot } = useContext(MainStore)
 
   return (
