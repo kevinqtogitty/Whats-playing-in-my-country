@@ -1,3 +1,5 @@
+import { MouseEventHandler } from 'react'
+
 export interface Countries {
   label: string
   id: string
@@ -42,4 +44,47 @@ export interface Trailer {
   site: string
   size: number
   type: string
+}
+
+export interface CardProps {
+  original_title: string
+  release_date: string
+  vote_average: number
+  poster_path: string
+  overview: string
+  id: number
+}
+
+export interface ModalProps {
+  modalIsOpen: boolean
+  youtubeTrailers: string[]
+  toggleModal: MouseEventHandler
+  props: Films
+  availableOn: string[]
+  rentOn: string[]
+  reviews: any[]
+  cast: any[]
+  director: []
+  key?: number
+}
+
+export interface TableProps {
+  original_title: string
+  release_date: string
+  rating: number
+  id: number
+  overview: string
+  poster_path: string
+  vote_average: number
+}
+
+export interface SignUpProps {
+  uid: string
+  email: string | null
+  firstName: string | null
+  lastName?: string
+}
+
+export interface AuthRouteProps {
+  children: React.ReactNode
 }
