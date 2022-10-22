@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
+import { MainStore } from '../contexts/context'
 import { getAuth, User, Auth } from 'firebase/auth'
 import { deleteAccount, resetPassword, signOutUser } from '../firebase/userServices'
 
-import { MainStore } from '../contexts/context'
+import { Notification } from '../stylesheets/styled_components/styles_for_pages/signInPageStyles'
+import { LogoutButton } from '../stylesheets/styled_components/buttons'
 
-import { LogoutButton } from '../components/re-usables/buttons'
-import { Notification } from './SignIn'
-
-const Settings: React.FC = () => {
-  const [notification, setNotification] = useState('')
+const Settings: React.FC = (): JSX.Element => {
+  const [notification, setNotification] = useState<string>('')
   const [showNotification, setShowNotification] = useState<boolean>(false)
 
   const { setSignedInOrNot, setCurrentUID } = useContext(MainStore)
