@@ -4,7 +4,7 @@ const api = {
   project_id: import.meta.env.VITE_PROJECT_ID,
   storage_bucket: import.meta.env.VITE_STORAGE_BUCKET,
   messaging_sender_id: import.meta.env.VITE_MESSAGING_SENDER_ID,
-  app_id: import.meta.env.VITE_APP_ID,
+  app_id: import.meta.env.VITE_APP_ID
 }
 
 export const config = {
@@ -14,6 +14,6 @@ export const config = {
     projectId: api.project_id,
     storageBucket: api.storage_bucket,
     messagingSenderId: api.messaging_sender_id,
-    appId: api.app_id,
-  },
+    appId: api.app_id
+  }
 }
