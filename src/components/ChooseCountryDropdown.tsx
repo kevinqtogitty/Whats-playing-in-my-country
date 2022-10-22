@@ -3,10 +3,10 @@ import React, { useEffect, useContext } from 'react'
 import { MainStore } from '../contexts/context'
 import { getCurrentlyPlaying, getUpcomingMovies } from '../services/films'
 
-import { CountryDropdown } from './re-usables/countryDropdown'
 import { countryOptions } from '../constants/constants'
+import { CountryDropdown } from '../stylesheets/styled_components/countryDropdown'
 
-const ChooseCountry: React.FC = () => {
+const ChooseCountry: React.FC = (): JSX.Element => {
   const { currentCountryKey, setCurrentCountryKey, setCurrentCountry, setFilms, setUpcomingFilms } =
     useContext(MainStore)
 
