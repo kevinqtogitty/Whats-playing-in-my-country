@@ -1,67 +1,26 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useContext, useEffect, useState } from 'react'
-import styled from 'styled-components'
 import { MainStore } from '../../contexts/context'
 
 import { removeWatchListInDB } from '../../firebase/watchlistServices'
 
 import CardModal from './../Modal'
 import { getAvailableOn, getCastAndCrew, getReviews, getTrailer } from '../../services/films'
-import { Trailer } from '../../types/interfaces_types'
-import { Button } from './../re-usables/buttons'
+import { CardProps, Trailer } from '../../types/interfaces_types'
 
 import { posterBaseUrl, youTubeEmbed } from '../../constants/constants'
 import removeSvg from '../../assets/img/trash.svg'
+import { Button } from '../../stylesheets/styled_components/buttons'
+import { FilmPosters } from '../../stylesheets/styled_components/currentFilmCardStyles'
+import {
+  WatchlistCard,
+  PosterWrapper,
+  CardH3,
+  ButtonWrapper,
+  TrashIcon
+} from '../../stylesheets/styled_components/watchListCardsStyles'
 
-const WatchlistCard = styled.div`
-  width: 20rem;
-  height: fit-content;
-`
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 10px;
-  width: 100%;
-`
-
-const PosterWrapper = styled.div`
-  margin: 0px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem;
-  height: fit-content;
-`
-
-const CardH3 = styled.h4`
-  margin-bottom: 10px;
-`
-export const FilmPosters = styled.img`
-  border-radius: 3px;
-  width: 10rem;
-  margin: 0px;
-`
-export const Information = styled.div`
-  font-size: 0.8em;
-`
-const TrashIcon = styled.img`
-  width: 2rem;
-  cursor: pointer;
-  height: 3rem;
-`
-
-interface CardProps {
-  original_title: string
-  release_date: string
-  vote_average: number
-  poster_path: string
-  overview: string
-  id: number
-}
-
-const WatchlistCards: React.FC<CardProps> = (props) => {
+const WatchlistCards: React.FC<CardProps> = (props): JSX.Element => {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
   const [trailer, setTrailer] = useState<Trailer[]>([])
   const [availableOn, setAvailableOn] = useState<string[]>([])
