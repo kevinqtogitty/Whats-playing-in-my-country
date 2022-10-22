@@ -18,7 +18,7 @@ import {
 } from '../stylesheets/styled_components/styles_for_pages/accountPageStyles'
 
 const Account: React.FC = (): JSX.Element => {
-  const [ascOrder, setOrder] = useState(false)
+  const [ascOrder, setOrder] = useState<boolean>(false)
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [toggleWatchListView, setToggleWatchListView] = useState<boolean>(false)
   const [cardsToDisplay, setCardsToDisplay] = useState<Films[]>([])

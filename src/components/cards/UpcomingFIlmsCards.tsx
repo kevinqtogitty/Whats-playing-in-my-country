@@ -18,7 +18,7 @@ import {
 
 const UpcomingFilmCards: React.FC<WatchlistProps> = (props): JSX.Element => {
   const [trailer, setTrailer] = useState<Trailer[]>([])
-  const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
   const [availableOn, setAvailableOn] = useState<string[]>([])
   const [rentOn, setRentOn] = useState<string[]>([])
   const [reviews, setReviews] = useState<[]>([])

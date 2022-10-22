@@ -9,7 +9,7 @@ import {
 import CurrentFilmCards from './cards/CurrentFilmCards'
 
 const CurrrentlyPlaying: React.FC = (): JSX.Element => {
-  const [ascOrder, setOrder] = useState(false)
+  const [ascOrder, setOrder] = useState<boolean>(false)
   const { currentCountry, films, userWatchList, showAddedMessage, showTheMessage, setFilms } =
     useContext(MainStore)
 
