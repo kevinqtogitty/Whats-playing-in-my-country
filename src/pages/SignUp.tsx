@@ -5,16 +5,12 @@ import styled from 'styled-components'
 import { getAuth, UserCredential } from 'firebase/auth'
 import { addUserDoc, createUser } from '../firebase/userServices'
 
-import { Input } from '../components/re-usables/input'
-import { FormBody } from '../components/re-usables/body'
-import { Button } from '../components/re-usables/buttons'
-import { Notification } from './SignIn'
+import { Notification } from '../stylesheets/styled_components/styles_for_pages/signInPageStyles'
+import { FormBody } from '../stylesheets/styled_components/body'
+import { Button } from '../stylesheets/styled_components/buttons'
+import { Input } from '../stylesheets/styled_components/input'
 
-const FormWrapper = styled.div`
-  margin-top: 6rem;
-`
-
-const SignUp: React.FC = () => {
+const SignUp: React.FC = (): JSX.Element => {
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
   const [email, setEmail] = useState<string>('')
@@ -124,3 +120,7 @@ const SignUp: React.FC = () => {
 }
 
 export default SignUp
+
+const FormWrapper = styled.div`
+  margin-top: 6rem;
+`
