@@ -10,14 +10,7 @@ import {
 import { doc, getDoc, getDocs, setDoc } from 'firebase/firestore'
 
 import { collectionReference, firestoreDB } from '../main'
-import { CurrentUser } from '../types/interfaces_types'
-
-interface SignUpProps {
-  uid: string
-  email: string | null
-  firstName: string | null
-  lastName?: string
-}
+import { CurrentUser, SignUpProps } from '../types/interfaces_types'
 
 const createUser = async (auth: Auth, email: string, password: string): Promise<UserCredential> => {
   const newUser: UserCredential = await createUserWithEmailAndPassword(auth, email, password)
