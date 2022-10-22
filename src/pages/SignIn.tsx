@@ -1,54 +1,26 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
+import { MainStore } from '../contexts/context'
+import { addUserDoc, checkIfGoogleUserIsReturning } from '../firebase/userServices'
 import {
   getAuth,
   signInWithPopup,
   GoogleAuthProvider,
   signInWithEmailAndPassword
 } from 'firebase/auth'
-import { addUserDoc, checkIfGoogleUserIsReturning } from '../firebase/userServices'
 
-import { MainStore } from '../contexts/context'
+import { FormBody } from '../stylesheets/styled_components/body'
+import { Button } from '../stylesheets/styled_components/buttons'
+import { Input } from '../stylesheets/styled_components/input'
+import { FlexWrapper } from '../stylesheets/styled_components/modalStyles'
+import {
+  FlexWrapperColumn,
+  FormWrapper,
+  Notification
+} from '../stylesheets/styled_components/styles_for_pages/signInPageStyles'
 
-import { FormBody } from '../components/re-usables/body'
-import { Input } from '../components/re-usables/input'
-import { Button } from '../components/re-usables/buttons'
-
-const FormWrapper = styled.div`
-  margin-top: 6rem;
-  width: auto;
-  margin-right: -0.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-const FlexWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-`
-const FlexWrapperColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-left: 1rem;
-`
-export const Notification = styled.div`
-  margin-top: 1rem;
-  border: 1px solid;
-  border-radius: 5px;
-  padding: 15px 10px 15px 10px;
-  color: #d8000c;
-  background-color: #ffbaba;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 20.5rem;
-`
-
-const SignIn: React.FC = () => {
+const SignIn: React.FC = (): JSX.Element => {
   const [authing, setAuthing] = useState<boolean>(false)
   const [password, setPassword] = useState<string>('')
   const [error, setError] = useState<boolean>(false)
