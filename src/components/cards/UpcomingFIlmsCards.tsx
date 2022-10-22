@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
 
 import { MainStore } from '../../contexts/context'
 import { Films, Trailer, WatchlistProps } from '../../types/interfaces_types'
@@ -9,26 +8,15 @@ import { addToWatchList, addWatchListInDB } from '../../firebase/watchlistServic
 
 import CardModal from '../Modal'
 import { posterBaseUrl, youTubeEmbed } from '../../constants/constants'
-import { IconTextWrapper, Icon } from '../cards/CurrentFilmCards'
 import watchListIcon from '../../assets/img/videoplus.svg'
+import {
+  CardText,
+  IconTextWrapper,
+  Icon,
+  FilmPosters
+} from '../../stylesheets/styled_components/currentFilmCardStyles'
 
-// Styled Components
-const FilmPosters = styled.img`
-  border-radius: 3px;
-  height: 20rem;
-  width: auto;
-  border: 2px solid grey;
-  &:hover {
-    opacity: 50%;
-  }
-`
-
-const CardText = styled.p`
-  color: white;
-  margin: 0;
-`
-
-const UpcomingFilmCards: React.FC<WatchlistProps> = (props) => {
+const UpcomingFilmCards: React.FC<WatchlistProps> = (props): JSX.Element => {
   const [trailer, setTrailer] = useState<Trailer[]>([])
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [availableOn, setAvailableOn] = useState<string[]>([])
@@ -112,25 +100,23 @@ const UpcomingFilmCards: React.FC<WatchlistProps> = (props) => {
 
   return (
     <>
-      <div>
-        <FilmPosters src={`${posterBaseUrl}${props.poster_path}`} onClick={toggleModal} />
-        <CardText>{props.original_title}</CardText>
-        <IconTextWrapper>
-          <CardText>Coming {props.release_date}</CardText>
-          <Icon src={watchListIcon} onClick={() => handleAddToWatchlist} />
-        </IconTextWrapper>
-        <CardModal
-          modalIsOpen={modalIsOpen}
-          toggleModal={toggleModal}
-          youtubeTrailers={youtubeTrailerUrls}
-          props={props}
-          availableOn={availableOn}
-          rentOn={rentOn}
-          reviews={reviews}
-          cast={cast}
-          director={director}
-        ></CardModal>
-      </div>
+      <FilmPosters src={`${posterBaseUrl}${props.poster_path}`} onClick={toggleModal} />
+      <CardText>{props.original_title}</CardText>
+      <IconTextWrapper>
+        <CardText>Coming {props.release_date}</CardText>
+        <Icon src={watchListIcon} onClick={() => handleAddToWatchlist} />
+      </IconTextWrapper>
+      <CardModal
+        modalIsOpen={modalIsOpen}
+        toggleModal={toggleModal}
+        youtubeTrailers={youtubeTrailerUrls}
+        props={props}
+        availableOn={availableOn}
+        rentOn={rentOn}
+        reviews={reviews}
+        cast={cast}
+        director={director}
+      />
     </>
   )
 }
