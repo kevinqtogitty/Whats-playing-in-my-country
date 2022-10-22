@@ -4,10 +4,13 @@ import { Films } from '../types/interfaces_types'
 interface MainStore {
   currentCountryKey: string
   setCurrentCountryKey: React.Dispatch<React.SetStateAction<string>>
+
   currentCountry: string
   setCurrentCountry: React.Dispatch<React.SetStateAction<string>>
+
   upcomingFilms: Films[]
   setUpcomingFilms: React.Dispatch<React.SetStateAction<Films[]>>
+
   films: Films[]
   setFilms: React.Dispatch<React.SetStateAction<Films[]>>
 
