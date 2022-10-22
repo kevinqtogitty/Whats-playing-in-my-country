@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
-import '../index.css'
+import '../stylesheets/global.css'
 
 import AuthRoute from '../firebase/userAuth'
 import { retrieveUserDoc } from '../firebase/userServices'
@@ -25,7 +25,7 @@ const signedInOrNotFromSessionStorage: boolean = JSON.parse(
   sessionStorage.getItem('signed-in') ?? 'false'
 )
 
-const App: React.FC = () => {
+const App: React.FC = (): JSX.Element => {
   const [currentCountry, setCurrentCountry] = useState<string>(currentCountryFromSessionStorage)
   const [currentCountryKey, setCurrentCountryKey] = useState<string>(
     currentCountryKeyFromSessionStorage
