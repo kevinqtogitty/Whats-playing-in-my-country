@@ -1,83 +1,23 @@
 import React, { useEffect, ChangeEvent, useContext, useState } from 'react'
-import styled from 'styled-components'
 import { MainStore } from '../contexts/context'
 import { Films } from '../types/interfaces_types'
 
 import WatchlistCards from '../components/cards/WatchlistCards'
-import { Input } from '../components/re-usables/input'
-import { Button } from '../components/re-usables/buttons'
+import { Button } from '../stylesheets/styled_components/buttons'
+import { Input } from '../stylesheets/styled_components/input'
+import { FlexWrapper } from '../stylesheets/styled_components/modalStyles'
+import { ButtonWrapper } from '../stylesheets/styled_components/watchListCardsStyles'
 import WatchListTableRows from '../components/WatchListTable'
+import {
+  HeaderWrapper,
+  Toolbar,
+  TableContainer,
+  UnorderedList,
+  ColumnHeader,
+  Header
+} from '../stylesheets/styled_components/styles_for_pages/accountPageStyles'
 
-const HeaderWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: center;
-`
-
-const FlexWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  padding: 0%;
-  justify-content: space-around;
-  @media (max-width: 500px) {
-    width: auto;
-  }
-`
-
-const Toolbar = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  padding: 0%;
-  justify-content: space-between;
-  @media (max-width: 700px) {
-    justify-content: center;
-  }
-`
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  @media (max-width: 700px) {
-    width: 100%;
-    justify-content: space-around;
-  }
-`
-const TableContainer = styled.div`
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 10px;
-  padding-right: 10px;
-`
-const UnorderedList = styled.ul`
-  border-radius: 3px;
-  padding: 25px 30px;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 25px;
-  flex-direction: column;
-`
-const ColumnHeader = styled.li`
-  background-color: #95a5a6;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  list-style-type: none;
-  display: flex;
-  justify-content: space-around;
-`
-const Header = styled.div`
-  &.releaseDate {
-    @media (max-width: 500px) {
-      display: none;
-    }
-  }
-`
-
-const Account: React.FC = () => {
+const Account: React.FC = (): JSX.Element => {
   const [ascOrder, setOrder] = useState(false)
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [toggleWatchListView, setToggleWatchListView] = useState<boolean>(false)
