@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
 
 import { addToWatchList, addWatchListInDB } from '../../firebase/watchlistServices'
 
@@ -12,39 +11,15 @@ import { posterBaseUrl, youTubeEmbed } from '../../constants/constants'
 import { Films, Trailer, WatchlistProps } from '../../types/interfaces_types'
 
 import mySvg from '../../assets/img/videoplus.svg'
+import {
+  CardWrapper,
+  CardText,
+  IconTextWrapper,
+  Icon,
+  FilmPosters
+} from '../../stylesheets/styled_components/currentFilmCardStyles'
 
-const FilmPosters = styled.img`
-  border-radius: 5px;
-  height: 20rem;
-  width: auto;
-  border: 2px solid grey;
-  &:hover {
-    opacity: 50%;
-  }
-`
-
-const CardWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 0px;
-`
-
-const CardText = styled.p`
-  color: white;
-  margin: 0;
-`
-
-export const Icon = styled.img`
-  filter: invert(100%);
-  width: 1rem;
-`
-export const IconTextWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-`
-
-const CurrentFilmCards: React.FC<WatchlistProps> = (props) => {
+const CurrentFilmCards: React.FC<WatchlistProps> = (props): JSX.Element => {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
   const [trailer, setTrailer] = useState<Trailer[]>([])
   const [availableOn, setAvailableOn] = useState<string[]>([])
