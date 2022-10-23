@@ -1,11 +1,8 @@
 import React, { useContext } from 'react'
 import { MainStore } from '../contexts/context'
 import UpcomingFilmCards from './cards/UpcomingFIlmsCards'
-import {
-  FilmsBanner,
-  BannerHeader,
-  FilmCardWrapper
-} from '../stylesheets/styled_components/currentlyPlaying'
+import { FilmsBanner, FilmCardWrapper } from '../stylesheets/styled_components/currentlyPlaying'
+import { BannerHeader } from '../stylesheets/styled_components/upcomingInStyles'
 
 const UpcomingIn: React.FC = (): JSX.Element => {
   const { currentCountry, upcomingFilms, userWatchList, showTheMessage, showAddedMessage } =
