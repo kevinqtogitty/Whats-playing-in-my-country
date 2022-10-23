@@ -13,12 +13,12 @@ import {
 import { FormBody } from '../stylesheets/styled_components/body'
 import { Button } from '../stylesheets/styled_components/buttons'
 import { Input } from '../stylesheets/styled_components/input'
-import { FlexWrapper } from '../stylesheets/styled_components/modalStyles'
 import {
   FlexWrapperColumn,
   FormWrapper,
   Notification
 } from '../stylesheets/styled_components/styles_for_pages/signInPageStyles'
+import { FlexWrapper } from '../stylesheets/styled_components/styles_for_pages/accountPageStyles'
 
 const SignIn: React.FC = (): JSX.Element => {
   const [authing, setAuthing] = useState<boolean>(false)
@@ -47,7 +47,7 @@ const SignIn: React.FC = (): JSX.Element => {
           .catch(() => {})
       }
       setSignedInOrNot(true)
-      navigate('/account')
+      navigate('/')
     } catch (e) {
       console.log(e)
       setAuthing(false)
@@ -59,7 +59,7 @@ const SignIn: React.FC = (): JSX.Element => {
     try {
       await signInOldSchool(email, password)
       setSignedInOrNot(true)
-      navigate('/account')
+      navigate('/')
     } catch (e) {
       setError(!error)
       setTimeout(() => {
