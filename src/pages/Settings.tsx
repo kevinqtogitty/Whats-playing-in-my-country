@@ -47,7 +47,6 @@ const Settings: React.FC = (): JSX.Element => {
   const handleNotification = (message: string): void => {
     setNotification(message)
     setShowNotification(true)
-    console.log('hello')
     setTimeout(() => {
       setShowNotification(false)
     }, 5000)
