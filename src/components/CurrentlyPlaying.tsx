@@ -22,14 +22,11 @@ const CurrrentlyPlaying: React.FC = (): JSX.Element => {
 
     switch (ascOrder) {
       case false:
-        console.log(ascOrder, 'running')
-
         filmsSorted.sort((a, b) => b.vote_average - a.vote_average)
         setFilms(filmsSorted)
         setOrder(true)
         break
       case true:
-        console.log(ascOrder, 'running')
         filmsSorted.sort((a, b) => a.vote_average - b.vote_average)
         setFilms(filmsSorted)
         setOrder(false)
