@@ -16,6 +16,7 @@ const AuthRoute: React.FC<AuthRouteProps> = (props): JSX.Element => {
   }, [auth])
 
   const AuthCheck = onAuthStateChanged(auth, (user) => {
+    console.log(user, auth)
     if (user !== null) {
       setCurrentUID(user.uid)
       // eslint-disable-next-line no-useless-return
