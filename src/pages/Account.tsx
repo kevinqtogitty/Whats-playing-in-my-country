@@ -5,7 +5,6 @@ import { Films } from '../types/interfaces_types'
 import WatchlistCards from '../components/cards/WatchlistCards'
 import { Button } from '../stylesheets/styled_components/buttons'
 import { Input } from '../stylesheets/styled_components/input'
-import { FlexWrapper } from '../stylesheets/styled_components/modalStyles'
 import { ButtonWrapper } from '../stylesheets/styled_components/watchListCardsStyles'
 import WatchListTableRows from '../components/WatchListTable'
 import {
@@ -14,7 +13,8 @@ import {
   TableContainer,
   UnorderedList,
   ColumnHeader,
-  Header
+  Header,
+  FlexWrapper
 } from '../stylesheets/styled_components/styles_for_pages/accountPageStyles'
 
 const Account: React.FC = (): JSX.Element => {
@@ -42,14 +42,11 @@ const Account: React.FC = (): JSX.Element => {
 
     switch (ascOrder) {
       case false:
-        console.log(ascOrder, '1st')
         filmsSorted.sort((a, b) => b.vote_average - a.vote_average)
-        console.log(filmsSorted)
         setOrder(true)
         setCardsToDisplay(filmsSorted)
         break
       case true:
-        console.log(ascOrder, 'running')
         filmsSorted.sort((a, b) => a.vote_average - b.vote_average)
         setOrder(false)
         setCardsToDisplay(filmsSorted)
@@ -86,7 +83,7 @@ const Account: React.FC = (): JSX.Element => {
                   overview={film.overview}
                   poster_path={film.poster_path}
                   id={film.id}
-                ></WatchlistCards>
+                />
               ))
             : cardsToDisplay.map((film) =>
                 film.original_title.toLowerCase().includes(searchQuery.toLowerCase()) ? (
