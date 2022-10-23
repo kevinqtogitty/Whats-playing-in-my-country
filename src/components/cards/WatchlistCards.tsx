@@ -58,7 +58,6 @@ const WatchlistCards: React.FC<CardProps> = (props): JSX.Element => {
   const youtubeTrailerUrls = trailer.map((trailer) => `${youTubeEmbed}${trailer.key}`)
 
   const handleRemoveWatchList = async (): Promise<any> => {
-    console.log('running')
     const userWatchListMinusFilm =
       userWatchList.length === 0 ? [] : userWatchList.filter((film) => film.id !== props.id)
     try {
