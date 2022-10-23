@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useState } from 'react'
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import React, { ChangeEvent, useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -9,6 +10,7 @@ import { Notification } from '../stylesheets/styled_components/styles_for_pages/
 import { FormBody } from '../stylesheets/styled_components/body'
 import { Button } from '../stylesheets/styled_components/buttons'
 import { Input } from '../stylesheets/styled_components/input'
+import { MainStore } from '../contexts/context'
 
 const SignUp: React.FC = (): JSX.Element => {
   const [firstName, setFirstName] = useState<string>('')
@@ -17,6 +19,7 @@ const SignUp: React.FC = (): JSX.Element => {
   const [password, setPassword] = useState<string>('')
   const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [error, setError] = useState<boolean>(false)
+  const { setSignedInOrNot } = useContext(MainStore)
 
   const navigate = useNavigate()
   const auth = getAuth()
@@ -30,14 +33,14 @@ const SignUp: React.FC = (): JSX.Element => {
       }, 5000)
       return
     }
-
     try {
       const newUser: UserCredential = await createUser(auth, email, password)
       const {
         user: { uid }
       } = newUser
       await addUserDoc({ uid, email, firstName, lastName })
-      navigate('/signIn')
+      setSignedInOrNot(true)
+      navigate('/')
     } catch (error) {
       console.log(error)
     }
@@ -69,7 +72,7 @@ const SignUp: React.FC = (): JSX.Element => {
       <FormBody>
         <FormWrapper>
           {!error ? null : <Notification>Error: Passwords do not match</Notification>}
-          <form action='submit' id='signUpForm' onSubmit={() => handleSubmit}>
+          <form action='submit' id='signUpForm' onSubmit={handleSubmit}>
             <Input
               name='firstName'
               value={firstName}
